@@ -26,7 +26,7 @@ export default function Veterinary() {
 
                     <div className="md:w-1/2 relative min-h-[500px] w-full">
                         <Image
-                            src="/img/veterinario.jpeg"
+                            src="/img/cachorro.jpg"
                             alt="Veterinary Services"
                             fill
                             className="object-cover"
