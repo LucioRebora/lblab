@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Send, MapPin, Phone, MessageCircle } from "lucide-react";
+import { Send, MapPin, Phone, MessageCircle, CreditCard, Landmark } from "lucide-react";
 
 export default function Contact() {
     return (
         <section id="contacto" className="py-24 bg-primary-burgundy/80 relative text-white">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Map Placeholder Header */}
-                <div className="bg-white rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-4 border-white/20 h-80 relative group">
+                <div id="mapa" className="bg-white rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-4 border-white/20 h-80 relative group scroll-mt-24">
                     <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
                         <MapPin size={48} className="text-primary-burgundy animate-bounce" />
                         <span className="ml-4 text-gray-500 font-bold uppercase tracking-widest text-sm">UBICACIÓN: Bolívar 1002, Gualeguaychú</span>
@@ -16,7 +16,7 @@ export default function Contact() {
                     {/* Real Map embed could go here */}
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3393.362908233777!2d-58.514444!3d-33.008889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa80693a7413d%3A0xe5a3c0e3a4e9b60b!2sBol%C3%ADvar%201002%2C%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar"
-                        className="absolute inset-0 w-full h-full grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+                        className="absolute inset-0 w-full h-full border-0"
                         loading="lazy"
                     ></iframe>
                 </div>
@@ -66,7 +66,7 @@ export default function Contact() {
                                     </div>
                                 </div>
                                 <button className="bg-primary-burgundy border-2 border-white text-white px-8 py-4 rounded-full font-black text-xs tracking-[0.4em] uppercase hover:bg-white hover:text-primary-burgundy transition-all shadow-2xl flex items-center gap-4 group">
-                                    Publicar el comentario
+                                    Enviar
                                     <Send size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                                 </button>
                             </form>
@@ -104,30 +104,42 @@ export default function Contact() {
 
                             <div className="space-y-4">
                                 <h4 className="text-xs font-black tracking-[0.3em] uppercase opacity-60">Dirección</h4>
-                                <div className="flex items-center gap-6 group">
+                                <a
+                                    href="#mapa"
+                                    className="flex items-center gap-6 group hover:opacity-80 transition-opacity"
+                                >
                                     <div className="bg-white/10 p-4 rounded-2xl group-hover:bg-primary-green transition-colors">
                                         <MapPin size={24} />
                                     </div>
                                     <div>
                                         <p className="text-xl font-bold max-w-xs leading-snug">Bolívar 1002, Gualeguaychú, Entre Ríos, Argentina</p>
                                     </div>
+                                </a>
+                            </div>
+
+                            <div className="space-y-4">
+                                <h4 className="text-xs font-black tracking-[0.3em] uppercase opacity-60">Medios de pago</h4>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div className="bg-white/10 px-3 py-2 rounded-xl flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
+                                        <CreditCard size={14} className="text-white/80" />
+                                        Tarjeta de Débito
+                                    </div>
+                                    <div className="bg-white/10 px-3 py-2 rounded-xl flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
+                                        <CreditCard size={14} className="text-white/80" />
+                                        Tarjeta de Crédito
+                                    </div>
+                                    <div className="bg-white/10 px-3 py-2 rounded-xl flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
+                                        <img src="/img/mercadopago.png" alt="Mercado Pago" className="w-5 h-auto" />
+                                        Mercado Pago
+                                    </div>
+                                    <div className="bg-white/10 px-3 py-2 rounded-xl flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
+                                        <Landmark size={14} className="text-white/80" />
+                                        Transferencia
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="pt-12 mt-12 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-8">
-                            <div className="space-y-4 text-center sm:text-left">
-                                <h4 className="text-[10px] font-black tracking-[0.4em] uppercase opacity-60 mb-4">Medios de pago</h4>
-                                <div className="flex flex-wrap gap-4 items-center justify-center sm:justify-start grayscale opacity-60">
-                                    <span className="bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold flex items-center gap-2">
-                                        <img src="/img/mercadopago.png" alt="Mercado Pago" className="w-4 h-auto" />
-                                        Mercado Pago
-                                    </span>
-                                    <span className="bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold">Tarjetas de crédito</span>
-                                    <span className="bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold">Transferencia</span>
-                                </div>
-                            </div>
-                        </div>
                     </motion.div>
                 </div>
             </div>

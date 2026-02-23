@@ -1,4 +1,4 @@
-import { MapPin, CreditCard, Landmark, Smartphone } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 export default function Footer() {
     return (
@@ -33,15 +33,22 @@ export default function Footer() {
 
                     {/* Address Column */}
                     <div className="space-y-4">
-                        <h4 className="text-gray-900 font-black text-[15px] tracking-tight">
-                            Dirección
-                        </h4>
-                        <div className="flex items-start gap-2 group">
-                            <MapPin size={18} className="text-primary-burgundy mt-0.5 shrink-0" />
-                            <p className="text-primary-burgundy font-bold text-sm leading-relaxed hover:underline decoration-primary-burgundy/30 cursor-pointer">
-                                Bolívar 1002, Gualeguaychú, Entre Ríos, Argentina
-                            </p>
+                        <div className="space-y-4">
+                            <h4 className="text-gray-900 font-black text-[15px] tracking-tight">
+                                Dirección
+                            </h4>
+                            <a
+                                href="#mapa"
+                                className="flex items-start gap-2 group hover:opacity-80 transition-opacity"
+                            >
+                                <MapPin size={18} className="text-primary-burgundy mt-0.5 shrink-0" />
+                                <p className="text-primary-burgundy font-bold text-sm leading-relaxed hover:underline decoration-primary-burgundy/30 cursor-pointer">
+                                    Bolívar 1002, Gualeguaychú, Entre Ríos, Argentina
+                                </p>
+                            </a>
                         </div>
+
+
                     </div>
                 </div>
 
@@ -57,30 +64,7 @@ export default function Footer() {
                         </p>
                     </div>
 
-                    {/* Right side: Payment Methods */}
-                    <div className="flex flex-col items-end gap-4 min-w-[200px]">
-                        <h4 className="text-gray-900 font-black text-[12px] tracking-widest uppercase mb-1">
-                            Medios de pago
-                        </h4>
-                        <div className="space-y-2.5">
-                            <div className="flex items-center justify-end gap-3 text-gray-700 text-[11px] font-bold tracking-tight">
-                                <span className="order-1 uppercase">Tarjetas de débito</span>
-                                <CreditCard size={14} className="text-orange-500" strokeWidth={2.5} />
-                            </div>
-                            <div className="flex items-center justify-end gap-3 text-gray-700 text-[11px] font-bold tracking-tight">
-                                <span className="order-1 uppercase">Mercado Pago</span>
-                                <img src="/img/mercadopago.png" alt="Mercado Pago" className="w-5 h-auto opacity-80" />
-                            </div>
-                            <div className="flex items-center justify-end gap-3 text-gray-700 text-[11px] font-bold tracking-tight">
-                                <span className="order-1 uppercase">Tarjetas de crédito</span>
-                                <CreditCard size={14} className="text-orange-500" strokeWidth={2.5} />
-                            </div>
-                            <div className="flex items-center justify-end gap-3 text-gray-700 text-[11px] font-bold tracking-tight">
-                                <span className="order-1 uppercase">Transferencia bancaria</span>
-                                <Landmark size={14} className="text-gray-500" strokeWidth={2.5} />
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </footer>
