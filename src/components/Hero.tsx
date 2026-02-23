@@ -18,7 +18,7 @@ export default function Hero() {
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % images.length);
-        }, 5000);
+        }, 8000);
         return () => clearInterval(timer);
     }, []);
 
@@ -32,14 +32,14 @@ export default function Hero() {
                         initial={{ opacity: 0, scale: 1.25 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 3, ease: "linear" }}
+                        transition={{ duration: 1.5, ease: "easeInOut" }}
                         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                         style={{ backgroundImage: `url('${images[currentIndex]}')` }}
                     />
                 </AnimatePresence>
 
-                {/* Darker Overlay for readability */}
-                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+                {/* Lightened Overlay for readability */}
+                <div className="absolute inset-0 bg-black/25 backdrop-blur-[1px]" />
 
                 {/* Content Overlay */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
