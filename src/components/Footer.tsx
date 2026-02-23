@@ -59,8 +59,10 @@ export default function Footer() {
                         <p className="text-gray-500 text-[10px] font-black tracking-widest uppercase">
                             © 2026 LB LAB – LABORATORIO DE BIOANÁLISIS. TODOS LOS DERECHOS RESERVADOS.
                         </p>
-                        <p className="text-gray-400 text-[9px] font-bold tracking-[0.2em] uppercase">
+                        <p className="text-gray-400 text-[9px] font-bold tracking-[0.2em] uppercase flex items-center gap-2">
                             POWERED BY <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="text-primary-green hover:underline">ITIA.AR</a>
+                            <span className="text-gray-300">|</span>
+                            <a href="/admin" className="hover:text-primary-burgundy transition-colors">Admin</a>
                         </p>
                     </div>
 
