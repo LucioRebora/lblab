@@ -32,7 +32,7 @@ export default function Hero() {
                         initial={{ opacity: 0, scale: 1.25 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 1.5, ease: "easeInOut" }}
+                        transition={{ duration: 2.2, ease: "easeInOut" }}
                         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                         style={{ backgroundImage: `url('${images[currentIndex]}')` }}
                     />
