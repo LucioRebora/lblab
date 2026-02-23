@@ -12,6 +12,8 @@ const navLinks = [
     { name: "VETERINARIA", href: "#veterinaria" },
     { name: "CONTACTO", href: "#contacto" },
     { name: "SERVICIOS", href: "#servicios" },
+    { name: "DERIVACIONES", href: "#derivaciones" },
+    { name: "PRP", href: "#prp" },
 ];
 
 export default function Navbar() {
@@ -31,7 +33,7 @@ export default function Navbar() {
             className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-2" : "bg-white py-4"
                 }`}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-6">
                 <div className="flex justify-between items-center h-22 md:h-24">
                     {/* Logo - Vertically Centered on the Left */}
                     <div className="flex-shrink-0 flex items-center h-full">
