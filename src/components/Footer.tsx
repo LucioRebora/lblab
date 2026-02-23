@@ -53,7 +53,7 @@ export default function Footer() {
                             © 2026 LB LAB – LABORATORIO DE BIOANÁLISIS. TODOS LOS DERECHOS RESERVADOS.
                         </p>
                         <p className="text-gray-400 text-[9px] font-bold tracking-[0.2em] uppercase">
-                            DESARROLLADO POR <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="text-primary-green hover:underline">ITIA.AR</a>
+                            POWERED BY <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="text-primary-green hover:underline">ITIA.AR</a>
                         </p>
                     </div>
 
@@ -69,7 +69,7 @@ export default function Footer() {
                             </div>
                             <div className="flex items-center justify-end gap-3 text-gray-700 text-[11px] font-bold tracking-tight">
                                 <span className="order-1 uppercase">Mercado Pago</span>
-                                <Smartphone size={14} className="text-blue-600" strokeWidth={2.5} />
+                                <img src="/img/mercadopago.png" alt="Mercado Pago" className="w-5 h-auto opacity-80" />
                             </div>
                             <div className="flex items-center justify-end gap-3 text-gray-700 text-[11px] font-bold tracking-tight">
                                 <span className="order-1 uppercase">Tarjetas de crédito</span>

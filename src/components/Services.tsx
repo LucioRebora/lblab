@@ -61,15 +61,24 @@ export default function Services() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className="group bg-white border border-gray-100 p-10 rounded-[2.5rem] shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 border-b-8 hover:border-b-primary-green transition-colors"
+                            className="group bg-white border border-gray-100 rounded-4xl shadow-xl hover:shadow-2xl transition-all overflow-hidden flex flex-col"
                         >
-                            <div className="bg-gray-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
-                                {service.icon}
+                            {/* Icon Header Section */}
+                            <div className={`relative h-48 w-full flex items-center justify-center p-8 transition-colors duration-500 ${i % 2 === 0 ? 'bg-green-50/50 group-hover:bg-green-100/50' : 'bg-red-50/50 group-hover:bg-red-100/50'
+                                }`}>
+                                <div className="scale-[2.0] group-hover:scale-[2.2] transition-transform duration-500">
+                                    {service.icon}
+                                </div>
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-4 uppercase tracking-tight">{service.title}</h3>
-                            <p className="text-gray-500 text-sm leading-relaxed italic">
-                                {service.desc}
-                            </p>
+
+                            {/* Content Section */}
+                            <div className="p-10 flex flex-col items-center text-center space-y-5">
+                                <h3 className="text-xl font-bold text-gray-900 uppercase tracking-widest">{service.title}</h3>
+                                <div className="h-px bg-gray-100 w-20" />
+                                <p className="text-gray-500 text-sm leading-relaxed font-medium italic">
+                                    {service.desc}
+                                </p>
+                            </div>
                         </motion.div>
                     ))}
                 </div>

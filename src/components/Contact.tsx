@@ -119,7 +119,10 @@ export default function Contact() {
                             <div className="space-y-4 text-center sm:text-left">
                                 <h4 className="text-[10px] font-black tracking-[0.4em] uppercase opacity-60 mb-4">Medios de pago</h4>
                                 <div className="flex flex-wrap gap-4 items-center justify-center sm:justify-start grayscale opacity-60">
-                                    <span className="bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold">Mercado Pago</span>
+                                    <span className="bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold flex items-center gap-2">
+                                        <img src="/img/mercadopago.png" alt="Mercado Pago" className="w-4 h-auto" />
+                                        Mercado Pago
+                                    </span>
                                     <span className="bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold">Tarjetas de crédito</span>
                                     <span className="bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold">Transferencia</span>
                                 </div>
