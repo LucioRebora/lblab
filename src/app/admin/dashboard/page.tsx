@@ -10,11 +10,13 @@ import {
     LogOut,
     Search,
     Calendar,
-    CheckCircle2
+    CheckCircle2,
+    ExternalLink
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const stats = [
     { label: "Consultas hoy", value: "12", icon: MessageSquare, color: "text-blue-600", bg: "bg-blue-50" },
@@ -26,12 +28,36 @@ const stats = [
 export default function Dashboard() {
     const { data: session, status } = useSession();
     const router = useRouter();
+    const [submissions, setSubmissions] = useState<any[]>([]);
+    const [totalSubmissions, setTotalSubmissions] = useState(0);
+    const [loadingSubmissions, setLoadingSubmissions] = useState(true);
 
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/admin");
         }
     }, [status, router]);
+
+    useEffect(() => {
+        const fetchSubmissions = async () => {
+            try {
+                const response = await fetch("/api/admin/submissions");
+                if (response.ok) {
+                    const data = await response.json();
+                    setSubmissions(data.submissions);
+                    setTotalSubmissions(data.totalSubmissions);
+                }
+            } catch (error) {
+                console.error("Error fetching submissions:", error);
+            } finally {
+                setLoadingSubmissions(false);
+            }
+        };
+
+        if (session) {
+            fetchSubmissions();
+        }
+    }, [session]);
 
     if (status === "loading") {
         return (
@@ -40,6 +66,13 @@ export default function Dashboard() {
             </div>
         );
     }
+
+    const currentStats = [
+        { label: "Consultas hoy", value: totalSubmissions.toString(), icon: MessageSquare, color: "text-blue-600", bg: "bg-blue-50" },
+        { label: "Pacientes nuevos", value: "0", icon: Users, color: "text-primary-green", bg: "bg-green-50" },
+        { label: "Estudios listos", value: "0%", icon: CheckCircle2, color: "text-primary-burgundy", bg: "bg-red-50" },
+        { label: "Turnos mañana", value: "0", icon: Calendar, color: "text-orange-600", bg: "bg-orange-50" },
+    ];
 
     if (!session) return null;
     return (
@@ -53,23 +86,42 @@ export default function Dashboard() {
                 </div>
 
                 <nav className="flex-grow p-4 space-y-2">
-                    {[
-                        { label: "Dashboard", icon: BarChart3, active: true },
-                        { label: "Consultas", icon: MessageSquare },
-                        { label: "Pacientes", icon: Users },
-                        { label: "Configuración", icon: Settings },
-                    ].map((item, i) => (
-                        <button
-                            key={i}
-                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${item.active
-                                ? "bg-primary-burgundy text-white shadow-lg shadow-primary-burgundy/20"
-                                : "text-gray-500 hover:bg-gray-100"
-                                }`}
+                    <Link
+                        href="/admin/dashboard"
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold bg-primary-burgundy text-white shadow-lg shadow-primary-burgundy/20 transition-all"
+                    >
+                        <BarChart3 size={18} />
+                        Dashboard
+                    </Link>
+                    <Link
+                        href="/admin/consultas"
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all"
+                    >
+                        <MessageSquare size={18} />
+                        Consultas
+                    </Link>
+                    <Link
+                        href="/admin/users"
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all"
+                    >
+                        <Users size={18} />
+                        Usuarios
+                    </Link>
+                    <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all">
+                        <Settings size={18} />
+                        Configuración
+                    </button>
+
+                    <div className="pt-4 mt-4 border-t border-gray-100">
+                        <Link
+                            href="/"
+                            target="_blank"
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-primary-green hover:bg-green-50 transition-all group"
                         >
-                            <item.icon size={18} />
-                            {item.label}
-                        </button>
-                    ))}
+                            <ExternalLink size={18} className="group-hover:scale-110 transition-transform" />
+                            Ver sitio web
+                        </Link>
+                    </div>
                 </nav>
 
                 <div className="p-4 border-t border-gray-100">
@@ -125,7 +177,7 @@ export default function Dashboard() {
 
                     {/* Stats Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {stats.map((stat, i) => (
+                        {currentStats.map((stat, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 20 }}
@@ -145,20 +197,43 @@ export default function Dashboard() {
                     {/* Recent Activity Section */}
                     <div className="grid lg:grid-cols-3 gap-8 text-black">
                         <div className="lg:col-span-2 bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
-                            <h3 className="text-xl font-bold mb-6">Consultas Recientes</h3>
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-xl font-bold">Consultas Recientes</h3>
+                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Últimas {submissions.length}</p>
+                            </div>
                             <div className="space-y-4">
-                                {[1, 2, 3].map((_, i) => (
-                                    <div key={i} className="flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-gray-100 rounded-xl" />
-                                            <div>
-                                                <p className="font-bold text-sm">Paciente #{1240 + i}</p>
-                                                <p className="text-gray-400 text-xs italic">Consulta sobre análisis de sangre</p>
+                                {loadingSubmissions ? (
+                                    <div className="py-12 text-center text-gray-400 animate-pulse font-bold uppercase tracking-widest text-xs">
+                                        Cargando consultas...
+                                    </div>
+                                ) : submissions.length === 0 ? (
+                                    <div className="py-12 text-center text-gray-400 font-bold uppercase tracking-widest text-xs border-2 border-dashed border-gray-100 rounded-3xl">
+                                        No hay consultas nuevas
+                                    </div>
+                                ) : (
+                                    submissions.map((sub, i) => (
+                                        <div key={sub.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-10 h-10 bg-primary-burgundy/5 text-primary-burgundy rounded-xl flex items-center justify-center font-bold text-xs uppercase">
+                                                    {sub.name.substring(0, 2)}
+                                                </div>
+                                                <div>
+                                                    <p className="font-bold text-sm">{sub.name}</p>
+                                                    <p className="text-gray-400 text-xs italic line-clamp-1">{sub.comment}</p>
+                                                    <p className="text-[10px] text-gray-300 font-bold mt-1 uppercase tracking-tighter">
+                                                        {sub.email} {sub.web && `| ${sub.web}`}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <span className="text-[10px] font-bold text-primary-green bg-green-50 px-3 py-1 rounded-full uppercase block mb-1">Nueva</span>
+                                                <span className="text-[9px] text-gray-300 font-bold uppercase">
+                                                    {new Date(sub.createdAt).toLocaleDateString()}
+                                                </span>
                                             </div>
                                         </div>
-                                        <span className="text-[10px] font-bold text-primary-green bg-green-50 px-3 py-1 rounded-full uppercase">Pendiente</span>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
                             </div>
                         </div>
 

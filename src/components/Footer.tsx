@@ -1,6 +1,11 @@
-import { MapPin } from "lucide-react";
+"use client";
+
+import { MapPin, LayoutDashboard } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export default function Footer() {
+    const { status } = useSession();
+    const isAdmin = status === "authenticated";
     return (
         <footer className="bg-[#FFF5F2] pt-20 pb-12 border-t border-orange-100/50">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -61,12 +66,21 @@ export default function Footer() {
                         </p>
                         <p className="text-gray-400 text-[9px] font-bold tracking-[0.2em] uppercase flex items-center gap-2">
                             POWERED BY <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="text-primary-green hover:underline">ITIA.AR</a>
-                            <span className="text-gray-300">|</span>
-                            <a href="/admin" className="hover:text-primary-burgundy transition-colors">Admin</a>
                         </p>
                     </div>
 
-
+                    {/* Right side: Login Button */}
+                    <a
+                        href={isAdmin ? "/admin/dashboard" : "/admin"}
+                        className="bg-primary-burgundy/10 text-primary-burgundy hover:bg-primary-burgundy hover:text-white px-5 py-3 rounded-2xl flex items-center gap-3 transition-all group border border-primary-burgundy/20"
+                    >
+                        <div className="bg-primary-burgundy text-white p-1.5 rounded-lg group-hover:bg-white group-hover:text-primary-burgundy transition-colors shadow-lg shadow-primary-burgundy/20">
+                            <LayoutDashboard size={14} />
+                        </div>
+                        <span className="text-[10px] font-black uppercase tracking-widest">
+                            {isAdmin ? "Ir al Panel Control" : "Acceso Administración"}
+                        </span>
+                    </a>
                 </div>
             </div>
         </footer>

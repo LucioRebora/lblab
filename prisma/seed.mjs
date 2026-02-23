@@ -22,11 +22,13 @@ async function main() {
         where: { email },
         update: {
             password: hashedPassword,
+            role: 'ADMIN',
         },
         create: {
             email,
             password: hashedPassword,
             name: 'Administrador',
+            role: 'ADMIN',
         },
     });
 

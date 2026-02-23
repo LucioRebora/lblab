@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Send, MapPin, Phone, MessageCircle, CreditCard, Landmark, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";

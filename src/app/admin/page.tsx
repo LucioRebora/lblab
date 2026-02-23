@@ -4,15 +4,23 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Lock, Mail, ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function AdminPage() {
+    const { data: session, status } = useSession();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.push("/admin/dashboard");
+        }
+    }, [status, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -55,6 +63,7 @@ export default function AdminPage() {
                     {/* Header */}
                     <div className="bg-primary-burgundy p-8 text-center relative overflow-hidden">
                         <div className="absolute inset-0 bg-black/10" />
+
                         <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
