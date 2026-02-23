@@ -32,7 +32,7 @@ export default function Home() {
         className="fixed bottom-8 right-8 z-50 hover:scale-110 transition-transform"
       >
         <Image
-          src="/WhatsApp.svg"
+          src="/img/WhatsApp.svg"
           alt="WhatsApp"
           width={64}
           height={64}
