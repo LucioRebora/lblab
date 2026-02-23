@@ -47,14 +47,17 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="bg-black/20 backdrop-blur-md p-10 rounded-[3rem] border border-white/10 shadow-2xl max-w-4xl"
+                        className="bg-black/20 backdrop-blur-md p-10 rounded-[3rem] border border-white/10 shadow-2xl max-w-4xl flex flex-col items-center"
                     >
-                        <h1 className="text-4xl md:text-7xl font-black text-white mb-6 drop-shadow-2xl leading-tight">
-                            LB Lab <br />
-                            <span className="text-white/80 font-medium text-2xl md:text-3xl block mt-2 border-t border-white/20 pt-4 uppercase tracking-[0.3em]">
-                                Laboratorio de Bioanálisis
-                            </span>
-                        </h1>
+                        <div className="relative w-full max-w-[350px] aspect-[5/1] mb-6">
+                            <Image
+                                src="/img/blanco-text.png"
+                                alt="LB Lab - Laboratorio de Bioanálisis"
+                                fill
+                                className="object-contain"
+                                priority
+                            />
+                        </div>
                         <p className="text-lg md:text-2xl text-white font-light max-w-2xl drop-shadow-lg italic">
                             Resultados confiables, tecnología y compromiso con tu salud
                         </p>

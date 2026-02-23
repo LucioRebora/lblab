@@ -32,16 +32,16 @@ export default function Navbar() {
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-20">
+                <div className="flex justify-between items-center h-22 md:h-24">
                     {/* Logo - Vertically Centered on the Left */}
                     <div className="flex-shrink-0 flex items-center h-full">
                         <Link href="/" className="flex items-center">
-                            <div className="relative w-32 h-32 md:w-40 md:h-40 flex items-center">
+                            <div className="relative w-40 h-40 md:w-52 md:h-52 flex items-center">
                                 <Image
-                                    src="/img/logo-lblab.png"
+                                    src="/img/logo-test.png"
                                     alt="LB Lab Logo"
-                                    width={160}
-                                    height={160}
+                                    width={200}
+                                    height={200}
                                     className="object-contain"
                                 />
                             </div>
