@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model ContactSubmission {
@@ -22,8 +22,8 @@ model Patient {
   dni       String   @unique
   email     String?
   phone     String?
-  results   Result[]
   createdAt DateTime @default(now())
+  results   Result[]
 }
 
 model Result {
@@ -31,13 +31,8 @@ model Result {
   title     String
   fileUrl   String
   patientId String
-  patient   Patient  @relation(fields: [patientId], references: [id])
   createdAt DateTime @default(now())
-}
-
-enum Role {
-  ADMIN
-  USER
+  patient   Patient  @relation(fields: [patientId], references: [id])
 }
 
 model User {
@@ -45,6 +40,53 @@ model User {
   name      String?
   email     String   @unique
   password  String
-  role      Role     @default(USER)
   createdAt DateTime @default(now())
+  role      Role     @default(USER)
+  active    Boolean  @default(true)
+}
+
+model PrpAppointment {
+  id           String   @id @default(cuid())
+  email        String
+  professional String?
+  patient      String
+  date         String
+  time         String
+  preparation  String[]
+  status       String   @default("SCHEDULED")
+  createdAt    DateTime @default(now())
+  cancelReason String?
+}
+
+model Derivacion {
+  id           String   @id @default(cuid())
+  email        String
+  labName      String?
+  patient      String
+  date         String
+  time         String
+  analysisType String[]
+  status       String   @default("SCHEDULED")
+  cancelReason String?
+  createdAt    DateTime @default(now())
+}
+
+model AnalysisPrice {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  nbuUnits  Float
+  category  String?  @default("GENERAL")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GlobalConfig {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+enum Role {
+  ADMIN
+  USER
 }

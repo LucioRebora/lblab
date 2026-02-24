@@ -78,7 +78,7 @@ export default function Footer() {
                             <LayoutDashboard size={14} />
                         </div>
                         <span className="text-[10px] font-black uppercase tracking-widest">
-                            {isAdmin ? "Ir al Panel Control" : "Acceso Administración"}
+                            {isAdmin ? "Ingresar al sistema" : "Acceso Administración"}
                         </span>
                     </a>
                 </div>

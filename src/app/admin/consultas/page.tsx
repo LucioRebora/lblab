@@ -13,12 +13,15 @@ import {
     Calendar,
     Phone,
     Globe,
-    X
+    X,
+    CheckCircle2,
+    Upload
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Sidebar from "@/components/admin/Sidebar";
 
 export default function ConsultasPage() {
     const { data: session, status } = useSession();
@@ -64,47 +67,7 @@ export default function ConsultasPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 flex">
-            {/* Sidebar */}
-            <aside className="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col">
-                <div className="p-6 border-b border-gray-100">
-                    <h2 className="text-xl font-black text-primary-burgundy uppercase tracking-tighter">
-                        LB Lab <span className="text-gray-400 font-light">Admin</span>
-                    </h2>
-                </div>
-
-                <nav className="flex-grow p-4 space-y-2">
-                    <Link href="/admin/dashboard" className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all">
-                        <BarChart3 size={18} />
-                        Dashboard
-                    </Link>
-                    <Link href="/admin/consultas" className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold bg-primary-burgundy text-white shadow-lg shadow-primary-burgundy/20 transition-all">
-                        <MessageSquare size={18} />
-                        Consultas
-                    </Link>
-                    <Link href="/admin/users" className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all">
-                        <Users size={18} />
-                        Usuarios
-                    </Link>
-                    <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all">
-                        <Settings size={18} />
-                        Configuración
-                    </button>
-
-                    <div className="pt-4 mt-4 border-t border-gray-100">
-                        <Link href="/" target="_blank" className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-primary-green hover:bg-green-50 transition-all group">
-                            <ExternalLink size={18} className="group-hover:scale-110 transition-transform" />
-                            Ver sitio web
-                        </Link>
-                    </div>
-                </nav>
-
-                <div className="p-4 border-t border-gray-100">
-                    <button onClick={() => signOut({ callbackUrl: "/admin" })} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-red-500 hover:bg-red-50 transition-all">
-                        <LogOut size={18} />
-                        Cerrar Sesión
-                    </button>
-                </div>
-            </aside>
+            <Sidebar />
 
             {/* Main Content */}
             <main className="flex-grow overflow-y-auto">

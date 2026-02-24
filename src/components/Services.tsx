@@ -49,7 +49,7 @@ export default function Services() {
                         <div className="h-1.5 w-24 bg-primary-burgundy rounded-full" />
                     </div>
                     <p className="text-gray-500 max-w-md italic text-right hidden md:block">
-                        Contamos con tecnología de vanguardia y un equipo profesional altamente calificado para cada tipo de estudio.
+                        Contamos con tecnología de vanguardia and un equipo profesional altamente calificado para cada tipo de estudio.
                     </p>
                 </div>
 

@@ -20,6 +20,10 @@ export const authOptions: NextAuthOptions = {
 
                 if (!user) return null;
 
+                if (user.active === false) {
+                    throw new Error("Usuario inactivo. Contacte al administrador.");
+                }
+
                 const isPasswordValid = await bcrypt.compare(
                     credentials.password,
                     user.password
@@ -32,6 +36,7 @@ export const authOptions: NextAuthOptions = {
                     name: user.name,
                     email: user.email,
                     role: user.role,
+                    active: user.active
                 };
             }
         })

@@ -4,16 +4,17 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Menu, X, MapPin } from "lucide-react";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 const navLinks = [
-    { name: "INICIO", href: "#inicio" },
-    { name: "QUIENES SOMOS", href: "#nosotros" },
-    { name: "INDICACIONES", href: "#indicaciones" },
-    { name: "VETERINARIA", href: "#veterinaria" },
-    { name: "CONTACTO", href: "#contacto" },
-    { name: "SERVICIOS", href: "#servicios" },
-    { name: "DERIVACIONES", href: "#derivaciones" },
-    { name: "PRP", href: "#prp" },
+    { name: "INICIO", href: "/#inicio" },
+    { name: "QUIENES SOMOS", href: "/quienes-somos" },
+    { name: "INDICACIONES", href: "/indicaciones" },
+    { name: "VETERINARIA", href: "/veterinaria" },
+    { name: "CONTACTO", href: "/#contacto" },
+    { name: "SERVICIOS", href: "/servicios" },
+    { name: "DERIVACIONES", href: "/derivaciones" },
+    { name: "PRP", href: "/prp" },
 ];
 
 export default function Navbar() {
@@ -56,21 +57,21 @@ export default function Navbar() {
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className="text-[11px] font-bold text-gray-700 hover:text-primary-green transition-colors tracking-widest uppercase"
+                                className="text-[13px] font-bold text-gray-700 hover:text-primary-green transition-colors tracking-widest uppercase"
                             >
                                 {link.name}
                             </Link>
                         ))}
                         <Link
-                            href="#contacto"
-                            className="flex items-center gap-2 bg-gray-50 text-gray-700 px-4 py-2.5 rounded-full text-[11px] font-black tracking-widest hover:bg-gray-100 transition-all border border-gray-200"
+                            href="/#contacto"
+                            className="flex items-center gap-2 bg-gray-50 text-gray-700 px-4 py-2.5 rounded-full text-[13px] font-black tracking-widest hover:bg-gray-100 transition-all border border-gray-200"
                         >
                             <MapPin size={14} className="text-primary-green" />
                             UBICACIÓN
                         </Link>
                         <Link
-                            href="#resultados"
-                            className="bg-primary-burgundy text-white px-6 py-2.5 rounded-full text-[11px] font-black tracking-widest hover:bg-opacity-90 transition-all shadow-lg hover:shadow-primary-burgundy/20"
+                            href="/admin/dashboard"
+                            className="bg-primary-burgundy text-white px-6 py-2.5 rounded-full text-[13px] font-black tracking-widest hover:bg-opacity-90 transition-all shadow-lg hover:shadow-primary-burgundy/20"
                         >
                             RESULTADOS
                         </Link>
@@ -105,7 +106,7 @@ export default function Navbar() {
                         </Link>
                     ))}
                     <Link
-                        href="#resultados"
+                        href="/admin/dashboard"
                         onClick={() => setIsOpen(false)}
                         className="block w-full text-center bg-primary-burgundy text-white px-5 py-5 rounded-2xl text-xs font-black mt-8 tracking-[0.2em]"
                     >
