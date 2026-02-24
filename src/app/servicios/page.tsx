@@ -14,14 +14,6 @@ export default function ServiciosPage() {
             <main className="pt-32 pb-20">
                 <hr className="w-full border-gray-100 mb-10" />
 
-                {/* Title Section */}
-                <div className="flex flex-col items-center justify-center mb-10">
-                    <div className="flex items-center gap-3 text-2xl md:text-3xl font-black text-[#1a2b3c] tracking-tight uppercase">
-                        <span className="text-3xl">🏠</span>
-                        <span>Extracciones a Domicilio</span>
-                    </div>
-                </div>
-
                 <div className="max-w-7xl mx-auto px-6 mt-12">
                     {/* Home Extractions Card */}
                     <motion.div
@@ -43,7 +35,7 @@ export default function ServiciosPage() {
                             <div className="flex items-center gap-4">
                                 <span className="text-3xl">🏠</span>
                                 <h3 className="text-2xl md:text-3xl font-black text-[#1a2b3c] uppercase tracking-tighter">
-                                    Servicio de Extracciones
+                                    Extracciones a Domicilio
                                 </h3>
                             </div>
 
@@ -195,7 +187,7 @@ export default function ServiciosPage() {
 
                                 <div className="pt-4">
                                     <Link
-                                        href="/derivaciones"
+                                        href="/veterinaria"
                                         className="inline-flex items-center gap-3 bg-[#e31e3d] text-white px-10 py-4 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-lg hover:bg-[#c41935] hover:scale-105 transition-all"
                                     >
                                         <ChevronRight size={16} />
