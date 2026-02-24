@@ -77,10 +77,12 @@ export default function IndicacionesPage() {
                     >
                         <div className="space-y-3 mb-10">
                             <AccordionItem title="ANALISIS DE SANGRE DE RUTINA (ADULTOS)">
-                                <div className="space-y-10">
+                                <div className="space-y-10 text-gray-700">
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Recomendaciones</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧾</span> Recomendaciones
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "Ayuno previo de 8 horas",
                                                 "Beber únicamente agua, hasta un máximo de 300 mL durante el ayuno",
@@ -98,8 +100,10 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Evitar</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-burgundy text-sm">❌</span> Evitar
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "No realizar actividad física intensa durante al menos 8 horas previas",
                                                 "No fumar ni vapear en las 8 horas previas",
@@ -121,7 +125,7 @@ export default function IndicacionesPage() {
                                         <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
                                             <span className="text-primary-green text-sm">👶</span> Indicaciones para pacientes pediátricos
                                         </h4>
-                                        <p className="text-sm text-gray-600 leading-relaxed font-medium italic border-l-4 border-primary-green pl-4">
+                                        <p className="text-sm text-gray-600 leading-relaxed font-medium border-l-4 border-primary-green pl-4">
                                             Los tiempos de ayuno deben adaptarse a la edad y al ritmo natural de alimentación del niño. Siempre que sea posible, programar la extracción justo antes de la siguiente toma de leche (materna o mamadera).
                                         </p>
                                     </div>
@@ -132,22 +136,22 @@ export default function IndicacionesPage() {
                                         </h4>
                                         <ul className="space-y-4 pl-4">
                                             {[
-                                                { text: "Lactantes (<1 año): ayuno de 3 horas", icon: "🟢" },
-                                                { text: "Niños pequeños (1 a 4 años): ayuno de 3 a 6 horas", icon: "🟢" },
-                                                { text: "Niños mayores (≥4 años): ayuno de 8 horas", icon: "🟢" },
-                                                { text: "Mantener hidratación habitual con agua, sin forzar la ingesta", icon: "🟢" },
-                                                { text: "Respetar la medicación habitual indicada por su médico", icon: "🟢" },
-                                                { text: "Acudir en el horario asignado para minimizar esperas", icon: "🟢" }
-                                            ].map((item, i) => (
+                                                "Lactantes (<1 año): ayuno de 3 horas",
+                                                "Niños pequeños (1 a 4 años): ayuno de 3 a 6 horas",
+                                                "Niños mayores (≥4 años): ayuno de 8 horas",
+                                                "Mantener hidratación habitual con agua, sin forzar la ingesta",
+                                                "Respetar la medicación habitual indicada por su médico",
+                                                "Acudir en el horario asignado para minimizar esperas"
+                                            ].map((text, i) => (
                                                 <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
-                                                    <span className="shrink-0">{item.icon}</span>
-                                                    {item.text}
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    {text}
                                                 </li>
                                             ))}
                                         </ul>
                                     </div>
 
-                                    <div className="space-y-6 border-t border-gray-100 pt-8">
+                                    <div className="space-y-6">
                                         <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest flex items-center gap-2">
                                             <span className="text-primary-burgundy text-sm">❌</span> Evitar
                                         </h4>
@@ -157,8 +161,8 @@ export default function IndicacionesPage() {
                                                 "No realizar juegos o actividad física intensa antes de la extracción",
                                                 "No administrar golosinas, jugos o leche para “calmar” antes del estudio"
                                             ].map((text, i) => (
-                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium italic">
-                                                    <span className="shrink-0">🔴</span>
+                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
                                                     {text}
                                                 </li>
                                             ))}
@@ -183,7 +187,7 @@ export default function IndicacionesPage() {
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                 Mantenga una <strong>ingesta normal de líquidos</strong> (ni exceso ni falta).
                                             </li>
-                                            <li className="flex gap-3 text-sm text-gray-500 italic">
+                                            <li className="flex gap-3 text-sm text-gray-500">
                                                 <div className="w-1 h-1 rounded-full bg-gray-300 mt-2 shrink-0" />
                                                 Algunos alimentos como la remolacha o colorantes pueden cambiar el color de la orina.
                                             </li>
@@ -191,87 +195,68 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     {/* Tipo de muestra */}
-                                    <div className="space-y-6 bg-gray-50/50 p-6 rounded-2xl border border-gray-100">
+                                    <div className="space-y-6">
                                         <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
                                             <span className="text-primary-green text-sm">🕒</span> Tipo de muestra
                                         </h4>
-                                        <div className="space-y-6">
-                                            <ul className="space-y-4 text-sm text-gray-600 font-medium pl-4">
-                                                <li className="flex gap-3">
-                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
-                                                    Se recomienda la <strong>primera orina de la mañana</strong>, después del descanso nocturno.
-                                                </li>
-                                                <li className="flex gap-3 italic">
-                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
-                                                    Si no es posible, asegure al menos 4 horas de retención en la vejiga.
-                                                </li>
-                                            </ul>
-
-                                            <div className="space-y-4 pt-4 border-t border-gray-200">
-                                                <p className="text-[10px] font-black text-primary-green uppercase tracking-tighter ml-4">Siempre recolectar el chorro medio:</p>
-                                                <ul className="space-y-3 pl-8">
-                                                    <li className="flex gap-3 text-sm text-gray-600 font-medium">
-                                                        <span className="font-bold text-primary-green w-4">1.</span>
-                                                        Descartar el primer chorro.
-                                                    </li>
-                                                    <li className="flex gap-3 text-sm text-gray-600 font-medium">
-                                                        <span className="font-bold text-primary-green w-4">2.</span>
-                                                        <span>
-                                                            Juntar la parte central en el vasito plástico nuevo provisto por el laboratorio.
-                                                            <span className="block mt-1 text-xs text-gray-500 italic">
+                                        <ul className="space-y-4 pl-4">
+                                            <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                Se recomienda la <strong>primera orina de la mañana</strong>, después del descanso nocturno.
+                                            </li>
+                                            <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                Si no es posible, asegure al menos 4 horas de retención en la vejiga.
+                                            </li>
+                                            <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                <div>
+                                                    <p className="font-bold text-gray-900 mb-2">Siempre recolectar el chorro medio:</p>
+                                                    <ul className="space-y-2 mt-2">
+                                                        <li>• Descartar el primer chorro.</li>
+                                                        <li>
+                                                            • Juntar la parte central en el vasito plástico nuevo provisto por el laboratorio.
+                                                            <span className="block mt-1 text-gray-500 font-normal">
                                                                 Una vez recolectada, trasvasar la muestra al tubo cónico estéril con tapa provisto por el laboratorio. Remitir al laboratorio el tubo cónico correctamente tapado e identificado.
                                                             </span>
-                                                        </span>
-                                                    </li>
-                                                    <li className="flex gap-3 text-sm text-gray-600 font-medium">
-                                                        <span className="font-bold text-primary-green w-4">3.</span>
-                                                        Desechar el final de la micción.
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-                                            <div className="pt-4 border-t border-gray-100/50">
-                                                <p className="text-xs text-gray-500 italic flex items-center gap-2">
-                                                    <span className="text-primary-green text-sm">👶</span>
-                                                    En niños pequeños pueden usarse bolsas colectoras especiales (provistas por el laboratorio).
-                                                </p>
-                                            </div>
-                                        </div>
+                                                        </li>
+                                                        <li>• Desechar el final de la micción.</li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li className="flex gap-3 text-sm text-gray-500 font-medium">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                En niños pequeños pueden usarse bolsas colectoras especiales (provistas por el laboratorio).
+                                            </li>
+                                        </ul>
                                     </div>
 
                                     {/* Conservación y entrega */}
-                                    <div className="space-y-6 pl-4 font-medium">
+                                    <div className="space-y-6">
                                         <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
                                             <span className="text-primary-green text-sm">❄️</span> Conservación y entrega
                                         </h4>
-                                        <ul className="space-y-4">
-                                            <li className="flex gap-3 text-sm text-gray-700">
+                                        <ul className="space-y-4 pl-4">
+                                            <li className="flex gap-3 text-sm text-gray-600 font-medium">
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                 Lleve la muestra al laboratorio lo antes posible.
                                             </li>
-                                            <li className="flex gap-3 text-sm text-gray-600 italic">
+                                            <li className="flex gap-3 text-sm text-gray-600 font-medium">
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
-                                                Lo ideal es analizarla dentro de las <strong>2 a 4 horas</strong> posteriores a la recolección.
+                                                Lo ideal es analizarla dentro de las 2 a 4 horas posteriores a la recolección.
+                                            </li>
+                                            <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                <div>
+                                                    <p className="font-bold text-primary-burgundy mb-2">Si no puede entregarla en ese tiempo:</p>
+                                                    <ul className="space-y-2 mt-2">
+                                                        <li>• Conservar en heladera (2–8 °C).</li>
+                                                        <li>• Entregar dentro de las 6 horas.</li>
+                                                        <li className="font-bold text-primary-burgundy underline decoration-2 underline-offset-4 decoration-primary-burgundy/20">• No congelar la muestra.</li>
+                                                    </ul>
+                                                </div>
                                             </li>
                                         </ul>
-
-                                        <div className="mt-6 bg-primary-burgundy/5 p-5 rounded-2xl border border-primary-burgundy/10 space-y-4">
-                                            <p className="text-[10px] font-black text-primary-burgundy uppercase tracking-wider">Si no puede entregarla en ese tiempo:</p>
-                                            <ul className="space-y-2 text-sm text-gray-600">
-                                                <li className="flex items-center gap-3">
-                                                    <div className="w-1 h-1 rounded-full bg-primary-burgundy shrink-0" />
-                                                    Conservar en heladera (2–8 °C).
-                                                </li>
-                                                <li className="flex items-center gap-3">
-                                                    <div className="w-1 h-1 rounded-full bg-primary-burgundy shrink-0" />
-                                                    Entregar dentro de las 6 horas.
-                                                </li>
-                                                <li className="flex items-center gap-3 text-primary-burgundy font-bold underline decoration-2 underline-offset-4 decoration-primary-burgundy/20">
-                                                    <div className="w-1 h-1 rounded-full bg-primary-burgundy shrink-0" />
-                                                    No congelar la muestra.
-                                                </li>
-                                            </ul>
-                                        </div>
                                     </div>
                                 </div>
                             </AccordionItem>
@@ -302,9 +287,9 @@ export default function IndicacionesPage() {
                                                 </ul>
                                             </div>
 
-                                            <div className="space-y-4 pt-4 border-t border-gray-100">
+                                            <div className="space-y-4 pt-4">
                                                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Conservación</p>
-                                                <ul className="space-y-2 text-sm text-gray-600 font-medium">
+                                                <ul className="space-y-4 text-sm text-gray-600 font-medium">
                                                     <li className="flex gap-3">
                                                         <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                         Mantener el recipiente bien cerrado y refrigerado (2–8 °C) durante todo el período de recolección.
@@ -313,7 +298,7 @@ export default function IndicacionesPage() {
                                                         <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                         No congelar la muestra.
                                                     </li>
-                                                    <li className="flex gap-3 italic text-gray-500">
+                                                    <li className="flex gap-3 text-gray-500">
                                                         <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
                                                         Al finalizar, entregar el frasco completo en el laboratorio.
                                                     </li>
@@ -323,16 +308,16 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     {/* Test de Graham */}
-                                    <div className="space-y-6 bg-gray-50/50 p-6 rounded-2xl border border-gray-100">
+                                    <div className="space-y-6 border-t border-gray-100 pt-10">
                                         <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
                                             <span className="text-primary-green text-sm">🧾</span> Test de Graham (Escobillado Perianal)
                                         </h4>
 
-                                        <div className="space-y-6">
+                                        <div className="space-y-6 pl-4">
                                             <div className="space-y-4">
                                                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Toma de muestra</p>
-                                                <p className="text-sm text-gray-500 italic">Durante 5 mañanas consecutivas, antes de levantarse de la cama:</p>
-                                                <ul className="space-y-2">
+                                                <p className="text-sm text-gray-500">Durante 5 mañanas consecutivas, antes de levantarse de la cama:</p>
+                                                <ul className="space-y-3">
                                                     {[
                                                         "Colocar un trozo de cinta adhesiva tipo scotch sobre la zona perianal.",
                                                         "Retirar la cinta cuidadosamente.",
@@ -340,18 +325,24 @@ export default function IndicacionesPage() {
                                                         "Utilizar un vidrio distinto cada día."
                                                     ].map((text, i) => (
                                                         <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
-                                                            <span className="font-bold text-primary-burgundy w-4">{i + 1}.</span>
-                                                            {text}
+                                                            <span className="font-bold text-primary-burgundy w-4 shrink-0">{i + 1}.</span>
+                                                            <p>{text}</p>
                                                         </li>
                                                     ))}
                                                 </ul>
                                             </div>
 
-                                            <div className="space-y-4 pt-4 border-t border-gray-200">
+                                            <div className="space-y-4 pt-4">
                                                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Conservación</p>
-                                                <ul className="space-y-2 text-sm text-gray-600 font-medium">
-                                                    <li>• Mantener los vidrios a temperatura ambiente, protegidos del polvo y la humedad.</li>
-                                                    <li>• Remitirlos al laboratorio inmediatamente después de completar la serie.</li>
+                                                <ul className="space-y-4 text-sm text-gray-600 font-medium">
+                                                    <li className="flex gap-3">
+                                                        <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                        Mantener los vidrios a temperatura ambiente, protegidos del polvo y la humedad.
+                                                    </li>
+                                                    <li className="flex gap-3">
+                                                        <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                        Remitirlos al laboratorio inmediatamente después de completar la serie.
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -368,60 +359,82 @@ export default function IndicacionesPage() {
                                         <div className="space-y-4 pl-4">
                                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Toma de muestra</p>
                                             <ul className="space-y-2">
-                                                {[
-                                                    "Recoger una pequeña cantidad de materia fecal en el frasco estéril provisto por el laboratorio.",
-                                                    "⚠️ No recolectar directamente del inodoro.",
-                                                    "Remitir la muestra inmediatamente al laboratorio.",
-                                                    "En caso de no poder hacerlo, conservar el frasco en heladera (2–8 °C), bien cerrado y envuelto, hasta su envío.",
-                                                    "No congelar la muestra."
-                                                ].map((text, i) => (
-                                                    <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
-                                                        <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
-                                                        {text}
-                                                    </li>
-                                                ))}
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    Recoger una pequeña cantidad de materia fecal en el frasco estéril provisto por el laboratorio.
+                                                </li>
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    ⚠️ No recolectar directamente del inodoro.
+                                                </li>
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    Remitir la muestra inmediatamente al laboratorio.
+                                                </li>
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    En caso de no poder hacerlo, conservar el frasco en heladera (2–8 °C), bien cerrado y envuelto, hasta su envío.
+                                                </li>
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    No congelar la muestra.
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
 
-                                    <div className="space-y-6 bg-gray-50/50 p-6 rounded-2xl border border-gray-100">
-                                        <div className="space-y-1">
-                                            <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
-                                                <span className="text-primary-green text-sm">👶</span> Coprocultivo en pacientes con pañales
-                                            </h4>
-                                            <p className="text-[10px] font-medium text-gray-500 italic ml-7">(bebés, adultos mayores, personas con discapacidad, etc.)</p>
-                                        </div>
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">👶</span> Coprocultivo en pacientes con pañales
+                                        </h4>
+                                        <div className="space-y-4 pl-4">
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Toma de muestra</p>
+                                            <ul className="space-y-4 text-sm text-gray-600 font-medium">
+                                                <li className="flex gap-3">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    Obtener la muestra de materia fecal mediante el hisopo estéril provisto por el laboratorio.
+                                                </li>
+                                                <li className="flex gap-3">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    Tomar la muestra en la zona del pañal donde se observe mayor concentración de materia fecal.
+                                                </li>
+                                                <li className="flex gap-3">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    Depositar el hisopo en el medio de transporte correspondiente.
+                                                </li>
+                                                <li className="text-xs font-bold text-primary-burgundy tracking-tight flex gap-3">
+                                                    <span className="shrink-0">⚠️</span>
+                                                    <span>No se aceptará el pañal como muestra.</span>
+                                                </li>
+                                            </ul>
 
-                                        <div className="space-y-6">
-                                            <div className="space-y-4">
-                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Toma de muestra</p>
-                                                <ul className="space-y-2 text-sm text-gray-600 font-medium">
-                                                    <li>• Obtener la muestra de materia fecal mediante el hisopo estéril provisto por el laboratorio.</li>
-                                                    <li>• Tomar la muestra en la zona del pañal donde se observe mayor concentración de materia fecal.</li>
-                                                    <li>• Depositar el hisopo en el medio de transporte correspondiente.</li>
-                                                    <li className="text-xs font-bold text-primary-burgundy tracking-tight">⚠️ No se aceptará el pañal como muestra.</li>
-                                                </ul>
-                                            </div>
-
-                                            <div className="space-y-4 pt-4 border-t border-gray-200">
+                                            <div className="space-y-4 pt-4 border-t border-gray-100">
                                                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Conservación</p>
-                                                <ul className="space-y-2 text-sm text-gray-600 font-medium">
-                                                    <li>• Mantener la muestra a temperatura ambiente.</li>
-                                                    <li>• Remitir al laboratorio lo antes posible.</li>
+                                                <ul className="space-y-4 text-sm text-gray-600 font-medium">
+                                                    <li className="flex gap-3">
+                                                        <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                        Mantener la muestra a temperatura ambiente.
+                                                    </li>
+                                                    <li className="flex gap-3">
+                                                        <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                        Remitir al laboratorio lo antes posible.
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="space-y-6 border-t border-gray-100 pt-8">
-                                        <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest">Recomendaciones generales</h4>
-                                        <ul className="space-y-3 pl-4">
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-sm">⚠️</span> Recomendaciones generales
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "No abrir el frasco hasta el momento de la recolección.",
                                                 "No exceder la capacidad del recipiente.",
                                                 "Informar al laboratorio si hubo dificultades en la toma de muestra."
                                             ].map((text, i) => (
-                                                <li key={i} className="flex gap-3 text-sm text-gray-500 italic">
+                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
                                                     <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
                                                     {text}
                                                 </li>
@@ -434,15 +447,19 @@ export default function IndicacionesPage() {
                             <AccordionItem title="ORINA DE 24 HS.">
                                 <div className="space-y-10 text-gray-700">
                                     <div className="space-y-4">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest italic">Recolección de muestra urinaria para estudios cuantitativos</h4>
-                                        <p className="text-sm text-gray-600 leading-relaxed font-medium italic border-l-4 border-primary-green pl-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧪</span> Recolección de muestra urinaria para estudios cuantitativos
+                                        </h4>
+                                        <p className="text-sm text-gray-600 leading-relaxed font-medium border-l-4 border-primary-green pl-4">
                                             Para obtener resultados confiables en su estudio de orina de 24 horas, le solicitamos seguir cuidadosamente estas indicaciones.
                                         </p>
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Inicio de la recolección</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🕒</span> Inicio de la recolección
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "Comenzar por descartar la primera orina de la mañana (no se incluye).",
                                                 "A partir de ese momento, recolectar TODAS las micciones realizadas durante el día y la noche.",
@@ -457,8 +474,10 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Modo de recolección</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧾</span> Modo de recolección
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "Utilizar el recipiente provisto por el laboratorio (de boca ancha y tapa segura).",
                                                 "Recolectar la totalidad de cada emisión urinaria, sin pérdidas.",
@@ -472,17 +491,17 @@ export default function IndicacionesPage() {
                                         </ul>
                                     </div>
 
-                                    <div className="space-y-6 border-l-2 border-primary-green/20 pl-6 bg-gray-50/50 p-6 rounded-2xl">
+                                    <div className="space-y-6">
                                         <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
-                                            <span className="text-primary-green">❄️</span> Conservación de la muestra
+                                            <span className="text-primary-green text-sm">❄️</span> Conservación de la muestra
                                         </h4>
-                                        <ul className="space-y-4">
+                                        <ul className="space-y-4 pl-4">
                                             {[
-                                                "Mantener el recipiente refrigerado durante todo el proceso (entre 2 y 8 °C).",
+                                                "Mantener el recipiente refrigerado durante todo el proceso (entre 2 and 8 °C).",
                                                 "No congelar ni exponer al calor.",
                                                 "Guardar el recipiente en heladera o en conservadora con hielo."
                                             ].map((text, i) => (
-                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium italic">
+                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
                                                     <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                     {text}
                                                 </li>
@@ -491,27 +510,39 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Entrega y extracción de sangre</h4>
-                                        <p className="text-sm text-gray-600 font-medium pl-4">
-                                            Al finalizar la recolección (tras incluir la primera orina del segundo día), presentarse en el laboratorio con la muestra completa.
-                                            Si se le indicó extracción de sangre, se realizará en ese momento.
-                                        </p>
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">📍</span> Entrega y extracción de sangre
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
+                                            <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                Al finalizar la recolección (tras incluir la primera orina del segundo día), presentarse en el laboratorio con la muestra completa.
+                                            </li>
+                                            <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                Si se le indicó extracción de sangre, se realizará en ese momento.
+                                            </li>
+                                        </ul>
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Identificación del recipiente</h4>
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🏷️</span> Identificación del recipiente
+                                        </h4>
                                         <div className="space-y-2 pl-4">
                                             <p className="text-sm text-gray-900 font-bold">Rotular el frasco con:</p>
-                                            <ul className="space-y-1 text-sm text-gray-500 italic">
-                                                <li>• Nombre completo</li>
-                                                <li>• Fecha y hora de inicio de recolección</li>
-                                                <li>• Fecha y hora de finalización</li>
+                                            <ul className="space-y-1 text-sm text-gray-600 font-medium">
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />Nombre completo</li>
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />Fecha y hora de inicio de recolección</li>
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />Fecha y hora de finalización</li>
                                             </ul>
                                         </div>
                                     </div>
 
-                                    <div className="space-y-6 border-t border-gray-100 pt-8">
-                                        <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest">Recomendaciones generales</h4>
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-burgundy text-sm">⚠️</span> Recomendaciones generales
+                                        </h4>
                                         <ul className="space-y-3 pl-4">
                                             {[
                                                 "No olvidar incluir la primera orina del segundo día.",
@@ -519,7 +550,7 @@ export default function IndicacionesPage() {
                                                 "No agregar conservantes ni líquidos al recipiente.",
                                                 "Informar al laboratorio si hubo pérdidas o dificultades durante la recolección."
                                             ].map((text, i) => (
-                                                <li key={i} className="flex gap-3 text-sm text-gray-500 italic">
+                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
                                                     <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
                                                     {text}
                                                 </li>
@@ -532,16 +563,19 @@ export default function IndicacionesPage() {
                             <AccordionItem title="UROCULTIVO">
                                 <div className="space-y-10 text-gray-700">
                                     <div className="space-y-4">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest italic">Recolección de muestra de orina para cultivo bacteriano</h4>
-                                        <p className="text-sm text-gray-600 leading-relaxed font-medium italic border-l-4 border-primary-green pl-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧪</span> Recolección de muestra de orina para cultivo bacteriano
+                                        </h4>
+                                        <p className="text-sm text-gray-600 leading-relaxed font-medium border-l-4 border-primary-green pl-4">
                                             Para obtener resultados confiables en su estudio de urocultivo, le solicitamos seguir cuidadosamente estas indicaciones según su condición.
                                         </p>
                                     </div>
 
-                                    {/* Tipo de muestra */}
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Tipo de muestra</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧾</span> Preparación previa
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             <li className="flex gap-3 text-sm text-gray-600 font-medium">
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                 <span><strong>Preferente:</strong> Primera orina de la mañana</span>
@@ -554,15 +588,15 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     {/* 1. Pacientes que controlan esfínteres */}
-                                    <div className="space-y-8 bg-gray-50/50 p-6 rounded-2xl border border-gray-100">
+                                    <div className="space-y-6">
                                         <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
                                             <span className="bg-primary-green text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px]">1</span>
                                             Pacientes que controlan esfínteres
                                         </h4>
 
-                                        <div className="grid md:grid-cols-2 gap-8">
+                                        <div className="grid md:grid-cols-2 gap-8 pl-4">
                                             <div className="space-y-4">
-                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Preparación Hombres</p>
+                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Hombres</p>
                                                 <ul className="space-y-2 text-sm text-gray-600 font-medium">
                                                     <li>• Retraer el prepucio.</li>
                                                     <li>• Higienizar el glande con agua y jabón neutro.</li>
@@ -571,23 +605,23 @@ export default function IndicacionesPage() {
                                                 </ul>
                                             </div>
                                             <div className="space-y-4">
-                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Preparación Mujeres</p>
+                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Mujeres</p>
                                                 <ul className="space-y-2 text-sm text-gray-600 font-medium">
                                                     <li>• Separar los labios mayores.</li>
-                                                    <li>• Higienizar la zona genital con agua y jabón desde adelante hacia atrás.</li>
+                                                    <li>• Higienizar la zona genital con agua y jabón (adelante hacia atrás).</li>
                                                     <li>• Enjuagar cuidadosamente.</li>
                                                     <li>• Repetir el procedimiento una vez más.</li>
-                                                    <li className="text-xs italic text-gray-500">• En caso de flujo vaginal, colocar un tampón y realizar nuevamente el lavado.</li>
+                                                    <li className="text-xs text-gray-500">• Flujo vaginal: colocar un tampón y lavar nuevamente.</li>
                                                 </ul>
                                             </div>
                                         </div>
 
-                                        <div className="space-y-4 pt-4 border-t border-gray-200">
-                                            <p className="text-[10px] font-black text-primary-green uppercase tracking-tighter">Recolección de la muestra</p>
-                                            <ul className="space-y-2 text-sm text-gray-600 font-medium">
-                                                <li className="flex gap-3"><span className="text-primary-green font-bold">1.</span> Descartar el primer chorro de orina.</li>
-                                                <li className="flex gap-3"><span className="text-primary-green font-bold">2.</span> Recolectar la fracción media en frasco estéril.</li>
-                                                <li className="flex gap-3"><span className="text-primary-green font-bold">3.</span> Desechar el final de la micción.</li>
+                                        <div className="space-y-4 pt-4 pl-4">
+                                            <p className="text-[10px] font-black text-primary-green uppercase tracking-widest">Recolección de la muestra:</p>
+                                            <ul className="space-y-3 pl-4">
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium"><span className="text-primary-green font-bold w-4 shrink-0">1.</span> Descartar el primer chorro de orina.</li>
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium"><span className="text-primary-green font-bold w-4 shrink-0">2.</span> Recolectar la fracción media en frasco estéril.</li>
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium"><span className="text-primary-green font-bold w-4 shrink-0">3.</span> Desechar el final de la micción.</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -598,12 +632,21 @@ export default function IndicacionesPage() {
                                             <span className="bg-primary-green text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px]">2</span>
                                             Pacientes lactantes o que no controlan esfínteres
                                         </h4>
-                                        <div className="pl-7 space-y-4">
-                                            <p className="text-sm text-gray-600 font-medium">• Garantizar el máximo tiempo posible de retención urinaria.</p>
-                                            <p className="text-sm text-gray-600 font-medium">• Realizar higiene genital siguiendo las indicaciones anteriores según sexo.</p>
-                                            <div className="p-4 bg-primary-green/5 rounded-xl">
-                                                <p className="text-sm text-gray-700 font-bold">Recolección: <span className="font-normal italic">Tomar la muestra “al asecho” en frasco estéril, evitando contaminación.</span></p>
-                                            </div>
+                                        <div className="pl-4 space-y-4">
+                                            <ul className="space-y-4">
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    Garantizar el máximo tiempo posible de retención urinaria.
+                                                </li>
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    Realizar higiene genital siguiendo las indicaciones anteriores según sexo.
+                                                </li>
+                                                <li className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    Recolección: Tomar la muestra “al asecho” en frasco estéril, evitando contaminación.
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
 
@@ -613,34 +656,61 @@ export default function IndicacionesPage() {
                                             <span className="bg-primary-green text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px]">3</span>
                                             Pacientes sondados
                                         </h4>
-                                        <ul className="pl-7 space-y-4 text-sm text-gray-600 font-medium">
-                                            <li>• Pinzar la sonda durante unos minutos para permitir acumulación de orina.</li>
-                                            <li>• Desinfectar el sitio de punción.</li>
-                                            <li>• Extraer la muestra a 10 cm del meato, utilizando técnica estéril.</li>
-                                            <li className="italic text-primary-burgundy">• Remitir la muestra en jeringa estéril sellada con tapón de goma.</li>
+                                        <ul className="pl-4 space-y-4 text-sm text-gray-600 font-medium">
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                Pinzar la sonda durante unos minutos para permitir acumulación de orina.
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                Desinfectar el sitio de punción.
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                Extraer la muestra a 10 cm del meato, utilizando técnica estéril.
+                                            </li>
+                                            <li className="text-primary-burgundy font-bold flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                Remitir la muestra en jeringa estéril sellada con tapón de goma.
+                                            </li>
                                         </ul>
                                     </div>
 
-                                    {/* Entrega */}
-                                    <div className="space-y-6 bg-primary-burgundy/5 p-6 rounded-2xl border border-primary-burgundy/10">
-                                        <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest">Entrega de la muestra al laboratorio</h4>
-                                        <div className="space-y-4">
-                                            <p className="text-sm text-gray-700 font-bold italic">Ideal: entregar la muestra dentro de los 30 a 60 minutos posteriores a la recolección.</p>
-                                            <div className="space-y-2">
-                                                <p className="text-xs font-black text-gray-500 uppercase">En caso de horarios atípicos:</p>
-                                                <ul className="text-sm text-gray-600 font-medium space-y-1">
-                                                    <li>• Conservar la muestra en heladera (2–8 ℃).</li>
-                                                    <li>• No exceder las 6 horas de refrigeración antes de su entrega.</li>
-                                                    <li className="font-bold text-red-600">• No congelar la muestra bajo ningún concepto.</li>
+                                    {/* Conservación y entrega */}
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">❄️</span> Conservación y entrega
+                                        </h4>
+                                        <div className="space-y-6 pl-4">
+                                            <p className="text-sm text-gray-600 font-medium">Llevar al laboratorio dentro de los 30 a 60 minutos posteriores a la recolección.</p>
+
+                                            <div className="space-y-4 border-t border-gray-100 pt-6">
+                                                <p className="text-xs font-black text-primary-burgundy uppercase tracking-wider flex items-center gap-2">
+                                                    <span className="text-sm">⚠️</span> Importante
+                                                </p>
+                                                <ul className="text-sm text-gray-600 font-medium space-y-3">
+                                                    <li className="flex gap-3">
+                                                        <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                        Conservar en heladera (2–8 ℃) si no se entrega inmediatamente.
+                                                    </li>
+                                                    <li className="flex gap-3">
+                                                        <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                        No exceder las 6 horas de refrigeración.
+                                                    </li>
+                                                    <li className="font-bold text-primary-burgundy flex gap-3">
+                                                        <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                        No congelar la muestra.
+                                                    </li>
                                                 </ul>
                                             </div>
-                                            <p className="text-xs text-gray-500 font-bold border-t border-primary-burgundy/10 pt-4 italic">📌 Asegurarse de que el frasco esté bien cerrado y rotulado correctamente.</p>
                                         </div>
                                     </div>
 
                                     {/* Recomendaciones generales */}
-                                    <div className="space-y-6 border-t border-gray-100 pt-8">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Recomendaciones generales</h4>
+                                    <div className="space-y-6 border-t border-gray-100 pt-8 pl-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">⚠️</span> Recomendaciones generales
+                                        </h4>
                                         <ul className="space-y-4 pl-4">
                                             <li className="flex gap-3 text-sm text-gray-600 font-medium">
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
@@ -654,13 +724,13 @@ export default function IndicacionesPage() {
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                 No destapar el frasco hasta el momento inmediato de la recolección.
                                             </li>
-                                            <li className="flex flex-col gap-2 pt-4">
-                                                <p className="text-xs font-black text-gray-900 uppercase tracking-widest">Etiquetado correcto:</p>
+                                            <div className="flex flex-col gap-2 pt-4 border-t border-gray-50">
+                                                <p className="text-[10px] font-black text-gray-900 uppercase tracking-widest">Etiquetado correcto:</p>
                                                 <ul className="pl-4 space-y-1 text-sm text-gray-500 italic">
                                                     <li>• Nombre completo</li>
                                                     <li>• Fecha y hora de recolección</li>
                                                 </ul>
-                                            </li>
+                                            </div>
                                         </ul>
                                     </div>
                                 </div>
@@ -669,8 +739,10 @@ export default function IndicacionesPage() {
                             <AccordionItem title="SANGRE OCULTA EN MATERIA FECAL">
                                 <div className="space-y-10 text-gray-700">
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Modo de recolección</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧾</span> Modo de recolección
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "Recolectar la muestra en frasco estéril con tapa a rosca, provisto por el laboratorio.",
                                                 "Utilizar paleta o espátula limpia para tomar una porción de materia fecal (del tamaño de una nuez).",
@@ -686,8 +758,10 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Lugar de recolección</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">📍</span> Lugar de recolección
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "Puede realizarse en domicilio.",
                                                 "Entregar la muestra en el laboratorio dentro de las 2 horas posteriores a la recolección.",
@@ -702,21 +776,37 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Identificación del frasco</h4>
-                                        <div className="space-y-2 pl-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🏷️</span> Identificación del frasco
+                                        </h4>
+                                        <div className="space-y-4 pl-4">
                                             <p className="text-sm text-gray-900 font-bold">Por favor rotule el frasco con:</p>
-                                            <ul className="space-y-1 text-sm text-gray-500 italic">
-                                                <li>• Nombre completo</li>
-                                                <li>• Fecha y hora de recolección</li>
+                                            <ul className="space-y-2 text-sm text-gray-600 font-medium">
+                                                <li className="flex gap-3">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    Nombre completo
+                                                </li>
+                                                <li className="flex gap-3">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    Fecha y hora de recolección
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
 
-                                    <div className="space-y-6 border-t border-gray-100 pt-8">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest text-primary-burgundy">Importante</h4>
-                                        <ul className="space-y-4 list-disc pl-8 text-sm text-gray-600 font-medium italic">
-                                            <li>No se aceptan muestras recolectadas en papel, bolsas, frascos no estériles o con tapa rota.</li>
-                                            <li>Si presenta sangrado activo, informar al laboratorio antes de realizar la.</li>
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-burgundy text-sm">⚠️</span> Importante
+                                        </h4>
+                                        <ul className="space-y-4 pl-4 text-sm text-gray-600 font-medium">
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                No se aceptan muestras recolectadas en papel, bolsas, frascos no estériles o con tapa rota.
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                Si presenta sangrado activo, informar al laboratorio antes de realizar la toma.
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -725,16 +815,20 @@ export default function IndicacionesPage() {
                             <AccordionItem title="CURVA DE TOLERANCIA ORAL A LA GLUCOSA">
                                 <div className="space-y-10 text-gray-700">
                                     <div className="space-y-4">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest italic">Prueba de Tolerancia Oral a la Glucosa</h4>
-                                        <p className="text-sm text-gray-400 font-bold">(PTOG – Glucemia post carga)</p>
-                                        <p className="text-sm text-gray-600 leading-relaxed font-medium italic border-l-4 border-primary-green pl-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧪</span> Prueba de Tolerancia Oral a la Glucosa
+                                        </h4>
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-7">(PTOG – Glucemia post carga)</p>
+                                        <p className="text-sm text-gray-600 leading-relaxed font-medium border-l-4 border-primary-green pl-4">
                                             Para obtener resultados confiables en su estudio de glucemia post carga, le solicitamos seguir cuidadosamente estas indicaciones.
                                         </p>
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Días y horarios de realización</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🕒</span> Días y horarios de realización
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             <li className="flex gap-3 text-sm text-gray-600 font-medium">
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                 Lunes a Viernes: entre 07:00 y 08:00 hs
@@ -743,7 +837,7 @@ export default function IndicacionesPage() {
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                 Sábados: a las 08:00 hs
                                             </li>
-                                            <li className="flex gap-3 text-sm text-primary-burgundy font-bold italic">
+                                            <li className="flex gap-3 text-sm text-primary-burgundy font-bold">
                                                 <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
                                                 No se realiza fuera de este horario por requerimientos técnicos del procedimiento.
                                             </li>
@@ -751,8 +845,10 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Preparación previa</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧾</span> Preparación previa
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             <li className="flex gap-3 text-sm text-gray-600 font-medium">
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                 Presentarse en el laboratorio tras 8 horas de ayuno.
@@ -765,8 +861,10 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Etapas del estudio</h4>
-                                        <ul className="space-y-8">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">📍</span> Etapas del estudio
+                                        </h4>
+                                        <ul className="space-y-8 pl-4">
                                             {[
                                                 { t: "Primera extracción de sangre", c: "Se realiza al llegar al laboratorio." },
                                                 { t: "Ingesta de glucosa", c: "Se administra la dosis de glucosa proporcionada por el laboratorio. Se mezcla en una taza de aproximadamente 300 ml con agua caliente y se puede agregar té negro. El té puede consumirse en el laboratorio o en el domicilio." },
@@ -784,11 +882,19 @@ export default function IndicacionesPage() {
                                         </ul>
                                     </div>
 
-                                    <div className="space-y-6 border-t border-gray-100 pt-8">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest text-primary-burgundy">Indicaciones importantes</h4>
-                                        <ul className="space-y-4 list-disc pl-8 text-sm text-gray-600 font-medium italic">
-                                            <li>No se debe caminar, realizar actividad física ni consumir alimentos durante el período de espera.</li>
-                                            <li>Si presenta náuseas, mareos o malestar, informar al personal del laboratorio.</li>
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-burgundy text-sm">⚠️</span> Indicaciones importantes
+                                        </h4>
+                                        <ul className="space-y-4 pl-4 text-sm text-gray-600 font-medium">
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                No se debe caminar, realizar actividad física ni consumir alimentos durante el período de espera.
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                Si presenta náuseas, mareos o malestar, informar al personal del laboratorio.
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -797,15 +903,19 @@ export default function IndicacionesPage() {
                             <AccordionItem title="ESPERMOGRAMA">
                                 <div className="space-y-10 text-gray-700">
                                     <div className="space-y-4">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest italic">Recolección de muestra seminal</h4>
-                                        <p className="text-sm text-gray-600 leading-relaxed font-medium italic border-l-4 border-primary-green pl-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧪</span> Recolección de muestra seminal
+                                        </h4>
+                                        <p className="text-sm text-gray-600 leading-relaxed font-medium border-l-4 border-primary-green pl-4">
                                             Para garantizar resultados confiables en su estudio seminal, le solicitamos seguir cuidadosamente estas indicaciones.
                                         </p>
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Antes de la recolección</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🕒</span> Antes de la recolección
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "Mantener abstinencia sexual entre 2 y 7 días.",
                                                 "Evitar alcohol, fiebre o medicamentos que puedan afectar la calidad seminal.",
@@ -820,8 +930,10 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Modo de recolección</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧾</span> Modo de recolección
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "Recolectar la muestra por masturbación directa, en frasco estéril provisto por el laboratorio.",
                                                 "Lavar previamente manos y genitales con agua y jabón neutro.",
@@ -837,7 +949,9 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Lugar de recolección</h4>
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">📍</span> Lugar de recolección
+                                        </h4>
                                         <div className="space-y-4 pl-4">
                                             <p className="text-sm text-gray-900 font-bold">Si se realiza en domicilio:</p>
                                             <ul className="space-y-4">
@@ -846,7 +960,7 @@ export default function IndicacionesPage() {
                                                     "Transportarla a temperatura corporal (ej. en bolsillo interno de campera).",
                                                     "No refrigerar ni exponer al calor."
                                                 ].map((text, i) => (
-                                                    <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium italic">
+                                                    <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
                                                         <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
                                                         {text}
                                                     </li>
@@ -855,21 +969,34 @@ export default function IndicacionesPage() {
                                         </div>
                                     </div>
 
-                                    <div className="space-y-6 border-t border-gray-100 pt-8">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest text-[#2563eb]">Identificación y Avisos</h4>
-                                        <div className="space-y-6 pl-4">
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🏷️</span> Identificación y Avisos
+                                        </h4>
+                                        <div className="pl-4">
                                             <div className="space-y-2">
                                                 <p className="text-sm text-gray-900 font-bold">Por favor rotule el frasco con:</p>
-                                                <p className="text-sm text-gray-500 italic">• Nombre completo</p>
-                                            </div>
-                                            <div className="space-y-4 border-l-2 border-primary-burgundy/20 pl-4">
-                                                <p className="text-xs font-black text-primary-burgundy uppercase tracking-wider">Importante</p>
-                                                <ul className="space-y-2">
-                                                    <li className="text-sm text-gray-600 font-medium italic">• Si se pierde parte de la muestra, informar al laboratorio.</li>
-                                                    <li className="text-sm text-gray-600 font-medium italic">• Si tiene dificultades para recolectar, consulte con el personal.</li>
+                                                <ul className="space-y-1 text-sm text-gray-600 font-medium">
+                                                    <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />Nombre completo</li>
                                                 </ul>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-burgundy text-sm">⚠️</span> Importante
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
+                                            <li className="text-sm text-gray-600 font-medium flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                Si se pierde parte de la muestra, informar al laboratorio.
+                                            </li>
+                                            <li className="text-sm text-gray-600 font-medium flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                Si tiene dificultades para recolectar, consulte con el personal.
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </AccordionItem>
@@ -877,8 +1004,10 @@ export default function IndicacionesPage() {
                             <AccordionItem title="ACIDO VAINILLIN MANDELICO">
                                 <div className="space-y-10 text-gray-700">
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Indicaciones al paciente</h4>
-                                        <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧪</span> Indicaciones al paciente
+                                        </h4>
+                                        <div className="space-y-6 pl-4">
                                             {[
                                                 "Durante 4 días no ingerir banana, tomate, chocolate, cacao, cremas, tortas, helados o cualquier alimento que pueda contener vainilla.",
                                                 "No ingerir aspirinas. Beber solamente agua. Se debe evitar la ingesta de té, café y mate. Evitar el stress, el ejercicio y el dolor.",
@@ -897,8 +1026,10 @@ export default function IndicacionesPage() {
                             <AccordionItem title="PLASMA RICO EN PLAQUETAS">
                                 <div className="space-y-10 text-gray-700">
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Requisitos</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🔍</span> Requisitos
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "Orden médica con hemograma y recuento de plaquetas.",
                                                 "Consentimiento informado previo a la extracción. En el Laboratorio."
@@ -912,8 +1043,10 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Procedimiento</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">⚙️</span> Procedimiento
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             <li className="flex gap-3 text-sm text-gray-600 font-medium">
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                 Extracción con sistema Vacutainer en tubos al vacío con anticoagulante ACD.
@@ -942,8 +1075,10 @@ export default function IndicacionesPage() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Tiempos y condiciones</h4>
-                                        <ul className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🕒</span> Tiempos y condiciones
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
                                             {[
                                                 "Preparación: 20–25 minutos.",
                                                 "Aplicación: dentro de 2 horas posteriores.",
@@ -958,16 +1093,18 @@ export default function IndicacionesPage() {
                                         </ul>
                                     </div>
 
-                                    <div className="space-y-6 border-t border-gray-100 pt-8">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest text-primary-burgundy">Informe al médico tratante</h4>
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-burgundy text-sm">📄</span> Informe al médico tratante
+                                        </h4>
                                         <div className="space-y-4 pl-4">
                                             <p className="text-sm text-gray-600 font-medium">Envío en PDF vía mail:</p>
-                                            <ul className="space-y-2">
+                                            <ul className="space-y-2 text-sm text-gray-600 font-medium">
                                                 {[
                                                     "Hemograma basal con recuento de plaquetas.",
                                                     "Informe celular del PRP (blancos, rojos y plaquetas)."
                                                 ].map((text, i) => (
-                                                    <li key={i} className="flex gap-3 text-sm text-gray-500 italic">
+                                                    <li key={i} className="flex gap-3">
                                                         <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
                                                         {text}
                                                     </li>
@@ -981,8 +1118,10 @@ export default function IndicacionesPage() {
                             <AccordionItem title="ROTAVIRUS - ADENOVIRUS">
                                 <div className="space-y-10 text-gray-700">
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">Instrucciones de Uso y Muestreo</h4>
-                                        <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧪</span> Instrucciones de Uso y Muestreo
+                                        </h4>
+                                        <div className="space-y-6 pl-4">
                                             {[
                                                 "Humasis Rota/ Adeno está diseñado sólo para uso con muestras fecales humanas.",
                                                 "La detección viral se mejora mediante la recopilación de las muestras en el inicio de los síntomas. Se ha informado de que la excreción máxima de rotavirus en las heces de pacientes con gastroenteritis se produce 3-5 días después de la aparición de los síntomas. Si las muestras se recogen mucho después de la aparición de los síntomas diarreicos, la cantidad de antígeno puede no ser suficiente para obtener una reacción positiva o los antígenos detectados no puede estar relacionado con el episodio diarreico.",
