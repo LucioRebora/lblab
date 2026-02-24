@@ -4,8 +4,15 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Send, MapPin, Phone, MessageCircle, CreditCard, Landmark, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 
+interface ContactFormData {
+    name: string;
+    email: string;
+    comment: string;
+    web: string;
+}
+
 export default function Contact() {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<ContactFormData>({
         name: "",
         email: "",
         comment: "",

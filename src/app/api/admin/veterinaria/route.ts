@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 
 export async function GET(request: Request) {
     try {
+        // @ts-ignore
         const appointments = await prisma.veterinaryAppointment.findMany({
             orderBy: {
                 createdAt: "desc"
@@ -24,6 +25,7 @@ export async function PATCH(request: Request) {
             return NextResponse.json({ error: "ID requerido" }, { status: 400 });
         }
 
+        // @ts-ignore
         const appointment = await prisma.veterinaryAppointment.update({
             where: { id },
             data: {

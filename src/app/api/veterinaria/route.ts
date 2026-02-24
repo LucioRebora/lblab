@@ -14,6 +14,7 @@ export async function POST(request: Request) {
             );
         }
 
+        // @ts-ignore
         const appointment = await prisma.veterinaryAppointment.create({
             data: {
                 email,

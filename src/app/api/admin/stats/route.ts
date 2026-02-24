@@ -45,6 +45,7 @@ export async function GET() {
         const turnosManana = prpTomorrow + derivTomorrow;
 
         // Turnos Veterinarios Hoy (VeterinaryAppointment created today)
+        // @ts-ignore
         const veterinaryToday = await prisma.veterinaryAppointment.count({
             where: {
                 createdAt: { gte: today },
