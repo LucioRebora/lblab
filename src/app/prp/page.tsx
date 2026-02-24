@@ -596,10 +596,12 @@ export default function PRPPage() {
                                     href="/docs/Consentimiento informado PRP.pdf"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="bg-[#66bfe3] hover:bg-[#57a6c7] text-[#1a2b3c] px-12 py-5 rounded-2xl font-black text-xs tracking-[0.2em] uppercase shadow-lg hover:shadow-xl transition-all flex items-center gap-3 group"
+                                    className="bg-white text-gray-900 border-2 border-gray-100 px-10 py-5 rounded-full font-black text-xs tracking-[0.2em] uppercase shadow-xl hover:shadow-2xl hover:border-primary-burgundy transition-all flex items-center gap-4 group"
                                 >
-                                    <FileText size={18} className="group-hover:scale-110 transition-transform" />
-                                    DESCARGAR CONSENTIMIENTO
+                                    Descargar Consentimiento
+                                    <div className="bg-primary-burgundy p-1 rounded-md text-white group-hover:translate-x-1 transition-transform">
+                                        <FileText size={14} strokeWidth={3} />
+                                    </div>
                                 </a>
                             </motion.div>
                         )}
@@ -614,9 +616,12 @@ export default function PRPPage() {
                             >
                                 <Link
                                     href="/admin/dashboard"
-                                    className="bg-[#66bfe3] hover:bg-[#57a6c7] text-[#1a2b3c] px-12 py-5 rounded-2xl font-black text-xs tracking-[0.2em] uppercase shadow-lg hover:shadow-xl transition-all flex items-center gap-3 md:min-w-[300px] justify-center"
+                                    className="bg-white text-gray-900 border-2 border-gray-100 px-10 py-5 rounded-full font-black text-xs tracking-[0.3em] uppercase shadow-xl hover:shadow-2xl hover:border-primary-burgundy transition-all flex items-center gap-4 group"
                                 >
-                                    RESULTADOS
+                                    Resultados
+                                    <div className="bg-primary-burgundy p-1 rounded-md text-white group-hover:translate-x-1 transition-transform">
+                                        <ChevronRight size={14} strokeWidth={3} />
+                                    </div>
                                 </Link>
                             </motion.div>
                         )}
