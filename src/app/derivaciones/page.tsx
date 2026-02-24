@@ -156,22 +156,27 @@ export default function DerivacionesPage() {
             <main className="pt-32 pb-20">
                 <hr className="w-full border-gray-100 mb-10" />
                 {/* Title Section */}
-                <div className="flex flex-col items-center justify-center mb-10">
+                <div className="flex flex-col items-center justify-center mb-20 px-4">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="flex items-center gap-4 text-2xl md:text-3xl font-black text-[#1a2b3c] tracking-tighter uppercase"
+                        className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left"
                     >
-                        <div className="bg-primary-burgundy/5 p-3 rounded-2xl">
-                            <Upload className="text-primary-burgundy" size={28} />
+                        <div className="bg-primary-green/5 p-5 rounded-[2rem] text-primary-green shadow-sm border border-gray-100">
+                            <Upload size={40} strokeWidth={2.5} />
                         </div>
-                        <span>DERIVACIONES</span>
+                        <div className="space-y-1">
+                            <h1 className="text-3xl md:text-6xl font-black text-[#1a2b3c] tracking-tighter uppercase leading-none">
+                                Centro de <br className="hidden md:block" />
+                                <span className="text-primary-green">Derivaciones</span>
+                            </h1>
+                        </div>
                     </motion.div>
                 </div>
 
                 {/* Tabs Section */}
-                <div className="mb-12 flex justify-center px-4 overflow-x-auto">
-                    <div className="bg-gray-50 p-2 rounded-2xl flex gap-1 min-w-max border border-gray-100 shadow-inner">
+                <div className="mb-16 flex justify-center px-4 overflow-x-auto">
+                    <div className="bg-sage-bg p-2 rounded-[2rem] flex gap-1 min-w-max border border-white shadow-sm">
                         {tabs.map((tab) => (
                             <button
                                 key={tab.id}
@@ -179,19 +184,19 @@ export default function DerivacionesPage() {
                                     setActiveTab(tab.id);
                                     setSubmitted(false);
                                 }}
-                                className={`px-6 py-4 rounded-xl font-black text-[10px] tracking-[0.2em] transition-all flex items-center gap-3 ${activeTab === tab.id
-                                    ? "bg-[#68d378] text-white shadow-lg shadow-green-200"
-                                    : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                                className={`px-8 py-5 rounded-2xl font-black text-[10px] tracking-[0.3em] transition-all flex items-center gap-4 ${activeTab === tab.id
+                                    ? "bg-primary-green text-white shadow-lg shadow-primary-green/20 scale-105"
+                                    : "text-gray-400 hover:text-gray-600 hover:bg-white"
                                     }`}
                             >
-                                <tab.icon size={16} />
+                                <tab.icon size={16} strokeWidth={3} />
                                 {tab.label}
                             </button>
                         ))}
                     </div>
                 </div>
 
-                <div className="max-w-4xl mx-auto px-6">
+                <div className="max-w-5xl mx-auto px-6">
                     <AnimatePresence mode="wait">
                         {activeTab === "INSTRUCCIONES" && (
                             <motion.div
@@ -201,43 +206,46 @@ export default function DerivacionesPage() {
                                 exit={{ opacity: 0, y: -10 }}
                                 className="space-y-12"
                             >
-                                <div className="bg-[#fff9f8] rounded-[2.5rem] border border-red-100 p-12 shadow-sm relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 p-8 opacity-5">
-                                        <Info size={120} />
+                                <div className="bg-white rounded-[2.5rem] border border-gray-100 p-12 shadow-xl shadow-gray-100/50 relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 p-12 opacity-[0.03] text-primary-green group-hover:opacity-[0.05] transition-opacity duration-700">
+                                        <Info size={160} />
                                     </div>
-                                    <h2 className="text-2xl font-black text-gray-900 mb-8 uppercase tracking-tight flex items-center gap-3">
-                                        <div className="w-2 h-8 bg-primary-burgundy rounded-full" />
-                                        Instrucciones rápidas
-                                    </h2>
+                                    <div className="space-y-4 mb-12">
+                                        <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter flex items-center gap-4">
+                                            <div className="w-2 h-10 bg-primary-green rounded-full shadow-sm shadow-primary-green/20" />
+                                            Guía para profesionales
+                                        </h2>
+                                        <p className="text-gray-400 font-bold uppercase tracking-widest text-xs italic">Información esencial para el envío de muestras.</p>
+                                    </div>
 
-                                    <div className="grid md:grid-cols-2 gap-8">
-                                        <div className="space-y-6">
-                                            <div className="flex gap-4">
-                                                <div className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center flex-shrink-0 font-black text-primary-burgundy">1</div>
-                                                <div>
-                                                    <h3 className="font-bold text-gray-900 uppercase text-sm tracking-wide mb-1">Solicitud de análisis</h3>
-                                                    <p className="text-sm text-gray-500 leading-relaxed italic">
-                                                        Completar el formulario desde la solapa <strong className="text-gray-900">"SOLICITUD DE ANALISIS"</strong> antes de enviar cualquier muestra.
+                                    <div className="grid lg:grid-cols-2 gap-12 relative z-10">
+                                        <div className="space-y-10">
+                                            <div className="flex gap-6 items-start group/item">
+                                                <div className="w-12 h-12 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-center flex-shrink-0 font-black text-primary-green group-hover/item:bg-primary-green group-hover/item:text-white transition-all duration-300">1</div>
+                                                <div className="space-y-2">
+                                                    <h3 className="font-black text-gray-900 uppercase text-xs tracking-widest">Solicitud de análisis</h3>
+                                                    <p className="text-sm text-gray-500 leading-relaxed italic font-medium uppercase tracking-tight">
+                                                        Completar el formulario desde la solapa <strong className="text-primary-green">"SOLICITUD DE ANALISIS"</strong> antes de enviar cualquier muestra para asegurar la trazabilidad.
                                                     </p>
                                                 </div>
                                             </div>
 
-                                            <div className="flex gap-4">
-                                                <div className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center flex-shrink-0 font-black text-primary-burgundy">2</div>
-                                                <div>
-                                                    <h3 className="font-bold text-gray-900 uppercase text-sm tracking-wide mb-1">Informes</h3>
-                                                    <p className="text-sm text-gray-500 leading-relaxed italic">
-                                                        Los resultados pueden consultarse en la solapa <strong className="text-gray-900">"RESULTADOS"</strong>.
+                                            <div className="flex gap-6 items-start group/item">
+                                                <div className="w-12 h-12 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-center flex-shrink-0 font-black text-primary-green group-hover/item:bg-primary-green group-hover/item:text-white transition-all duration-300">2</div>
+                                                <div className="space-y-2">
+                                                    <h3 className="font-black text-gray-900 uppercase text-xs tracking-widest">Informes</h3>
+                                                    <p className="text-sm text-gray-500 leading-relaxed italic font-medium uppercase tracking-tight">
+                                                        Los resultados pueden consultarse en tiempo real desde la solapa <strong className="text-primary-green">"RESULTADOS"</strong> con su usuario y contraseña.
                                                     </p>
                                                 </div>
                                             </div>
 
-                                            <div className="flex gap-4">
-                                                <div className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center flex-shrink-0 font-black text-primary-burgundy">3</div>
-                                                <div>
-                                                    <h3 className="font-bold text-gray-900 uppercase text-sm tracking-wide mb-1">Lista de precios</h3>
-                                                    <p className="text-sm text-gray-500 leading-relaxed italic">
-                                                        Valores actualizados disponibles en <strong className="text-gray-900">"LISTA DE PRECIOS"</strong>.
+                                            <div className="flex gap-6 items-start group/item">
+                                                <div className="w-12 h-12 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-center flex-shrink-0 font-black text-primary-green group-hover/item:bg-primary-green group-hover/item:text-white transition-all duration-300">3</div>
+                                                <div className="space-y-2">
+                                                    <h3 className="font-black text-gray-900 uppercase text-xs tracking-widest">Lista de precios</h3>
+                                                    <p className="text-sm text-gray-500 leading-relaxed italic font-medium uppercase tracking-tight">
+                                                        Valores actualizados y convertidor NBU disponibles en <strong className="text-primary-green">"LISTA DE PRECIOS"</strong>.
                                                     </p>
                                                 </div>
                                             </div>
@@ -245,32 +253,50 @@ export default function DerivacionesPage() {
 
                                         <div className="space-y-8">
                                             {/* Reception Hours */}
-                                            <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-6">
-                                                <h3 className="font-black text-gray-900 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
-                                                    <Clock className="text-primary-green" size={16} />
-                                                    Horarios de recepción
-                                                </h3>
-                                                <div className="space-y-3">
-                                                    <p className="text-sm font-bold text-gray-700">Lunes a Viernes: 7:00 a 11:00 hs y 16:00 a 19:00 hs.</p>
-                                                    <p className="text-sm font-bold text-gray-700">Sábados: 8:00 a 11:00 hs.</p>
-                                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-relaxed italic mt-4">
-                                                        Urgencias reales que no puedan esperar, consultar. Fines de semanas largos, coordinar.
+                                            <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100 space-y-8 group/card">
+                                                <div className="space-y-2">
+                                                    <h3 className="font-black text-gray-900 uppercase text-[10px] tracking-[0.3em] flex items-center gap-3">
+                                                        <Clock className="text-primary-green group-hover/card:rotate-12 transition-transform" size={18} strokeWidth={3} />
+                                                        Recepción de muestras
+                                                    </h3>
+                                                    <div className="h-1 w-12 bg-primary-green/20 rounded-full" />
+                                                </div>
+                                                <div className="space-y-4">
+                                                    <div className="flex justify-between items-center border-b border-gray-50 pb-2">
+                                                        <span className="text-xs font-black text-gray-400 uppercase tracking-widest">Lunes a Viernes</span>
+                                                        <span className="text-xs font-black text-gray-900 text-right">7:00 - 11:00 hs <br /> 16:00 - 19:00 hs</span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center border-b border-gray-50 pb-2">
+                                                        <span className="text-xs font-black text-gray-400 uppercase tracking-widest">Sábados</span>
+                                                        <span className="text-xs font-black text-gray-900">8:00 - 11:00 hs</span>
+                                                    </div>
+                                                    <p className="text-[10px] font-black text-primary-green uppercase tracking-[0.2em] leading-relaxed italic mt-6 opacity-60">
+                                                        Urgencias reales que no puedan esperar, consultar previamente.
                                                     </p>
                                                 </div>
                                             </div>
 
                                             {/* Shipping Info */}
-                                            <div className="bg-primary-green/5 rounded-3xl p-8 border border-green-100 space-y-6">
-                                                <h3 className="font-black text-gray-900 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
-                                                    <Upload className="text-primary-green" size={16} />
-                                                    Envíos al laboratorio
-                                                </h3>
-                                                <ul className="space-y-3 text-sm text-gray-600 font-medium">
-                                                    <li className="flex gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-green mt-1.5 shrink-0" /> Rotular los tubos.</li>
-                                                    <li className="flex gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-green mt-1.5 shrink-0" /> Orden de prácticas facilitada por el laboratorio.</li>
-                                                    <li className="flex gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-green mt-1.5 shrink-0" /> Remitir personalmente o mediante cadete (embalar correctamente).</li>
-                                                    <li className="flex gap-3 border-t border-green-100 pt-4 mt-4"><div className="w-1.5 h-1.5 rounded-full bg-primary-green mt-1.5 shrink-0" /> <strong>Dirección:</strong> Bolívar 1002 (Esq. Chacabuco).</li>
-                                                    <li className="flex gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-green mt-1.5 shrink-0" /> <strong>Resultados:</strong> Envío por Mail o WhatsApp a las 2 hs de recibida la muestra.</li>
+                                            <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100 space-y-8">
+                                                <div className="space-y-2">
+                                                    <h3 className="font-black text-gray-900 uppercase text-[10px] tracking-[0.3em] flex items-center gap-3">
+                                                        <Upload className="text-primary-green" size={18} strokeWidth={3} />
+                                                        Requisitos de envío
+                                                    </h3>
+                                                    <div className="h-1 w-12 bg-primary-green/20 rounded-full" />
+                                                </div>
+                                                <ul className="space-y-4">
+                                                    {[
+                                                        "Rotular correctamente todos los tubos.",
+                                                        "Adjuntar orden de prácticas del laboratorio.",
+                                                        "Remitir mediante cadete con embalaje seguro.",
+                                                        "Dirección: Bolívar 1002 (Esq. Chacabuco)."
+                                                    ].map((item, idx) => (
+                                                        <li key={idx} className="flex gap-4 items-center">
+                                                            <div className="w-2 h-2 rounded-full bg-primary-green shrink-0 shadow-sm shadow-primary-green/40" />
+                                                            <span className="text-[11px] font-black text-gray-500 uppercase tracking-tight">{item}</span>
+                                                        </li>
+                                                    ))}
                                                 </ul>
                                             </div>
                                         </div>
@@ -280,10 +306,10 @@ export default function DerivacionesPage() {
                                 <div className="flex justify-center">
                                     <button
                                         onClick={() => setActiveTab("SOLICITUD")}
-                                        className="bg-primary-burgundy text-white px-10 py-5 rounded-2xl font-black text-xs tracking-[0.2em] uppercase shadow-xl hover:shadow-primary-burgundy/20 hover:scale-105 transition-all flex items-center gap-3"
+                                        className="bg-primary-green text-white px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-2xl shadow-primary-green/20 hover:scale-105 transition-all flex items-center gap-4 group"
                                     >
                                         Comenzar Solicitud
-                                        <ArrowRight size={18} />
+                                        <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" strokeWidth={3} />
                                     </button>
                                 </div>
                             </motion.div>
@@ -292,110 +318,96 @@ export default function DerivacionesPage() {
                         {activeTab === "SOLICITUD" && (
                             <motion.div
                                 key="solicitud"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="bg-white rounded-[2.5rem] border border-gray-100 p-8 md:p-12 shadow-sm"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                className="bg-white rounded-[3rem] border border-gray-100 p-12 md:p-20 shadow-xl shadow-gray-100/50"
                             >
-                                <div className="mb-10 pt-10 px-12">
-                                    <h2 className="text-3xl font-black text-gray-900 mb-4 uppercase tracking-tight">SOLICITUD DE DERIVACION</h2>
-                                    <p className="text-gray-600 text-sm leading-relaxed">
-                                        Completa el formulario, llegara una copia de la derivacion. Envia las muestras en el horario indicado y manteniendo las condiciones de Bioseguridad correspondientes. Consulta los resultados desde la Web y ademas recibiras una copia al mail.
+                                <div className="mb-14 space-y-4 text-center">
+                                    <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter">Formulario de <span className="text-primary-green">Derivación</span></h2>
+                                    <div className="h-1.5 w-24 bg-primary-green mx-auto rounded-full" />
+                                    <p className="text-gray-400 text-lg font-bold italic uppercase tracking-wider max-w-2xl mx-auto text-sm">
+                                        Completa los datos de la muestra para generar el protocolo de recepción. recibirás una copia en tu mail.
                                     </p>
-
                                 </div>
 
                                 {submitted ? (
-                                    <div className="text-center py-12 space-y-6">
-                                        <div className="w-20 h-20 bg-[#68d378] text-white rounded-[2rem] flex items-center justify-center mx-auto shadow-lg shadow-green-100">
-                                            <Check size={40} />
+                                    <div className="text-center py-20 space-y-10">
+                                        <div className="w-24 h-24 bg-primary-green text-white rounded-[2.5rem] flex items-center justify-center mx-auto shadow-2xl shadow-primary-green/30 animate-bounce">
+                                            <Check size={48} strokeWidth={4} />
                                         </div>
-                                        <div>
-                                            <h3 className="text-2xl font-black text-gray-800 uppercase tracking-tight">Solicitud Enviada</h3>
-                                            <p className="text-gray-500 mt-2">Hemos recibido los datos de la derivación correctamente.</p>
+                                        <div className="space-y-4">
+                                            <h3 className="text-3xl font-black text-gray-900 uppercase tracking-tighter">¡Solicitud Exitosa!</h3>
+                                            <p className="text-gray-500 font-medium italic uppercase tracking-widest text-sm">Hemos recibido la información de la muestra correctamente.</p>
                                         </div>
                                         <button
                                             onClick={() => setSubmitted(false)}
-                                            className="px-8 py-3 bg-white border border-gray-200 text-gray-600 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-gray-50 transition-all font-black"
+                                            className="px-10 py-5 bg-white border border-gray-100 text-gray-900 rounded-full font-black text-[10px] uppercase tracking-[0.3em] shadow-lg hover:shadow-primary-green/20 transition-all"
                                         >
                                             Nueva Solicitud
                                         </button>
                                     </div>
                                 ) : (
-                                    <form onSubmit={handleSubmit} className="space-y-8">
-                                        {/* Email Section */}
-                                        <div className="space-y-4 p-6 bg-white border border-gray-100 rounded-2xl">
-                                            <label className="text-sm font-bold text-gray-700">Correo electrónico *</label>
-                                            <div className="relative">
+                                    <form onSubmit={handleSubmit} className="space-y-10">
+                                        {/* Field Group */}
+                                        <div className="grid md:grid-cols-2 gap-8">
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-4 italic">Laboratorio Originante *</label>
+                                                <input
+                                                    required
+                                                    type="text"
+                                                    placeholder="Nombre del laboratorio"
+                                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all"
+                                                    value={formData.labName}
+                                                    onChange={(e) => setFormData({ ...formData, labName: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-4 italic">Correo Electrónico *</label>
                                                 <input
                                                     required
                                                     type="email"
-                                                    placeholder="Tu respuesta"
-                                                    className="w-full border-b border-gray-200 py-3 outline-none focus:border-primary-burgundy transition-colors text-sm font-bold bg-transparent"
+                                                    placeholder="ejemplo@correo.com"
+                                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all"
                                                     value={formData.email}
                                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                 />
                                             </div>
                                         </div>
 
-                                        {/* Laboratorio Section */}
-                                        <div className="space-y-4 p-6 bg-white border border-gray-100 rounded-2xl">
-                                            <label className="text-sm font-bold text-gray-700 uppercase tracking-tight">LABORATORIO:</label>
-                                            <div className="relative">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Tu respuesta"
-                                                    className="w-full border-b border-gray-200 py-3 outline-none focus:border-primary-burgundy transition-colors text-sm font-bold bg-transparent"
-                                                    value={formData.labName}
-                                                    onChange={(e) => setFormData({ ...formData, labName: e.target.value })}
-                                                />
-                                            </div>
+                                        <div className="space-y-3">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-4 italic">Protocolo / Paciente / Observaciones *</label>
+                                            <textarea
+                                                required
+                                                placeholder="Detalles del paciente y observaciones relevantes"
+                                                rows={3}
+                                                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all resize-none"
+                                                value={formData.patient}
+                                                onChange={(e) => setFormData({ ...formData, patient: e.target.value })}
+                                            />
                                         </div>
-
-                                        {/* Protocolo/Paciente Section */}
-                                        <div className="space-y-4 p-6 bg-white border border-gray-100 rounded-2xl">
-                                            <label className="text-sm font-bold text-gray-700 uppercase tracking-tight">N° DE PROTOCOLO / PACIENTE / OBSERVACIONES:</label>
-                                            <div className="relative">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Tu respuesta"
-                                                    className="w-full border-b border-gray-200 py-3 outline-none focus:border-primary-burgundy transition-colors text-sm font-bold bg-transparent"
-                                                    value={formData.patient}
-                                                    onChange={(e) => setFormData({ ...formData, patient: e.target.value })}
-                                                />
-                                            </div>
-                                        </div>
-
-
 
                                         {/* Determinaciones Section */}
-                                        <div className="space-y-6 p-6 bg-white border border-gray-100 rounded-2xl">
-                                            <label className="text-sm font-bold text-gray-700 uppercase tracking-tight">DETERMINACIONES</label>
-                                            <div className="grid md:grid-cols-2 gap-y-4 gap-x-8">
+                                        <div className="bg-gray-50/50 rounded-[2rem] p-8 md:p-12 border border-gray-100 space-y-10">
+                                            <div className="space-y-2">
+                                                <h3 className="font-black text-gray-900 uppercase text-xs tracking-[0.4em] flex items-center gap-4">
+                                                    <div className="w-1.5 h-6 bg-primary-green rounded-full shadow-sm shadow-primary-green/20" />
+                                                    Estudios Solicitados
+                                                </h3>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-12">
                                                 {[
-                                                    "ANTIBIOGRAMA",
-                                                    "BACILOSCOPIA",
-                                                    "COPROCULTIVO",
-                                                    "CULTIVO",
-                                                    "CULTIVO BACILOS ÁCIDO-ALCOHOL RESISTENTES",
-                                                    "HEMOCULTIVO",
-                                                    "ESTADO ACIDO BASE",
-                                                    "ESPERMOCULTIVO",
-                                                    "ESPERMOGRAMA",
-                                                    "FLUJO VAGINAL",
-                                                    "HISOPADO ANAL - STREPTO B",
-                                                    "HISOPADO VAGINAL - STREPTO B",
-                                                    "MICOLOGICO",
-                                                    "MICROALBUMINURIA 24 HS",
-                                                    "PROTEINURIA 24 HS",
-                                                    "RAC",
-                                                    "UREAPLASMA - MICOPLASMA",
-                                                    "UROCULTIVO",
-                                                    "PRC"
+                                                    "ANTIBIOGRAMA", "BACILOSCOPIA", "COPROCULTIVO",
+                                                    "CULTIVO", "CULTIVO B.A.A.R.", "HEMOCULTIVO",
+                                                    "ESTADO ACIDO BASE", "ESPERMOCULTIVO", "ESPERMOGRAMA",
+                                                    "FLUJO VAGINAL", "STREPTO B - HIS. ANAL", "STREPTO B - HIS. VAGINAL",
+                                                    "MICOLOGICO", "MICROALBUMINURIA 24 HS", "PROTEINURIA 24 HS",
+                                                    "RAC", "UREAPLASMA / MICOPLASMA", "UROCULTIVO", "PCR"
                                                 ].map(opt => (
-                                                    <label key={opt} className="flex items-start gap-3 cursor-pointer group">
-                                                        <div className={`w-5 h-5 rounded border-2 mt-0.5 transition-all flex items-center justify-center shrink-0 ${formData.analysisType.includes(opt) ? 'bg-primary-green border-primary-green' : 'border-gray-200 group-hover:border-green-300'}`}>
-                                                            {formData.analysisType.includes(opt) && <Check size={14} className="text-white" />}
+                                                    <label key={opt} className="flex items-center gap-4 cursor-pointer group select-none">
+                                                        <div className={`w-5 h-5 rounded-lg border-2 transition-all flex items-center justify-center shrink-0 ${formData.analysisType.includes(opt) ? 'bg-primary-green border-primary-green' : 'bg-white border-gray-100 group-hover:border-primary-green/40'}`}>
+                                                            {formData.analysisType.includes(opt) && <Check size={12} className="text-white" strokeWidth={4} />}
                                                         </div>
                                                         <input
                                                             type="checkbox"
@@ -409,19 +421,23 @@ export default function DerivacionesPage() {
                                                                 }
                                                             }}
                                                         />
-                                                        <span className={`text-xs font-bold leading-tight ${formData.analysisType.includes(opt) ? 'text-gray-900 font-black' : 'text-gray-500'}`}>{opt}</span>
+                                                        <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${formData.analysisType.includes(opt) ? 'text-gray-900' : 'text-gray-400 group-hover:text-gray-600'}`}>{opt}</span>
                                                     </label>
                                                 ))}
+                                            </div>
 
-                                                <div className="flex items-center gap-3 group focus-within:border-green-300 transition-all">
-                                                    <div className={`w-5 h-5 rounded border-2 shrink-0 flex items-center justify-center ${formData.otherAnalysis ? 'bg-primary-green border-primary-green' : 'border-gray-200'}`}>
-                                                        {formData.otherAnalysis && <Check size={14} className="text-white" />}
+                                            <div className="pt-8 border-t border-gray-100">
+                                                <div className="flex items-center gap-6">
+                                                    <div className="flex-shrink-0 flex items-center gap-3">
+                                                        <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all ${formData.otherAnalysis ? 'bg-primary-green border-primary-green' : 'bg-white border-gray-100'}`}>
+                                                            {formData.otherAnalysis && <Check size={12} className="text-white" strokeWidth={4} />}
+                                                        </div>
+                                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">OTRO ESTUDIO:</span>
                                                     </div>
-                                                    <span className="text-xs font-bold text-gray-500 min-w-max">Otro:</span>
                                                     <input
                                                         type="text"
-                                                        placeholder="Tu respuesta"
-                                                        className="flex-grow bg-transparent border-b border-gray-100 py-1 outline-none text-xs font-bold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:border-primary-green transition-colors"
+                                                        placeholder="Especificar aquí..."
+                                                        className="flex-grow bg-transparent border-b-2 border-gray-100 py-2 outline-none text-[10px] font-black text-gray-900 placeholder:text-gray-200 focus:border-primary-green transition-colors uppercase tracking-widest"
                                                         value={formData.otherAnalysis}
                                                         onChange={(e) => setFormData({ ...formData, otherAnalysis: e.target.value })}
                                                     />
@@ -429,13 +445,13 @@ export default function DerivacionesPage() {
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between pt-10 border-t border-gray-50">
+                                        <div className="flex flex-col sm:flex-row items-center justify-between gap-8 pt-6">
                                             <button
                                                 type="submit"
                                                 disabled={isSubmitting}
-                                                className="bg-[#6b51c1] text-white px-10 py-3 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl shadow-purple-100 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+                                                className="w-full sm:w-fit bg-primary-green text-white px-16 py-6 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl shadow-green-100 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
                                             >
-                                                {isSubmitting ? "Enviando..." : "Enviar"}
+                                                {isSubmitting ? "PROCESANDO..." : "ENVIAR SOLICITUD"}
                                             </button>
                                             <button
                                                 type="button"
@@ -448,9 +464,10 @@ export default function DerivacionesPage() {
                                                     analysisType: [],
                                                     otherAnalysis: ""
                                                 })}
-                                                className="text-primary-burgundy font-bold text-xs tracking-tight hover:underline transition-colors"
+                                                className="text-gray-400 font-bold text-[10px] tracking-[0.2em] uppercase hover:text-primary-burgundy transition-colors flex items-center gap-2 italic"
                                             >
-                                                Borrar formulario
+                                                <Clock size={14} />
+                                                LIMPIAR FORMULARIO
                                             </button>
                                         </div>
                                     </form>
@@ -464,16 +481,25 @@ export default function DerivacionesPage() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="flex flex-col items-center justify-center py-24 text-center space-y-8"
+                                className="flex flex-col items-center justify-center py-32 text-center space-y-12 bg-white rounded-[3rem] border border-gray-100 shadow-xl shadow-gray-100/50"
                             >
-                                <div className="w-24 h-24 bg-blue-50 text-primary-green rounded-[2.5rem] flex items-center justify-center shadow-inner">
-                                    <Microscope size={48} />
+                                <div className="w-32 h-32 bg-gray-50 text-primary-green rounded-[3rem] flex items-center justify-center shadow-lg border border-gray-100 group hover:scale-110 transition-transform duration-500">
+                                    <Microscope size={64} strokeWidth={1.5} className="group-hover:rotate-12 transition-transform" />
                                 </div>
-                                <div>
-                                    <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Portal de Resultados</h2>
-                                    <p className="text-gray-500 mt-2 max-w-sm mx-auto">Acceda con sus credenciales para visualizar y descargar los informes de derivaciones.</p>
+                                <div className="space-y-4">
+                                    <h2 className="text-4xl font-black text-gray-900 uppercase tracking-tighter">Portal de <span className="text-primary-green">Resultados</span></h2>
+                                    <p className="text-gray-400 text-lg font-bold italic uppercase tracking-wider max-w-sm mx-auto text-sm">Acceda con sus credenciales de profesional para visualizar informes.</p>
                                 </div>
 
+                                <div className="flex flex-col gap-6">
+                                    <Link
+                                        href="/admin/login"
+                                        className="bg-primary-green text-white px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl shadow-green-100 hover:scale-105 transition-all"
+                                    >
+                                        INGRESAR AL PORTAL
+                                    </Link>
+                                    <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] italic">¿No tiene usuario? Contáctenos para solicitar el alta.</p>
+                                </div>
                             </motion.div>
                         )}
 
@@ -483,71 +509,80 @@ export default function DerivacionesPage() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="space-y-6"
+                                className="space-y-10"
                             >
-                                <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-gray-100 pb-6">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-orange-50 text-orange-400 rounded-2xl flex items-center justify-center shadow-inner shrink-0">
-                                            <DollarSign size={24} />
+                                <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-gray-100 shadow-xl shadow-gray-100/50 flex flex-col md:flex-row items-center justify-between gap-8">
+                                    <div className="flex items-center gap-6">
+                                        <div className="w-16 h-16 bg-gray-50 text-primary-green rounded-2xl flex items-center justify-center shadow-sm border border-gray-100 shrink-0">
+                                            <DollarSign size={32} strokeWidth={2.5} />
                                         </div>
-                                        <div>
-                                            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight">Lista de Precios</h2>
-                                            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">
-                                                NBU actual: <span className="text-primary-green">$ {nbuValue}</span>
-                                            </p>
+                                        <div className="space-y-1">
+                                            <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter">Nomenclador</h2>
+                                            <div className="flex items-center gap-3">
+                                                <div className="px-3 py-1 bg-primary-green/10 rounded-full border border-primary-green/20">
+                                                    <p className="text-[10px] font-black text-primary-green uppercase tracking-[0.2em]">
+                                                        VALOR NBU: $ {nbuValue.toLocaleString("es-AR")}
+                                                    </p>
+                                                </div>
+                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] italic">Vigencia: {validity}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="max-w-xs w-full relative">
-                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+
+                                    <div className="w-full md:max-w-xs relative group">
+                                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary-green transition-colors" size={18} strokeWidth={3} />
                                         <input
                                             type="text"
-                                            placeholder="Buscar estudio..."
+                                            placeholder="BUSCAR ANÁLISIS..."
                                             value={priceSearch}
                                             onChange={(e) => setPriceSearch(e.target.value)}
-                                            className="w-full bg-gray-50 border border-gray-100 rounded-xl py-2 pl-10 pr-4 outline-none focus:ring-2 focus:ring-[#68d378] transition-all text-xs font-bold text-gray-800"
+                                            className="w-full bg-gray-50 border border-gray-100 rounded-full py-5 pl-14 pr-6 outline-none focus:ring-4 focus:ring-primary-green/10 focus:border-primary-green text-[10px] font-black text-gray-800 placeholder:text-gray-300 transition-all uppercase tracking-widest"
                                         />
                                     </div>
                                 </div>
 
-                                <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden">
+                                <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-2xl overflow-hidden">
                                     <div className="overflow-x-auto">
                                         <table className="w-full border-collapse">
                                             <thead>
-                                                <tr className="bg-gray-50/50 border-b border-gray-100">
-                                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-left">Análisis</th>
-                                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center bg-green-50 text-[#68d378]">Precio ($)</th>
-                                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">Vigencia</th>
+                                                <tr className="bg-gray-50/50">
+                                                    <th className="px-10 py-8 text-[11px] font-black text-gray-400 uppercase tracking-[0.3em] text-left">Determinación</th>
+                                                    <th className="px-10 py-8 text-[11px] font-black text-primary-green uppercase tracking-[0.3em] text-center bg-primary-green/5">Precio Final ($)</th>
+                                                    <th className="px-10 py-8 text-[11px] font-black text-gray-400 uppercase tracking-[0.3em] text-right">Observaciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-50">
                                                 {loadingPrices ? (
                                                     <tr>
-                                                        <td colSpan={3} className="px-8 py-20 text-center">
-                                                            <div className="flex flex-col items-center gap-4 animate-pulse">
-                                                                <div className="w-8 h-8 border-4 border-[#68d378] border-t-transparent rounded-full animate-spin" />
-                                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Cargando valores...</p>
+                                                        <td colSpan={3} className="px-10 py-32 text-center">
+                                                            <div className="flex flex-col items-center gap-6">
+                                                                <div className="w-12 h-12 border-4 border-primary-green border-t-transparent rounded-full animate-spin shadow-lg shadow-primary-green/20" />
+                                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em] animate-pulse">Sincronizando valores...</p>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 ) : prices.filter(p => p.name.toLowerCase().includes(priceSearch.toLowerCase())).length === 0 ? (
                                                     <tr>
-                                                        <td colSpan={3} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
-                                                            No se encontraron resultados
+                                                        <td colSpan={3} className="px-10 py-32 text-center text-gray-300 font-black uppercase tracking-[0.3em] text-[10px] italic">
+                                                            No se encontraron resultados para "{priceSearch}"
                                                         </td>
                                                     </tr>
                                                 ) : (
                                                     prices
                                                         .filter(p => p.name.toLowerCase().includes(priceSearch.toLowerCase()))
                                                         .map((item) => (
-                                                            <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
-                                                                <td className="px-8 py-4 font-black text-gray-800 tracking-tight uppercase text-sm">
-                                                                    {item.name}
+                                                            <tr key={item.id} className="hover:bg-gray-50 transition-colors group">
+                                                                <td className="px-10 py-6">
+                                                                    <p className="font-black text-gray-800 tracking-tight uppercase text-sm group-hover:text-primary-green transition-colors">{item.name}</p>
                                                                 </td>
-                                                                <td className="px-8 py-4 text-center font-black text-gray-900 bg-green-50/30">
+                                                                <td className="px-10 py-6 text-center font-black text-gray-900 bg-primary-green/5 text-lg tracking-tighter">
                                                                     $ {(item.nbuUnits * nbuValue).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                                                 </td>
-                                                                <td className="px-8 py-4 text-right text-[10px] font-bold text-gray-400 uppercase">
-                                                                    {validity}
+                                                                <td className="px-10 py-6 text-right">
+                                                                    <div className="flex flex-col items-end gap-1">
+                                                                        <span className="text-[9px] font-black text-gray-300 uppercase tracking-widest leading-none">VIGENTE AL</span>
+                                                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-tight">{validity}</span>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         ))
@@ -556,11 +591,13 @@ export default function DerivacionesPage() {
                                         </table>
                                     </div>
                                 </div>
+
                                 <div className="text-center pt-8">
-                                    <button className="bg-gray-900 text-white px-10 py-4 rounded-2xl font-black text-xs tracking-[0.2em] uppercase shadow-xl hover:bg-black hover:scale-105 transition-all flex items-center gap-3 mx-auto">
-                                        <FileText size={18} />
-                                        Descargar LISTA COMPLETA (PDF)
+                                    <button className="bg-white text-gray-900 border border-gray-100 px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-lg hover:border-primary-green transition-all flex items-center gap-4 mx-auto group">
+                                        <FileText size={18} strokeWidth={2.5} className="text-primary-green group-hover:scale-110 transition-transform" />
+                                        Descargar LISTA COMPLETA
                                     </button>
+                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-6 italic">Documento PDF optimizado para impresión</p>
                                 </div>
                             </motion.div>
                         )}

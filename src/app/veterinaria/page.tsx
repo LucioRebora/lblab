@@ -126,7 +126,7 @@ export default function VeterinariaPage() {
 
                 {/* Tabs Section */}
                 <div className="mb-12 flex justify-center px-4 overflow-x-auto">
-                    <div className="bg-gray-50 p-2 rounded-2xl flex gap-1 min-w-max border border-gray-100 shadow-inner">
+                    <div className="bg-sage-bg p-2 rounded-[2rem] flex gap-1 min-w-max border border-white shadow-sm">
                         {tabs.map((tab) => (
                             <button
                                 key={tab.id}
@@ -135,8 +135,8 @@ export default function VeterinariaPage() {
                                     setIsSubmitted(false);
                                 }}
                                 className={`px-6 py-4 rounded-xl font-black text-[10px] tracking-[0.2em] transition-all flex items-center gap-3 ${activeTab === tab.id
-                                    ? "bg-[#68d378] text-white shadow-lg shadow-green-200"
-                                    : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                                    ? "bg-primary-green text-white shadow-lg shadow-primary-green/20"
+                                    : "text-gray-400 hover:text-gray-600 hover:bg-white"
                                     }`}
                             >
                                 <tab.icon size={16} />
@@ -157,8 +157,8 @@ export default function VeterinariaPage() {
                                 className="space-y-10"
                             >
                                 <div className="bg-white rounded-[2.5rem] border border-gray-100 p-8 md:p-12 shadow-xl shadow-gray-100/50">
-                                    <h2 className="text-2xl font-black text-gray-900 mb-10 uppercase tracking-tight flex items-center gap-3">
-                                        <div className="w-2 h-8 bg-primary-green rounded-full" />
+                                    <h2 className="text-2xl font-black text-primary-green mb-10 uppercase tracking-tight flex items-center gap-3">
+                                        <div className="w-2 h-8 bg-primary-green rounded-full shadow-sm shadow-primary-green/20" />
                                         Indicaciones para toma de muestras
                                     </h2>
 
@@ -214,10 +214,10 @@ export default function VeterinariaPage() {
                                     </div>
 
                                     {/* Reception Hours */}
-                                    <div className="bg-gray-50 rounded-[2rem] p-8 border border-gray-100 mb-8">
+                                    <div className="bg-sage-bg/50 rounded-[2rem] p-8 border border-white mb-8 shadow-sm">
                                         <div className="flex items-center gap-3 mb-6">
                                             <Calendar className="text-primary-green" size={20} />
-                                            <h3 className="font-black text-gray-900 uppercase text-xs tracking-[0.2em]">Horarios de recepción</h3>
+                                            <h3 className="font-black text-gray-900 uppercase text-[10px] tracking-[0.2em]">Horarios de recepción</h3>
                                         </div>
                                         <div className="space-y-3 pl-8">
                                             <p className="text-sm font-bold text-gray-700">Lunes a Viernes: 7:00 a 11:00 hs y 16:00 a 19:00 hs.</p>
@@ -227,10 +227,10 @@ export default function VeterinariaPage() {
                                     </div>
 
                                     {/* Shipping Info */}
-                                    <div className="bg-primary-green/5 rounded-[2rem] p-8 border border-green-100">
+                                    <div className="bg-sage-bg rounded-[2rem] p-8 border border-white shadow-sm">
                                         <div className="flex items-center gap-3 mb-6">
                                             <div className="bg-primary-green w-1.5 h-6 rounded-full" />
-                                            <h3 className="font-black text-gray-900 uppercase text-xs tracking-[0.2em]">Envíos al laboratorio</h3>
+                                            <h3 className="font-black text-gray-900 uppercase text-[10px] tracking-[0.2em]">Envíos al laboratorio</h3>
                                         </div>
                                         <ul className="space-y-3 text-sm text-gray-600 font-medium list-none pl-4">
                                             <li className="flex items-start gap-4">
@@ -249,7 +249,7 @@ export default function VeterinariaPage() {
                                                 <div className="w-1.5 h-1.5 rounded-full bg-primary-green mt-1.5 flex-shrink-0" />
                                                 <p><strong className="text-gray-900">Dirección:</strong> Bolívar 1002 (Esq. Chacabuco). Gualeguaychú, Entre Ríos.</p>
                                             </li>
-                                            <li className="flex items-start gap-4 italic border-t border-green-100 pt-4 mt-4">
+                                            <li className="flex items-start gap-4 italic border-t border-primary-green/10 pt-4 mt-4">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-primary-green mt-1.5 flex-shrink-0" />
                                                 <p><strong className="text-gray-900">Resultados:</strong> Envío por Mail o WhatsApp a las 2 hs de recibida la muestra.</p>
                                             </li>

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { Droplets, Microscope, Calendar, ClipboardList, Info, ShieldCheck, FileText, CheckCircle2, Mail, Stethoscope, User, Clock, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { Droplets, Microscope, Calendar, ClipboardList, Info, ShieldCheck, FileText, CheckCircle2, Mail, Stethoscope, User, Clock, ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Phone } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -52,12 +52,12 @@ export default function PRPPage() {
         }
     }, [formData.date]);
 
-    const tabs: { id: TabType; label: string }[] = [
-        { id: "TURNOS", label: "TURNOS" },
-        { id: "APLICACIONES", label: "APLICACIONES" },
-        { id: "PREPARACION", label: "PREPARACION" },
-        { id: "CONSENTIMIENTO", label: "CONSENTIMIENTO" },
-        { id: "INFORME", label: "INFORME" },
+    const tabs: { id: TabType; label: string; icon: any }[] = [
+        { id: "TURNOS", label: "TURNOS", icon: Calendar },
+        { id: "APLICACIONES", label: "APLICACIONES", icon: Microscope },
+        { id: "PREPARACION", label: "PREPARACIÓN", icon: ClipboardList },
+        { id: "CONSENTIMIENTO", label: "CONSENTIMIENTO", icon: ShieldCheck },
+        { id: "INFORME", label: "INFORME", icon: FileText },
     ];
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -108,19 +108,27 @@ export default function PRPPage() {
             <main className="pt-32 pb-20">
                 <hr className="w-full border-gray-100 mb-10" />
                 {/* Title Section */}
-                <div className="flex flex-col items-center justify-center mb-10">
-                    <div className="flex items-center gap-3 text-xl md:text-2xl font-black text-[#1a2b3c] tracking-tight">
-                        <span className="flex items-center gap-2">
-                            <span className="text-red-500 text-xl">🩸</span>
-                            <span className="text-gray-400 text-xl">🔬</span>
-                        </span>
-                        <span>PLASMA RICO EN PLAQUETA</span>
-                    </div>
+                <div className="flex flex-col items-center justify-center mb-20 px-4">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left"
+                    >
+                        <div className="bg-primary-green/5 p-5 rounded-[2rem] text-primary-green shadow-sm border border-gray-100">
+                            <Droplets size={40} strokeWidth={2.5} />
+                        </div>
+                        <div className="space-y-1">
+                            <h1 className="text-3xl md:text-6xl font-black text-[#1a2b3c] tracking-tighter uppercase leading-none">
+                                Plasma Rico <br className="hidden md:block" />
+                                <span className="text-primary-green">en Plaquetas</span>
+                            </h1>
+                        </div>
+                    </motion.div>
                 </div>
 
                 {/* Tabs Section */}
-                <div className="mb-10 flex justify-center px-4 overflow-x-auto">
-                    <div className="bg-[#f0f2f5] p-1.5 rounded-xl flex gap-1 min-w-max border border-gray-200 shadow-sm">
+                <div className="mb-16 flex justify-center px-4 overflow-x-auto">
+                    <div className="bg-sage-bg p-2 rounded-[2rem] flex gap-1 min-w-max border border-white shadow-sm">
                         {tabs.map((tab) => (
                             <button
                                 key={tab.id}
@@ -128,19 +136,19 @@ export default function PRPPage() {
                                     setActiveTab(tab.id);
                                     setSubmitted(false);
                                 }}
-                                className={`px-8 py-3 rounded-lg font-bold text-xs tracking-widest transition-all ${activeTab === tab.id
-                                    ? "bg-[#68d378] text-white shadow-md"
-                                    : "text-gray-500 hover:bg-gray-200"
+                                className={`px-8 py-5 rounded-2xl font-black text-[10px] tracking-[0.3em] transition-all flex items-center gap-4 ${activeTab === tab.id
+                                    ? "bg-primary-green text-white shadow-lg shadow-primary-green/20 scale-105"
+                                    : "text-gray-400 hover:text-gray-600 hover:bg-white"
                                     }`}
                             >
+                                <tab.icon size={16} strokeWidth={3} />
                                 {tab.label}
                             </button>
                         ))}
                     </div>
                 </div>
 
-                {/* Form / Content Container */}
-                <div className="max-w-3xl mx-auto px-6">
+                <div className="max-w-5xl mx-auto px-6">
                     <AnimatePresence mode="wait">
                         {activeTab === "TURNOS" && (
                             <motion.div
@@ -148,163 +156,195 @@ export default function PRPPage() {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
-                                className="bg-[#fff9f8] rounded-xl border border-red-100 p-10 shadow-sm"
+                                className="bg-white rounded-[2.5rem] border border-gray-100 p-8 md:p-12 shadow-xl shadow-gray-100/50 relative overflow-hidden"
                             >
                                 <div>
-                                    <h2 className="text-2xl font-bold text-gray-800 mb-2 uppercase tracking-tight">TURNO PLASMA RICO EN PLAQUETAS</h2>
-                                    <p className="text-gray-600 text-sm mb-10">
-                                        El turno solicitado por medio de este formulario quedará automáticamente programado. En el caso de algún inconveniente, nos contactaremos a la brevedad. Muchas gracias.
-                                    </p>
+                                    <div className="flex flex-col items-center text-center mb-10">
+                                        <div className="w-16 h-16 bg-primary-green/10 text-primary-green rounded-2xl flex items-center justify-center mb-4">
+                                            <Calendar size={32} />
+                                        </div>
+                                        <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight">Solicitud de Turno PRP</h3>
+                                        <p className="text-gray-500 text-sm italic mt-2 leading-relaxed max-w-lg mx-auto">
+                                            El turno solicitado quedará automáticamente programado.
+                                            <span className="text-primary-green font-black block mt-1 uppercase text-[10px] tracking-widest">Nos contactaremos ante cualquier inconveniente.</span>
+                                        </p>
+                                    </div>
 
                                     {submitted ? (
-                                        <div className="text-center py-10">
-                                            <div className="w-16 h-16 bg-[#68d378] text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <CheckCircle2 size={32} />
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            className="py-12 flex flex-col items-center text-center space-y-6"
+                                        >
+                                            <div className="w-20 h-20 bg-primary-green text-white rounded-full flex items-center justify-center shadow-xl shadow-green-100">
+                                                <CheckCircle2 size={40} />
                                             </div>
-                                            <h3 className="text-xl font-bold text-gray-800">TURNO SOLICITADO</h3>
+                                            <div className="space-y-2">
+                                                <h3 className="text-2xl font-black text-gray-900 uppercase">¡Turno Solicitado!</h3>
+                                                <p className="text-gray-500 italic">Gracias por confiar en el equipo de LB Lab.</p>
+                                            </div>
                                             <button
                                                 onClick={() => setSubmitted(false)}
-                                                className="mt-4 text-primary-burgundy font-bold text-sm hover:underline"
+                                                className="text-primary-green font-black text-[10px] uppercase tracking-widest hover:underline pt-4"
                                             >
-                                                Solicitar otro
+                                                Solicitar otro turno
                                             </button>
-                                        </div>
+                                        </motion.div>
                                     ) : (
                                         <form onSubmit={handleSubmit} className="space-y-8">
-                                            <div className="space-y-4">
-                                                <label className="block text-sm font-bold text-gray-700">Correo electrónico *</label>
-                                                <input
-                                                    required
-                                                    type="email"
-                                                    placeholder="Tu respuesta"
-                                                    className="w-full border-b border-gray-300 py-2 outline-none focus:border-primary-burgundy transition-colors text-sm"
-                                                    value={formData.email}
-                                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                />
-                                            </div>
-
-                                            <div className="space-y-4">
-                                                <label className="block text-sm font-bold text-gray-700">PROFESIONAL:</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Tu respuesta"
-                                                    className="w-full border-b border-gray-300 py-2 outline-none focus:border-primary-burgundy transition-colors text-sm"
-                                                    value={formData.professional}
-                                                    onChange={(e) => setFormData({ ...formData, professional: e.target.value })}
-                                                />
-                                            </div>
-
-                                            <div className="space-y-4">
-                                                <label className="block text-sm font-bold text-gray-700">PACIENTE:</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Tu respuesta"
-                                                    className="w-full border-b border-gray-300 py-2 outline-none focus:border-primary-burgundy transition-colors text-sm"
-                                                    value={formData.patient}
-                                                    onChange={(e) => setFormData({ ...formData, patient: e.target.value })}
-                                                />
-                                            </div>
-
-                                            <div className="space-y-6">
-                                                <div className="flex items-center justify-between">
-                                                    <label className="text-sm font-bold text-gray-700">1. SELECCIONAR DÍA</label>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setFormData({ ...formData, date: format(new Date(), "yyyy-MM-dd") })}
-                                                        className="text-[10px] font-black uppercase tracking-widest bg-white hover:bg-primary-burgundy hover:text-white px-3 py-1 rounded-full transition-all border border-gray-100 shadow-sm"
-                                                    >
-                                                        📅 Hoy
-                                                    </button>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Correo electrónico *</label>
+                                                    <div className="relative">
+                                                        <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-green/40" size={18} />
+                                                        <input
+                                                            required
+                                                            type="email"
+                                                            placeholder="Tu respuesta"
+                                                            className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                            value={formData.email}
+                                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                        />
+                                                    </div>
                                                 </div>
-                                                <div className="flex justify-center bg-white p-4 rounded-3xl border border-gray-100 shadow-sm">
-                                                    <DayPicker
-                                                        mode="single"
-                                                        selected={formData.date ? new Date(formData.date + "T12:00:00") : undefined}
-                                                        onSelect={(day) => setFormData({ ...formData, date: day ? format(day, "yyyy-MM-dd") : "" })}
-                                                        locale={es}
-                                                        disabled={{ before: new Date(new Date().setHours(0, 0, 0, 0)) }}
-                                                        modifiersClassNames={{
-                                                            selected: "!bg-primary-burgundy !text-white rounded-xl shadow-lg",
-                                                            today: "font-black text-primary-burgundy underline"
-                                                        }}
-                                                        styles={{
-                                                            caption: { color: "#8B2332", fontWeight: "900", textTransform: "capitalize", fontSize: "0.8rem" },
-                                                            head_cell: { color: "#9CA3AF", fontSize: "0.7rem", fontWeight: "900" },
-                                                            cell: { padding: "2px" }
-                                                        }}
+
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Profesional:</label>
+                                                    <div className="relative">
+                                                        <Stethoscope className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-green/40" size={18} />
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Tu respuesta"
+                                                            className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                            value={formData.professional}
+                                                            onChange={(e) => setFormData({ ...formData, professional: e.target.value })}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Paciente:</label>
+                                                <div className="relative">
+                                                    <User className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-green/40" size={18} />
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Tu respuesta"
+                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                        value={formData.patient}
+                                                        onChange={(e) => setFormData({ ...formData, patient: e.target.value })}
                                                     />
                                                 </div>
                                             </div>
 
-                                            <div className="space-y-4">
-                                                <label className="block text-sm font-bold text-gray-700">2. SELECCIONAR HORA</label>
-                                                <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
-                                                    {["07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30"].map((t) => {
-                                                        const isBooked = bookedSlots.includes(t);
-                                                        return (
-                                                            <button
-                                                                key={t}
-                                                                type="button"
-                                                                disabled={isBooked}
-                                                                onClick={() => setFormData({ ...formData, time: t })}
-                                                                className={`py-2 text-[11px] font-bold rounded-xl border transition-all ${formData.time === t
-                                                                    ? "bg-primary-burgundy text-white border-primary-burgundy shadow-md scale-105"
-                                                                    : isBooked
-                                                                        ? "bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed line-through"
-                                                                        : "bg-white text-gray-500 border-gray-100 hover:border-red-200 hover:bg-red-50"
-                                                                    }`}
-                                                            >
-                                                                {t}
-                                                            </button>
-                                                        );
-                                                    })}
-                                                </div>
-                                                {formData.date && formData.time && (
-                                                    <div className="mt-6 p-4 bg-green-50 rounded-2xl border border-green-100 flex items-center gap-4 animate-in fade-in slide-in-from-bottom-2">
-                                                        <div className="bg-white p-2 rounded-lg shadow-sm">
-                                                            <Calendar size={16} className="text-green-600" />
-                                                        </div>
-                                                        <div>
-                                                            <p className="text-[10px] font-black text-green-700 uppercase tracking-widest">Turno Confirmado</p>
-                                                            <p className="text-sm font-bold text-green-900">
-                                                                {format(new Date(formData.date + "T12:00:00"), "EEEE d 'de' MMMM", { locale: es })} a las {formData.time} hs
-                                                            </p>
-                                                        </div>
+                                            <div className="grid lg:grid-cols-2 gap-12 items-start py-6 border-y border-gray-50">
+                                                <div className="space-y-6">
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">1. Seleccionar Día</label>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setFormData({ ...formData, date: format(new Date(), "yyyy-MM-dd") })}
+                                                            className="text-[10px] font-black uppercase tracking-widest bg-gray-50 hover:bg-primary-green hover:text-white px-4 py-2 rounded-full transition-all border border-gray-100 shadow-sm"
+                                                        >
+                                                            📅 Hoy
+                                                        </button>
                                                     </div>
-                                                )}
+                                                    <div className="flex justify-center bg-gray-50/50 p-6 rounded-[2.5rem] border border-gray-100">
+                                                        <DayPicker
+                                                            mode="single"
+                                                            selected={formData.date ? new Date(formData.date + "T12:00:00") : undefined}
+                                                            onSelect={(day) => setFormData({ ...formData, date: day ? format(day, "yyyy-MM-dd") : "" })}
+                                                            locale={es}
+                                                            disabled={{ before: new Date(new Date().setHours(0, 0, 0, 0)) }}
+                                                            modifiersClassNames={{
+                                                                selected: "!bg-primary-green !text-white rounded-xl shadow-lg",
+                                                                today: "font-black text-primary-green underline decoration-2 offset-4"
+                                                            }}
+                                                            styles={{
+                                                                caption: { color: "#1a5f42", fontWeight: "900", textTransform: "uppercase", fontSize: "0.8rem", letterSpacing: "0.2em" },
+                                                                head_cell: { color: "#9CA3AF", fontSize: "0.7rem", fontWeight: "900", textTransform: "uppercase", letterSpacing: "0.1em" },
+                                                                cell: { padding: "4px" }
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div className="space-y-6">
+                                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2 block">2. Seleccionar Hora</label>
+                                                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 bg-gray-50/50 p-6 rounded-[2.5rem] border border-gray-100">
+                                                        {["07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30"].map((t) => {
+                                                            const isBooked = bookedSlots.includes(t);
+                                                            return (
+                                                                <button
+                                                                    key={t}
+                                                                    type="button"
+                                                                    disabled={isBooked}
+                                                                    onClick={() => setFormData({ ...formData, time: t })}
+                                                                    className={`py-3 text-[11px] font-black rounded-xl border-2 transition-all ${formData.time === t
+                                                                        ? "bg-primary-green text-white border-primary-green shadow-lg scale-105"
+                                                                        : isBooked
+                                                                            ? "bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed line-through"
+                                                                            : "bg-white text-gray-400 border-gray-100 hover:border-primary-green/20 hover:text-primary-green hover:bg-primary-green/5"
+                                                                        }`}
+                                                                >
+                                                                    {t}
+                                                                </button>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                    {formData.date && formData.time && (
+                                                        <motion.div
+                                                            initial={{ opacity: 0, y: 10 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            className="p-5 bg-white rounded-3xl border border-primary-green/20 flex items-center gap-5 shadow-lg"
+                                                        >
+                                                            <div className="bg-primary-green/10 p-3 rounded-2xl text-primary-green">
+                                                                <Clock size={20} />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-[9px] font-black text-primary-green uppercase tracking-[0.2em] mb-1">Confirmación de Horario</p>
+                                                                <p className="text-sm font-black text-gray-900 uppercase tracking-tight">
+                                                                    {format(new Date(formData.date + "T12:00:00"), "EEEE d 'de' MMMM", { locale: es })} <span className="text-primary-green mx-1 opacity-20">|</span> {formData.time} hs
+                                                                </p>
+                                                            </div>
+                                                        </motion.div>
+                                                    )}
+                                                </div>
                                             </div>
 
                                             <div className="space-y-6">
-                                                <label className="block text-sm font-bold text-gray-700">PREPARACION:</label>
-                                                <div className="space-y-3">
+                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Preparación:</label>
+                                                <div className="grid sm:grid-cols-2 gap-4 bg-gray-50/50 p-6 rounded-[2rem] border border-gray-100">
                                                     {["PRP 3 ML + PPP 4 ML", "PRP 6 ML + PPP 8 ML"].map(opt => (
-                                                        <label key={opt} className="flex items-center gap-3 cursor-pointer group">
-                                                            <input
-                                                                type="checkbox"
-                                                                className="w-4 h-4 rounded border-gray-300 text-primary-burgundy"
-                                                                checked={formData.preparation.includes(opt)}
-                                                                onChange={(e) => {
-                                                                    if (e.target.checked) {
-                                                                        setFormData({ ...formData, preparation: [...formData.preparation, opt] });
-                                                                    } else {
-                                                                        setFormData({ ...formData, preparation: formData.preparation.filter(p => p !== opt) });
-                                                                    }
-                                                                }}
-                                                            />
-                                                            <span className="text-sm text-gray-600">{opt}</span>
+                                                        <label key={opt} className={`flex items-center gap-4 cursor-pointer p-4 rounded-2xl border transition-all ${formData.preparation.includes(opt)
+                                                            ? "bg-white border-primary-green/30 text-primary-green shadow-sm"
+                                                            : "bg-white/50 border-gray-100 text-gray-400 hover:bg-white"
+                                                            }`}>
+                                                            <div className="relative flex items-center">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-gray-300 checked:bg-primary-green checked:border-primary-green transition-all"
+                                                                    checked={formData.preparation.includes(opt)}
+                                                                    onChange={(e) => {
+                                                                        if (e.target.checked) {
+                                                                            setFormData({ ...formData, preparation: [...formData.preparation, opt] });
+                                                                        } else {
+                                                                            setFormData({ ...formData, preparation: formData.preparation.filter(p => p !== opt) });
+                                                                        }
+                                                                    }}
+                                                                />
+                                                                <div className="absolute text-white transition-opacity opacity-0 pointer-events-none peer-checked:opacity-100 left-1">
+                                                                    <div className="w-2.5 h-2.5 bg-white rounded-full scale-0 peer-checked:scale-100 transition-transform" />
+                                                                </div>
+                                                            </div>
+                                                            <span className="text-[11px] font-bold uppercase tracking-tight">{opt}</span>
                                                         </label>
                                                     ))}
-                                                    <div className="flex items-center gap-3">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="w-4 h-4 rounded border-gray-300 text-primary-burgundy"
-                                                            checked={!!formData.otherPreparation}
-                                                            readOnly
-                                                        />
-                                                        <span className="text-sm text-gray-600">Otro:</span>
+                                                    <div className="sm:col-span-2 pt-4">
                                                         <input
                                                             type="text"
-                                                            className="border-b border-gray-300 flex-grow outline-none focus:border-primary-burgundy text-sm"
+                                                            placeholder="Otro detalle (especificar aquí)..."
+                                                            className="w-full bg-transparent border-b border-gray-200 py-2 outline-none focus:border-primary-green transition-all text-sm font-medium italic"
                                                             value={formData.otherPreparation}
                                                             onChange={(e) => setFormData({ ...formData, otherPreparation: e.target.value })}
                                                         />
@@ -312,19 +352,29 @@ export default function PRPPage() {
                                                 </div>
                                             </div>
 
-                                            <div className="flex items-center justify-between pt-6">
+                                            <div className="pt-8 flex flex-col sm:flex-row gap-4">
                                                 <button
                                                     type="submit"
                                                     disabled={isSubmitting}
-                                                    className="bg-primary-burgundy text-white px-8 py-3 rounded-md font-bold text-sm hover:bg-opacity-90 transition-all disabled:opacity-50"
+                                                    className="flex-1 bg-primary-green text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-green-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                                                 >
-                                                    {isSubmitting ? "Enviando..." : "Enviar"}
+                                                    {isSubmitting ? "ENVIANDO..." : "SOLICITAR TURNO"}
                                                 </button>
                                                 <button
                                                     type="reset"
-                                                    className="text-primary-burgundy font-bold text-sm hover:underline"
+                                                    disabled={isSubmitting}
+                                                    onClick={() => setFormData({
+                                                        email: "",
+                                                        professional: "",
+                                                        patient: "",
+                                                        date: "",
+                                                        time: "",
+                                                        preparation: [],
+                                                        otherPreparation: ""
+                                                    })}
+                                                    className="px-8 py-5 rounded-2xl font-black text-[10px] text-gray-400 uppercase tracking-widest hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100"
                                                 >
-                                                    Borrar formulario
+                                                    BORRAR FORMULARIO
                                                 </button>
                                             </div>
                                         </form>
@@ -336,113 +386,130 @@ export default function PRPPage() {
                         {activeTab === "APLICACIONES" && (
                             <motion.div
                                 key="aplicaciones"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                className="space-y-12 text-gray-700 max-w-3xl mx-auto"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                className="space-y-16 text-gray-700 max-w-4xl mx-auto pb-20"
                             >
-                                <div className="space-y-6">
-                                    <p className="text-sm md:text-base leading-relaxed">
-                                        El <strong className="text-primary-burgundy">Plasma Rico en Plaquetas (PRP)</strong> es un hemoderivado autólogo obtenido mediante centrifugación diferencial, que concentra plaquetas y factores de crecimiento con capacidad regenerativa, antiinflamatoria y moduladora del microambiente tisular. Su uso se ha consolidado como una herramienta terapéutica de alto valor en medicina regenerativa, traumatología, dermatología y rehabilitación.
-                                    </p>
-                                </div>
+                                <div className="bg-white rounded-[2.5rem] p-10 md:p-16 border border-gray-100 shadow-xl shadow-gray-100/50 relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 p-12 opacity-[0.03] text-primary-green group-hover:opacity-[0.05] transition-opacity duration-700">
+                                        <Microscope size={160} />
+                                    </div>
 
-                                {/* Responsabilidades */}
-                                <section className="space-y-6">
-                                    <h3 className="flex items-center gap-3 text-lg font-black uppercase tracking-tight text-gray-900 border-l-4 border-blue-400 pl-4">
-                                        Responsabilidades profesionales
-                                    </h3>
-
-                                    <div className="space-y-6 ml-4">
-                                        <div className="space-y-3">
-                                            <h4 className="font-bold text-gray-900 flex items-center gap-2">
-                                                <div className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
-                                                Preparación del PRP
-                                            </h4>
-                                            <p className="text-sm text-gray-600 pl-4">
-                                                La obtención, procesamiento, concentración y activación del PRP es una <strong className="text-gray-900">competencia exclusiva del profesional bioquímico</strong>, quien garantiza:
-                                            </p>
-                                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-500 pl-8 list-disc">
-                                                <li>Condiciones de bioseguridad</li>
-                                                <li>Correcta manipulación del material biológico</li>
-                                                <li>Protocolos estandarizados de centrifugación</li>
-                                                <li>Control de calidad del concentrado plaquetario</li>
-                                                <li>Trazabilidad completa del proceso</li>
-                                            </ul>
+                                    <div className="relative z-10 space-y-8">
+                                        <div className="space-y-4">
+                                            <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter flex items-center gap-4">
+                                                <div className="w-2 h-10 bg-primary-green rounded-full shadow-sm shadow-primary-green/20" />
+                                                ¿Qué es el PRP?
+                                            </h2>
+                                            <p className="text-gray-400 font-bold uppercase tracking-widest text-xs italic">Información para el profesional médico.</p>
                                         </div>
 
-                                        <div className="space-y-3">
-                                            <h4 className="font-bold text-gray-900 flex items-center gap-2">
-                                                <div className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
-                                                Aplicación del PRP
-                                            </h4>
-                                            <p className="text-sm text-gray-600 pl-4">
-                                                La administración del PRP es responsabilidad del <strong className="text-gray-900">médico especialista</strong>, quien determina:
-                                            </p>
-                                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-500 pl-8 list-disc">
-                                                <li>Indicaciones clínicas</li>
-                                                <li>Técnica y sitio de aplicación</li>
-                                                <li>Número de sesiones</li>
-                                                <li>Integración con otras terapias</li>
-                                                <li>Seguimiento y evaluación de resultados</li>
-                                            </ul>
-                                        </div>
+                                        <p className="text-lg md:text-xl leading-relaxed text-gray-600 font-medium italic uppercase tracking-wider">
+                                            El <strong className="text-primary-green font-black">Plasma Rico en Plaquetas (PRP)</strong> es un hemoderivado autólogo obtenido mediante centrifugación diferencial, que concentra plaquetas y factores de crecimiento con capacidad regenerativa y antiinflamatoria.
+                                        </p>
 
-                                        <p className="text-sm italic text-gray-500 border-t border-gray-100 pt-4">
-                                            Esta división asegura un procedimiento seguro, reproducible y alineado con las buenas prácticas profesionales.
+                                        <p className="text-sm md:text-base leading-relaxed text-gray-500 font-medium">
+                                            Su uso se ha consolidado como una herramienta terapéutica de alto valor en <strong className="text-gray-900">medicina regenerativa, traumatología, dermatología y rehabilitación.</strong>
                                         </p>
                                     </div>
-                                </section>
+                                </div>
+
+                                {/* Responsabilidades Grid */}
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    <div className="bg-white rounded-[2.5rem] p-10 border border-gray-100 shadow-xl hover:shadow-2xl transition-all">
+                                        <h3 className="text-xl font-black uppercase tracking-tighter text-gray-900 mb-8 flex items-center gap-4">
+                                            <div className="w-10 h-10 bg-primary-green/5 rounded-xl flex items-center justify-center text-primary-green font-black">1</div>
+                                            Preparación
+                                        </h3>
+                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-green mb-6 italic">Competencia Bioquímica</p>
+                                        <ul className="space-y-4">
+                                            {[
+                                                "Condiciones de bioseguridad",
+                                                "Correcta manipulación del material",
+                                                "Protocolos estandarizados",
+                                                "Control de calidad del concentrado",
+                                                "Trazabilidad completa"
+                                            ].map((text, i) => (
+                                                <li key={i} className="flex items-center gap-4 text-[11px] font-black uppercase tracking-tight text-gray-400">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-primary-green" />
+                                                    {text}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-white rounded-[2.5rem] p-10 border border-gray-100 shadow-xl hover:shadow-2xl transition-all">
+                                        <h3 className="text-xl font-black uppercase tracking-tighter text-gray-900 mb-8 flex items-center gap-4">
+                                            <div className="w-10 h-10 bg-primary-green/5 rounded-xl flex items-center justify-center text-primary-green font-black">2</div>
+                                            Aplicación
+                                        </h3>
+                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-green mb-6 italic">Responsabilidad Médica</p>
+                                        <ul className="space-y-4">
+                                            {[
+                                                "Indicaciones clínicas",
+                                                "Técnica y sitio de aplicación",
+                                                "Número de sesiones",
+                                                "Integración con otras terapias",
+                                                "Seguimiento de resultados"
+                                            ].map((text, i) => (
+                                                <li key={i} className="flex items-center gap-4 text-[11px] font-black uppercase tracking-tight text-gray-400">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-primary-green" />
+                                                    {text}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
 
                                 {/* Indicaciones Clínicas */}
-                                <section className="space-y-6">
-                                    <h3 className="flex items-center gap-3 text-lg font-black uppercase tracking-tight text-gray-900 border-l-4 border-blue-400 pl-4">
-                                        Principales indicaciones clínicas
-                                    </h3>
-                                    <div className="ml-4 space-y-6">
-                                        <p className="text-sm font-bold text-gray-500 uppercase tracking-widest">El PRP se utiliza en:</p>
-                                        <div className="space-y-6">
-                                            {[
-                                                { title: "Patologías osteoarticulares", desc: "Tendinopatías, lesiones ligamentarias, artrosis, sinovitis, procesos inflamatorios crónicos." },
-                                                { title: "Traumatología y rehabilitación", desc: "Lesiones musculares, desgarros, hematomas, recuperación postquirúrgica." },
-                                                { title: "Cicatrización avanzada", desc: "Úlceras, heridas complejas, quemaduras, lesiones de difícil resolución." },
-                                                { title: "Dermatología", desc: "Alopecias no cicatrizales, dermatitis crónicas, procesos inflamatorios persistentes." },
-                                                { title: "Medicina regenerativa", desc: "Situaciones donde se busca mejorar la calidad tisular, modular la inflamación y acelerar la reparación." }
-                                            ].map((item, i) => (
-                                                <div key={i} className="space-y-1">
-                                                    <h4 className="font-bold text-gray-900 flex items-center gap-2">
-                                                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
-                                                        {item.title}
-                                                    </h4>
-                                                    <p className="text-sm text-gray-500 pl-4 leading-relaxed">{item.desc}</p>
+                                <section className="space-y-10">
+                                    <div className="text-center space-y-2">
+                                        <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-gray-900">Indicaciones Clínicas</h3>
+                                        <div className="h-1.5 w-24 bg-primary-green mx-auto rounded-full" />
+                                    </div>
+
+                                    <div className="grid gap-4">
+                                        {[
+                                            { title: "Patologías osteoarticulares", desc: "Tendinopatías, lesiones ligamentarias, artrosis, sinovitis, procesos inflamatorios crónicos.", icon: "🦴" },
+                                            { title: "Traumatología y rehabilitación", desc: "Lesiones musculares, desgarros, hematomas, recuperación postquirúrgica.", icon: "💪" },
+                                            { title: "Cicatrización avanzada", desc: "Úlceras, heridas complejas, quemaduras, lesiones de difícil resolución.", icon: "🩹" },
+                                            { title: "Dermatología", desc: "Alopecias no cicatrizales, dermatitis crónicas, procesos inflamatorios persistentes.", icon: "✨" },
+                                            { title: "Medicina regenerativa", desc: "Situaciones donde se busca mejorar la calidad tisular y acelerar la reparación.", icon: "🧬" }
+                                        ].map((item, i) => (
+                                            <div key={i} className="bg-white group hover:bg-gray-50 p-8 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-md transition-all flex items-start gap-8">
+                                                <div className="text-4xl grayscale group-hover:grayscale-0 transition-all">{item.icon}</div>
+                                                <div className="space-y-1">
+                                                    <h4 className="text-lg font-black text-gray-900 uppercase tracking-tight">{item.title}</h4>
+                                                    <p className="text-sm text-gray-400 font-bold uppercase italic tracking-tight leading-relaxed">{item.desc}</p>
                                                 </div>
-                                            ))}
-                                        </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </section>
 
                                 {/* Fundamento Biológico */}
-                                <section className="bg-blue-50/30 rounded-2xl p-8 space-y-6">
-                                    <h3 className="flex items-center gap-3 text-lg font-black uppercase tracking-tight text-gray-900 border-l-4 border-blue-400 pl-4">
-                                        Fundamento biológico
-                                    </h3>
-                                    <div className="space-y-6 ml-4">
-                                        <div className="space-y-3">
-                                            <p className="text-sm font-bold text-gray-600">El concentrado plaquetario aporta:</p>
-                                            <ul className="space-y-2 text-sm text-gray-500 pl-4">
-                                                <li className="flex items-center gap-2 italic"><div className="w-1 h-1 bg-blue-400 rounded-full" /> Factores de crecimiento (PDGF, TGF-β, VEGF, IGF-1)</li>
-                                                <li className="flex items-center gap-2 italic"><div className="w-1 h-1 bg-blue-400 rounded-full" /> Citoquinas antiinflamatorias</li>
-                                                <li className="flex items-center gap-2 italic"><div className="w-1 h-1 bg-blue-400 rounded-full" /> Moléculas que estimulan angiogénesis, proliferación celular y remodelación tisular</li>
-                                            </ul>
+                                <section className="bg-primary-green rounded-[2.5rem] p-10 md:p-16 text-white shadow-2xl shadow-primary-green/20 relative overflow-hidden">
+                                    <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-y-32 translate-x-32 blur-3xl" />
+                                    <div className="relative z-10 grid lg:grid-cols-2 gap-12">
+                                        <div className="space-y-6">
+                                            <h3 className="text-3xl font-black uppercase tracking-tighter leading-none mb-8">Fundamento <br /> Biológico</h3>
+                                            <p className="text-primary-green-light font-medium italic uppercase tracking-wider text-green-100/80">
+                                                El concentrado plaquetario aporta factores de crecimiento (PDGF, TGF-β, VEGF) y citoquinas antiinflamatorias.
+                                            </p>
                                         </div>
-                                        <div className="space-y-3">
-                                            <p className="text-sm font-bold text-gray-600">Esto favorece:</p>
-                                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-500 pl-4">
-                                                <li className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm"><CheckCircle2 size={14} className="text-primary-green" /> Reducción del dolor</li>
-                                                <li className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm"><CheckCircle2 size={14} className="text-primary-green" /> Disminución de la inflamación</li>
-                                                <li className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm"><CheckCircle2 size={14} className="text-primary-green" /> Aceleración de la reparación tisular</li>
-                                                <li className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm"><CheckCircle2 size={14} className="text-primary-green" /> Mejora de la calidad del tejido regenerado</li>
-                                            </ul>
+                                        <div className="grid gap-3">
+                                            {[
+                                                "Reducción significativa del dolor",
+                                                "Disminución de la inflamación",
+                                                "Aceleración de reparación tisular",
+                                                "Mejora de calidad del tejido"
+                                            ].map((text, i) => (
+                                                <div key={i} className="bg-white/10 backdrop-blur-md p-4 rounded-2xl flex items-center gap-4 border border-white/10">
+                                                    <CheckCircle2 size={18} className="text-green-300" />
+                                                    <span className="text-xs font-black uppercase tracking-widest leading-none">{text}</span>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </section>
@@ -452,139 +519,130 @@ export default function PRPPage() {
                         {activeTab === "PREPARACION" && (
                             <motion.div
                                 key="preparacion"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                className="space-y-12 text-gray-700 max-w-3xl mx-auto pb-20"
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -30 }}
+                                className="space-y-12 max-w-5xl mx-auto pb-20"
                             >
-                                <div className="space-y-4">
-                                    <h3 className="flex items-center gap-3 text-lg font-black text-gray-900">
-                                        <span className="text-red-500">🩸</span>
-                                        <span className="text-gray-400">🔬</span>
-                                        Plasma Rico en Plaquetas (PRP)
-                                    </h3>
-                                    <p className="font-bold text-gray-600">Nueva modalidad de trabajo – Laboratorio LB LAB</p>
-                                    <p className="text-sm italic text-gray-500 flex items-center gap-2">
-                                        📅 Actualizado al 26 de noviembre de 2025
-                                    </p>
-                                </div>
+                                <div className="bg-white rounded-[2.5rem] p-10 md:p-16 border border-gray-100 shadow-xl shadow-gray-100/50 relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary-green/5 rounded-full -translate-y-20 translate-x-20 blur-3xl" />
 
-                                {/* Requisitos */}
-                                <section className="space-y-6">
-                                    <h4 className="flex items-center gap-3 font-black uppercase text-gray-900 tracking-tight">
-                                        📋 Requisitos
-                                    </h4>
-                                    <ul className="space-y-4 ml-4">
-                                        <li className="flex items-start gap-3 text-sm">
-                                            <span className="text-lg">🧾</span>
-                                            <span>Orden médica con <strong className="text-gray-900">hemograma y recuento de plaquetas.</strong></span>
-                                        </li>
-                                        <li className="flex items-start gap-3 text-sm">
-                                            <span className="text-lg">✍️</span>
-                                            <span><strong className="text-gray-900">Consentimiento informado</strong> previo a la extracción (se completa en el laboratorio).</span>
-                                        </li>
-                                    </ul>
-                                </section>
-
-                                {/* Procedimiento */}
-                                <section className="space-y-6">
-                                    <h4 className="flex items-center gap-3 font-black uppercase text-gray-900 tracking-tight">
-                                        🧪 Procedimiento
-                                    </h4>
-                                    <ul className="space-y-4 ml-4">
-                                        <li className="flex items-start gap-3 text-sm">
-                                            <span className="text-lg">💉</span>
-                                            <span>Extracción con sistema <strong className="text-gray-900">Vacutainer</strong> en tubos al vacío con anticoagulante <strong className="text-gray-900">ACD</strong>.</span>
-                                        </li>
-                                    </ul>
-                                </section>
-
-                                {/* Obtención */}
-                                <div className="grid md:grid-cols-2 gap-10">
-                                    <section className="space-y-6">
-                                        <h4 className="flex items-center gap-3 font-black uppercase text-gray-900 tracking-tight text-sm">
-                                            <span className="text-blue-400">🔹</span> Obtención estándar
-                                        </h4>
-                                        <ul className="space-y-3 ml-4">
-                                            <li className="flex items-center gap-3 text-sm font-bold">
-                                                <span className="text-red-500">🩸</span> 3 ml PRP <span className="text-gray-400 font-medium">(jeringa de 5 ml)</span>
-                                            </li>
-                                            <li className="flex items-center gap-3 text-sm font-bold">
-                                                <span className="text-blue-400">💧</span> 4 ml PPP <span className="text-gray-400 font-medium">(jeringa de 10 ml)</span>
-                                            </li>
-                                        </ul>
-                                    </section>
-                                    <section className="space-y-6">
-                                        <h4 className="flex items-center gap-3 font-black uppercase text-gray-900 tracking-tight text-sm">
-                                            <span className="text-blue-400">🔹</span> Opción ampliada
-                                        </h4>
-                                        <ul className="space-y-3 ml-4">
-                                            <li className="flex items-center gap-3 text-sm font-bold text-gray-900">
-                                                <span className="text-red-500">🩸</span> 6 ml PRP
-                                            </li>
-                                            <li className="flex items-center gap-3 text-sm font-bold text-gray-900">
-                                                <span className="text-blue-400">💧</span> 8 ml PPP
-                                            </li>
-                                        </ul>
-                                    </section>
-                                </div>
-
-                                {/* Tiempos */}
-                                <section className="bg-gray-50 rounded-2xl p-8 space-y-6">
-                                    <h4 className="flex items-center gap-3 font-black uppercase text-gray-900 tracking-tight">
-                                        ⏱️ Tiempos y condiciones
-                                    </h4>
-                                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 ml-4">
-                                        <li className="flex items-center gap-3 text-sm">
-                                            <span className="text-lg">🕒</span>
-                                            <span><strong className="text-gray-900">Preparación:</strong> 20–25 minutos</span>
-                                        </li>
-                                        <li className="flex items-center gap-3 text-sm">
-                                            <span className="text-lg">⏳</span>
-                                            <span><strong className="text-gray-900">Aplicación:</strong> dentro de las 2 horas posteriores</span>
-                                        </li>
-                                        <li className="flex items-center gap-3 text-sm">
-                                            <span className="text-lg">🌡️</span>
-                                            <span><strong className="text-gray-900">Conservación:</strong> temperatura ambiente, sin cambios térmicos</span>
-                                        </li>
-                                        <li className="flex items-center gap-3 text-sm">
-                                            <span className="text-lg">⚪</span>
-                                            <span><strong className="text-gray-900">PRP no activado:</strong> se activa al contacto con la dermis</span>
-                                        </li>
-                                    </ul>
-                                </section>
-
-                                {/* Informe */}
-                                <section className="space-y-6">
-                                    <h4 className="flex items-center gap-3 font-black uppercase text-gray-900 tracking-tight">
-                                        📑 Informe al médico tratante
-                                    </h4>
-                                    <div className="ml-4 space-y-4">
-                                        <p className="text-sm font-medium">El profesional recibe por mail (PDF):</p>
-                                        <ul className="space-y-3">
-                                            <li className="flex items-center gap-3 text-sm">
-                                                <span className="text-lg">📄</span>
-                                                <span><strong className="text-gray-900">Hemograma basal</strong> con recuento de plaquetas</span>
-                                            </li>
-                                            <li className="flex items-center gap-3 text-sm">
-                                                <span className="text-lg">📊</span>
-                                                <span><strong className="text-gray-900">Informe celular del PRP</strong> (glóbulos blancos, rojos y plaquetas)</span>
-                                            </li>
-                                        </ul>
+                                    <div className="flex flex-col md:flex-row items-center gap-8 mb-16 relative z-10">
+                                        <div className="bg-primary-green/10 p-5 rounded-[2.5rem] text-primary-green">
+                                            <ClipboardList size={40} strokeWidth={2.5} />
+                                        </div>
+                                        <div className="text-center md:text-left space-y-2">
+                                            <h3 className="text-3xl md:text-4xl font-black text-gray-900 uppercase tracking-tighter leading-none">Protocolo de <br className="hidden md:block" /> Preparación</h3>
+                                            <p className="text-primary-green font-black uppercase text-[10px] tracking-[0.3em]">Nueva modalidad de trabajo – Laboratorio LB LAB</p>
+                                        </div>
                                     </div>
-                                </section>
 
-                                <div className="pt-6 border-t border-gray-100 flex flex-col gap-4">
-                                    <p className="font-black text-gray-900 flex items-center gap-3">
-                                        <span className="text-lg">💰</span> Costos: Consultar.
-                                    </p>
-                                    <div className="space-y-4">
-                                        <p className="font-black text-gray-900 flex items-center gap-3">
-                                            <span className="text-lg">📞</span> Coordinación
-                                        </p>
-                                        <p className="text-sm leading-relaxed ml-8">
-                                            Los turnos se gestionan <strong className="text-gray-900">directamente con el laboratorio</strong>, Ademas podes reservar desde el Formulario.
-                                        </p>
+                                    <div className="grid lg:grid-cols-2 gap-8 relative z-10">
+                                        <div className="space-y-8">
+                                            {/* Requisitos */}
+                                            <div className="bg-white rounded-[2rem] p-10 border border-gray-100 shadow-xl hover:shadow-2xl transition-all">
+                                                <h4 className="flex items-center gap-4 text-xl font-black uppercase tracking-tighter text-gray-900 mb-8 border-b border-gray-50 pb-6">
+                                                    <div className="w-10 h-10 bg-primary-green/10 rounded-xl flex items-center justify-center text-primary-green">
+                                                        <FileText size={20} />
+                                                    </div>
+                                                    Requisitos
+                                                </h4>
+                                                <ul className="space-y-6">
+                                                    <li className="flex items-start gap-4 text-sm font-medium text-gray-500 italic leading-relaxed">
+                                                        <CheckCircle2 size={18} className="text-primary-green shrink-0 mt-1" />
+                                                        <span>Orden médica con <strong className="text-gray-900 font-black">hemograma y recuento de plaquetas</strong> actualizado.</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-4 text-sm font-medium text-gray-500 italic leading-relaxed">
+                                                        <CheckCircle2 size={18} className="text-primary-green shrink-0 mt-1" />
+                                                        <span><strong className="text-gray-900 font-black uppercase">Consentimiento informado</strong> firmado previo a la toma de muestra biológica.</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            {/* Procedimiento */}
+                                            <div className="bg-primary-green rounded-[2rem] p-10 text-white shadow-xl shadow-green-100 relative overflow-hidden group">
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-10 translate-x-10 blur-2xl group-hover:bg-white/10 transition-colors" />
+                                                <h4 className="text-xl font-black uppercase tracking-tighter mb-6 flex items-center gap-4">
+                                                    <Microscope size={24} />
+                                                    Procedimiento
+                                                </h4>
+                                                <p className="text-sm font-medium leading-relaxed italic opacity-90 uppercase tracking-wider">
+                                                    Utilizamos el avanzado sistema de extracción <strong className="font-black text-white px-2 py-0.5 bg-white/10 rounded">VACUTAINER</strong> en tubos al vacío con anticoagulante <strong className="font-black">ACD</strong> certificado, garantizando la máxima viabilidad plaquetaria.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-8">
+                                            {/* Obtención */}
+                                            <div className="bg-white rounded-[2rem] p-10 border border-gray-100 shadow-xl">
+                                                <h4 className="text-lg font-black uppercase tracking-tighter text-gray-900 mb-8 flex items-center justify-between">
+                                                    Opciones de Obtención
+                                                    <Droplets className="text-primary-green" size={20} />
+                                                </h4>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div className="p-6 rounded-2xl bg-gray-50 border border-gray-100 space-y-3">
+                                                        <p className="text-[10px] font-black uppercase tracking-widest text-primary-green">Estándar</p>
+                                                        <div className="space-y-1">
+                                                            <p className="text-lg font-black text-gray-900">3 ml PRP</p>
+                                                            <p className="text-xs font-bold text-gray-400">Jeringa 5 ml</p>
+                                                        </div>
+                                                        <div className="h-0.5 w-8 bg-primary-green/30" />
+                                                        <p className="text-lg font-black text-gray-900">4 ml PPP</p>
+                                                    </div>
+                                                    <div className="p-6 rounded-2xl bg-primary-green text-white space-y-3 shadow-lg shadow-green-100">
+                                                        <p className="text-[10px] font-black uppercase tracking-widest text-green-200">Ampliada</p>
+                                                        <div className="space-y-1">
+                                                            <p className="text-lg font-black">6 ml PRP</p>
+                                                            <p className="text-xs font-medium opacity-80">Concentrado+</p>
+                                                        </div>
+                                                        <div className="h-0.5 w-8 bg-white/30" />
+                                                        <p className="text-lg font-black">8 ml PPP</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Tiempos */}
+                                            <div className="bg-white rounded-[2rem] p-10 border border-gray-100 shadow-xl space-y-6">
+                                                <h4 className="text-lg font-black uppercase tracking-tighter text-gray-900 mb-6 flex items-center gap-3">
+                                                    <Clock size={20} className="text-primary-green" />
+                                                    Tiempos & Condiciones
+                                                </h4>
+                                                <div className="grid gap-4">
+                                                    {[
+                                                        { label: "Preparación Técnica", value: "20–25 Minutos", icon: "🕒" },
+                                                        { label: "Ventana de Aplicación", value: "Máx. 2 Horas", icon: "⏳" },
+                                                        { label: "Conservación", value: "Tº Ambiente", icon: "🌡️" }
+                                                    ].map((item, i) => (
+                                                        <div key={i} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100 group hover:border-primary-green/20 transition-all">
+                                                            <div className="flex items-center gap-4">
+                                                                <span className="text-xl grayscale group-hover:grayscale-0 transition-all">{item.icon}</span>
+                                                                <span className="text-xs font-black uppercase tracking-widest text-gray-400">{item.label}</span>
+                                                            </div>
+                                                            <span className="text-sm font-black text-gray-900">{item.value}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Footer Info */}
+                                    <div className="mt-12 pt-10 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+                                        <div className="flex items-center gap-4 bg-gray-50 p-4 pl-6 pr-8 rounded-full border border-gray-100 shadow-sm">
+                                            <span className="w-3 h-3 bg-primary-green rounded-full animate-pulse" />
+                                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 italic leading-none">
+                                                Actualizado al 26 de Noviembre de 2025
+                                            </p>
+                                        </div>
+                                        <div className="flex gap-6">
+                                            <div className="text-right">
+                                                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-green mb-1">Costos & Turnos</p>
+                                                <p className="text-xl font-black text-gray-900 uppercase tracking-tighter">Consultar Tarifario</p>
+                                            </div>
+                                            <div className="bg-primary-green/10 p-4 rounded-2xl text-primary-green">
+                                                <Phone size={24} strokeWidth={2.5} />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </motion.div>
@@ -595,19 +653,35 @@ export default function PRPPage() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="flex flex-col items-center justify-center py-20"
+                                className="flex flex-col items-center justify-center py-24"
                             >
-                                <a
-                                    href="/docs/Consentimiento informado PRP.pdf"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="bg-white text-gray-900 border-2 border-gray-100 px-10 py-5 rounded-full font-black text-xs tracking-[0.2em] uppercase shadow-xl hover:shadow-2xl hover:border-primary-burgundy transition-all flex items-center gap-4 group"
-                                >
-                                    Descargar Consentimiento
-                                    <div className="bg-primary-burgundy p-1 rounded-md text-white group-hover:translate-x-1 transition-transform">
-                                        <FileText size={14} strokeWidth={3} />
+                                <div className="max-w-md w-full text-center space-y-10">
+                                    <div className="bg-white p-8 rounded-[3rem] border border-gray-100 shadow-xl shadow-gray-100/50 relative overflow-hidden group">
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary-green/5 rounded-full -translate-y-12 translate-x-12 blur-2xl group-hover:bg-primary-green/10 transition-colors" />
+                                        <div className="relative z-10 space-y-6">
+                                            <div className="bg-primary-green/10 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto text-primary-green shadow-sm">
+                                                <ShieldCheck size={40} strokeWidth={2} />
+                                            </div>
+                                            <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tighter leading-none">
+                                                Consentimiento <br /> Informado PRP
+                                            </h3>
+                                            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest leading-relaxed">
+                                                Documento obligatorio para pacientes. <br /> Descargue aquí para su revisión.
+                                            </p>
+                                        </div>
                                     </div>
-                                </a>
+                                    <a
+                                        href="/docs/Consentimiento informado PRP.pdf"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-6 bg-primary-green text-white px-12 py-6 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl shadow-green-100 hover:scale-105 transition-all group"
+                                    >
+                                        VER DOCUMENTACIÓN PDF
+                                        <div className="bg-white/20 p-2 rounded-lg text-white group-hover:bg-white group-hover:text-primary-green transition-all">
+                                            <FileText size={16} strokeWidth={3} />
+                                        </div>
+                                    </a>
+                                </div>
                             </motion.div>
                         )}
 
@@ -617,17 +691,33 @@ export default function PRPPage() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="flex flex-col items-center justify-center py-20"
+                                className="flex flex-col items-center justify-center py-24"
                             >
-                                <Link
-                                    href="/admin/dashboard"
-                                    className="bg-white text-gray-900 border-2 border-gray-100 px-10 py-5 rounded-full font-black text-xs tracking-[0.3em] uppercase shadow-xl hover:shadow-2xl hover:border-primary-burgundy transition-all flex items-center gap-4 group"
-                                >
-                                    Resultados
-                                    <div className="bg-primary-burgundy p-1 rounded-md text-white group-hover:translate-x-1 transition-transform">
-                                        <ChevronRight size={14} strokeWidth={3} />
+                                <div className="max-w-md w-full text-center space-y-10">
+                                    <div className="bg-white p-8 rounded-[3rem] border border-gray-100 shadow-xl shadow-gray-100/50 relative overflow-hidden group">
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary-green/5 rounded-full -translate-y-12 translate-x-12 blur-2xl group-hover:bg-primary-green/10 transition-colors" />
+                                        <div className="relative z-10 space-y-6">
+                                            <div className="bg-primary-green/10 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto text-primary-green shadow-sm">
+                                                <Microscope size={40} strokeWidth={2} />
+                                            </div>
+                                            <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tighter leading-none">
+                                                Resultados & <br /> Informes Digitales
+                                            </h3>
+                                            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest leading-relaxed">
+                                                Seguimiento celular completo del PRP <br /> y hemogramas basales.
+                                            </p>
+                                        </div>
                                     </div>
-                                </Link>
+                                    <Link
+                                        href="/admin/dashboard"
+                                        className="inline-flex items-center gap-6 bg-primary-green text-white px-12 py-6 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl shadow-green-100 hover:scale-105 transition-all group"
+                                    >
+                                        ACCEDER AL PORTAL
+                                        <div className="bg-white/20 p-2 rounded-lg text-white group-hover:bg-white group-hover:text-primary-green transition-all">
+                                            <ArrowRight size={16} strokeWidth={3} />
+                                        </div>
+                                    </Link>
+                                </div>
                             </motion.div>
                         )}
                     </AnimatePresence>

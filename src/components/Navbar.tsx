@@ -64,7 +64,7 @@ export default function Navbar() {
                         ))}
                         <Link
                             href="/contacto"
-                            className="flex items-center gap-2 bg-gray-50 text-gray-700 px-4 py-2.5 rounded-full text-[13px] font-black tracking-widest hover:bg-gray-100 transition-all border border-gray-200"
+                            className="flex items-center gap-2 bg-sage-bg text-gray-700 px-4 py-2.5 rounded-full text-[13px] font-black tracking-widest hover:bg-gray-200 transition-all border border-gray-200"
                         >
                             <MapPin size={14} className="text-primary-green" />
                             UBICACIÓN

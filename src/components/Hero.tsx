@@ -82,9 +82,9 @@ export default function Hero() {
                         initial={{ x: -50, opacity: 0 }}
                         whileInView={{ x: 0, opacity: 1 }}
                         viewport={{ once: true }}
-                        className="bg-white border-2 border-primary-green/20 rounded-2xl p-8 shadow-2xl flex items-start gap-6 group hover:border-primary-green transition-all"
+                        className="bg-white border-2 border-primary-green/10 rounded-[2.5rem] p-8 shadow-2xl flex items-start gap-6 group hover:border-primary-green transition-all"
                     >
-                        <div className="bg-primary-green/10 p-4 rounded-full text-primary-green group-hover:scale-110 transition-transform">
+                        <div className="bg-sage-bg p-4 rounded-full text-primary-green group-hover:scale-110 transition-transform shadow-sm">
                             <Clock size={32} />
                         </div>
                         <div>
@@ -105,9 +105,9 @@ export default function Hero() {
                         initial={{ x: 50, opacity: 0 }}
                         whileInView={{ x: 0, opacity: 1 }}
                         viewport={{ once: true }}
-                        className="bg-white border-2 border-primary-burgundy/20 rounded-2xl p-8 shadow-2xl flex items-start gap-6 group hover:border-primary-burgundy transition-all"
+                        className="bg-white border-2 border-primary-burgundy/10 rounded-[2.5rem] p-8 shadow-2xl flex items-start gap-6 group hover:border-primary-burgundy transition-all"
                     >
-                        <div className="bg-primary-burgundy/10 p-4 rounded-full text-primary-burgundy group-hover:scale-110 transition-transform">
+                        <div className="bg-sage-bg p-4 rounded-full text-primary-burgundy group-hover:scale-110 transition-transform shadow-sm">
                             <Clock size={32} strokeWidth={3} />
                         </div>
                         <div>

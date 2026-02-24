@@ -13,16 +13,16 @@ import {
 function AccordionItem({ title, children }: { title: string; children?: React.ReactNode }) {
     const [isOpen, setIsOpen] = useState(false);
     return (
-        <div className="border border-gray-100 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all">
+        <div className={`border rounded-[2rem] overflow-hidden transition-all duration-300 ${isOpen ? 'border-primary-green/20 shadow-lg bg-white' : 'border-gray-100 bg-sage-bg/30 hover:bg-white shadow-sm'}`}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center justify-between p-6 text-left"
+                className="w-full flex items-center justify-between p-8 text-left"
             >
-                <div className="flex items-center gap-4">
-                    <div className="bg-gray-50 p-2 rounded-lg text-gray-400">
-                        {isOpen ? <Minus size={16} /> : <Plus size={16} />}
+                <div className="flex items-center gap-6">
+                    <div className={`p-3 rounded-2xl transition-all duration-300 ${isOpen ? 'bg-primary-green text-white shadow-lg' : 'bg-white text-gray-400 border border-gray-100'}`}>
+                        {isOpen ? <Minus size={18} strokeWidth={3} /> : <Plus size={18} strokeWidth={3} />}
                     </div>
-                    <span className="font-black text-gray-800 text-xs tracking-widest uppercase">{title}</span>
+                    <span className={`font-black text-xs tracking-[0.2em] uppercase transition-colors duration-300 ${isOpen ? 'text-primary-green' : 'text-gray-700'}`}>{title}</span>
                 </div>
             </button>
             <AnimatePresence>
@@ -31,11 +31,12 @@ function AccordionItem({ title, children }: { title: string; children?: React.Re
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
                         className="overflow-hidden"
                     >
-                        <div className="p-8 pt-0 pl-16">
+                        <div className="p-10 pt-0 pl-24">
                             {children || (
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-gray-500 font-medium italic uppercase tracking-widest">
                                     Indicaciones específicas para este estudio próximamente.
                                 </p>
                             )}
@@ -56,17 +57,23 @@ export default function IndicacionesPage() {
                 <hr className="w-full border-gray-100 mb-10" />
 
                 {/* Title Section */}
-                <div className="flex flex-col items-center justify-center mb-16">
+                <div className="flex flex-col items-center justify-center mb-20 px-4">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="flex items-center gap-4 text-2xl md:text-3xl font-black text-[#1a2b3c] tracking-tighter uppercase"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left"
                     >
-                        <div className="bg-primary-burgundy/5 p-3 rounded-2xl">
-                            <Info className="text-primary-burgundy" size={28} />
+                        <div className="bg-sage-bg p-5 rounded-[2rem] text-primary-burgundy shadow-inner shadow-primary-burgundy/5 border border-white">
+                            <Info className="" size={40} strokeWidth={2.5} />
                         </div>
-                        <span>INDICACIONES PARA ESTUDIOS DE LABORATORIO</span>
+                        <div className="space-y-1">
+                            <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tighter uppercase leading-none">
+                                Indicaciones para <br className="hidden md:block" />
+                                <span className="text-primary-green">estudios de laboratorio</span>
+                            </h1>
+                        </div>
                     </motion.div>
+                    <div className="h-2 w-32 bg-primary-burgundy mt-8 rounded-full shadow-sm shadow-primary-burgundy/20" />
                 </div>
 
                 <div className="max-w-4xl mx-auto px-6 space-y-12">
