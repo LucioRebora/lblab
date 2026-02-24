@@ -69,18 +69,7 @@ export default function Footer() {
                         </p>
                     </div>
 
-                    {/* Right side: Login Button */}
-                    <a
-                        href={isAdmin ? "/admin/dashboard" : "/admin"}
-                        className="bg-primary-burgundy/10 text-primary-burgundy hover:bg-primary-burgundy hover:text-white px-5 py-3 rounded-2xl flex items-center gap-3 transition-all group border border-primary-burgundy/20"
-                    >
-                        <div className="bg-primary-burgundy text-white p-1.5 rounded-lg group-hover:bg-white group-hover:text-primary-burgundy transition-colors shadow-lg shadow-primary-burgundy/20">
-                            <LayoutDashboard size={14} />
-                        </div>
-                        <span className="text-[10px] font-black uppercase tracking-widest">
-                            {isAdmin ? "Ingresar al sistema" : "Acceso Administración"}
-                        </span>
-                    </a>
+
                 </div>
             </div>
         </footer>

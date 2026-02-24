@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 export default function Veterinary() {
     return (
@@ -18,10 +19,13 @@ export default function Veterinary() {
                         <p className="text-gray-600 text-lg leading-relaxed max-w-md italic">
                             Brindamos el mismo nivel de precisión y tecnología para el cuidado de los más pequeños de la familia.
                         </p>
-                        <button className="bg-white text-gray-900 border-2 border-gray-100 px-8 py-4 rounded-full font-black text-xs tracking-[0.3em] uppercase shadow-xl hover:shadow-2xl hover:border-primary-green transition-all flex items-center gap-4 group mt-4">
+                        <Link
+                            href="/veterinaria"
+                            className="bg-white text-gray-900 border-2 border-gray-100 px-8 py-4 rounded-full font-black text-xs tracking-[0.3em] uppercase shadow-xl hover:shadow-2xl hover:border-primary-green transition-all flex items-center gap-4 group mt-4 w-fit"
+                        >
                             <ChevronRight size={18} className="text-primary-green group-hover:translate-x-1 transition-transform" strokeWidth={3} />
                             Ver Más
-                        </button>
+                        </Link>
                     </div>
 
                     <div className="md:w-1/2 relative min-h-[500px] w-full">

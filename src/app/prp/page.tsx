@@ -29,6 +29,11 @@ export default function PRPPage() {
     const [bookedSlots, setBookedSlots] = useState<string[]>([]);
 
     useEffect(() => {
+        // Establecer la fecha de hoy al montar el componente para gatillar la carga de turnos
+        setFormData(prev => ({ ...prev, date: format(new Date(), "yyyy-MM-dd") }));
+    }, []);
+
+    useEffect(() => {
         if (formData.date) {
             const fetchBookedSlots = async () => {
                 try {
@@ -148,7 +153,7 @@ export default function PRPPage() {
                                 <div>
                                     <h2 className="text-2xl font-bold text-gray-800 mb-2 uppercase tracking-tight">TURNO PLASMA RICO EN PLAQUETAS</h2>
                                     <p className="text-gray-600 text-sm mb-10">
-                                        El turno solicitado por medio de este formulario, quedara automáticamente programado. En el caso de algun inconveniente, nos contactaremos a la brevedad. Muchas gracias.
+                                        El turno solicitado por medio de este formulario quedará automáticamente programado. En el caso de algún inconveniente, nos contactaremos a la brevedad. Muchas gracias.
                                     </p>
 
                                     {submitted ? (

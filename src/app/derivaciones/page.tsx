@@ -473,12 +473,7 @@ export default function DerivacionesPage() {
                                     <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Portal de Resultados</h2>
                                     <p className="text-gray-500 mt-2 max-w-sm mx-auto">Acceda con sus credenciales para visualizar y descargar los informes de derivaciones.</p>
                                 </div>
-                                <Link
-                                    href="/admin/dashboard"
-                                    className="bg-primary-burgundy text-white px-12 py-5 rounded-2xl font-black text-xs tracking-[0.2em] uppercase shadow-xl hover:shadow-primary-burgundy/20 hover:scale-105 transition-all"
-                                >
-                                    Ingresar al Sistema
-                                </Link>
+
                             </motion.div>
                         )}
 
