@@ -16,7 +16,8 @@ import {
     LogOut,
     ChevronDown,
     ChevronRight,
-    FileText
+    FileText,
+    Dog
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -32,6 +33,7 @@ export default function Sidebar() {
     const menuItems = isAdmin ? [
         { name: "Dashboard", href: "/admin/dashboard", icon: BarChart3 },
         { name: "Turnos PRP", href: "/admin/appointments", icon: Calendar },
+        { name: "Turnos Veterinarios", href: "/admin/veterinaria", icon: Dog },
         { name: "Derivaciones", href: "/admin/derivaciones", icon: Upload },
         { name: "Consultas", href: "/admin/consultas", icon: MessageSquare },
         { name: "Usuarios", href: "/admin/users", icon: Users },

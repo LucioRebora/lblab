@@ -71,6 +71,19 @@ model Derivacion {
   createdAt    DateTime @default(now())
 }
 
+model VeterinaryAppointment {
+  id           String   @id @default(cuid())
+  email        String
+  veterinary   String
+  professional String
+  patient      String
+  analysis     String[]
+  other        String?
+  status       String   @default("PENDING")
+  cancelReason String?
+  createdAt    DateTime @default(now())
+}
+
 model AnalysisPrice {
   id        String   @id @default(cuid())
   name      String   @unique

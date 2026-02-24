@@ -44,6 +44,14 @@ export async function GET() {
 
         const turnosManana = prpTomorrow + derivTomorrow;
 
+        // Turnos Veterinarios Hoy (VeterinaryAppointment created today)
+        const veterinaryToday = await prisma.veterinaryAppointment.count({
+            where: {
+                createdAt: { gte: today },
+                status: "PENDING"
+            }
+        });
+
         // Pacientes nuevos (Assuming this refers to count of unique patient names in the last 30 days or similar)
         // For now, let's just return a placeholder or total unique patients from appointments
         const uniquePatients = await prisma.prpAppointment.groupBy({
@@ -55,6 +63,7 @@ export async function GET() {
             consultasHoy,
             turnosManana,
             totalPacientes,
+            veterinaryToday,
             estudiosListos: "95%" // Placeholder standard
         });
     } catch (error) {

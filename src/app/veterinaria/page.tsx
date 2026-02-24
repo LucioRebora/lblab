@@ -65,6 +65,7 @@ export default function VeterinariaPage() {
     const [nbuValue, setNbuValue] = useState<number>(1);
     const [validity, setValidity] = useState<string>("");
     const [loadingPrices, setLoadingPrices] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         const fetchPrices = async () => {
@@ -297,9 +298,33 @@ export default function VeterinariaPage() {
                                         </div>
 
                                         <form
-                                            onSubmit={(e) => {
+                                            onSubmit={async (e) => {
                                                 e.preventDefault();
-                                                setIsSubmitted(true);
+                                                setIsSubmitting(true);
+                                                const formData = new FormData(e.currentTarget);
+                                                const data = {
+                                                    email: formData.get("email"),
+                                                    veterinaria: formData.get("veterinaria"),
+                                                    profesional: formData.get("profesional"),
+                                                    paciente: formData.get("paciente"),
+                                                    analysis: formData.getAll("analysis"),
+                                                    otro: formData.get("otro"),
+                                                };
+
+                                                try {
+                                                    const res = await fetch("/api/veterinaria", {
+                                                        method: "POST",
+                                                        headers: { "Content-Type": "application/json" },
+                                                        body: JSON.stringify(data),
+                                                    });
+                                                    if (res.ok) {
+                                                        setIsSubmitted(true);
+                                                    }
+                                                } catch (error) {
+                                                    console.error("Error submitting form:", error);
+                                                } finally {
+                                                    setIsSubmitting(false);
+                                                }
                                             }}
                                             className="space-y-6"
                                         >
@@ -385,9 +410,10 @@ export default function VeterinariaPage() {
                                             <div className="pt-8 flex flex-col sm:flex-row gap-4">
                                                 <button
                                                     type="submit"
-                                                    className="flex-1 bg-primary-green text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
+                                                    disabled={isSubmitting}
+                                                    className="flex-1 bg-primary-green text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                                                 >
-                                                    ENVIAR
+                                                    {isSubmitting ? "ENVIANDO..." : "ENVIAR"}
                                                 </button>
                                                 <button
                                                     type="reset"

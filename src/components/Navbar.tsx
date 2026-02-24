@@ -11,7 +11,7 @@ const navLinks = [
     { name: "QUIENES SOMOS", href: "/quienes-somos" },
     { name: "INDICACIONES", href: "/indicaciones" },
     { name: "VETERINARIA", href: "/veterinaria" },
-    { name: "CONTACTO", href: "/#contacto" },
+    { name: "CONTACTO", href: "/contacto" },
     { name: "SERVICIOS", href: "/servicios" },
     { name: "DERIVACIONES", href: "/derivaciones" },
     { name: "PRP", href: "/prp" },
@@ -63,7 +63,7 @@ export default function Navbar() {
                             </Link>
                         ))}
                         <Link
-                            href="/#contacto"
+                            href="/contacto"
                             className="flex items-center gap-2 bg-gray-50 text-gray-700 px-4 py-2.5 rounded-full text-[13px] font-black tracking-widest hover:bg-gray-100 transition-all border border-gray-200"
                         >
                             <MapPin size={14} className="text-primary-green" />

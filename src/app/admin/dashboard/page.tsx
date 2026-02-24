@@ -12,7 +12,8 @@ import {
     Calendar,
     CheckCircle2,
     ExternalLink,
-    Upload
+    Upload,
+    Dog
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -28,8 +29,11 @@ export default function Dashboard() {
         consultasHoy: 0,
         turnosManana: 0,
         totalPacientes: 0,
+        veterinaryToday: 0,
         estudiosListos: "0%"
     });
+    const [vetAppointments, setVetAppointments] = useState<any[]>([]);
+    const [prpAppointments, setPrpAppointments] = useState<any[]>([]);
     const [loadingSubmissions, setLoadingSubmissions] = useState(true);
 
     useEffect(() => {
@@ -56,6 +60,20 @@ export default function Dashboard() {
                     const data = await statsRes.json();
                     setStatsData(data);
                 }
+
+                // Fetch Veterinary
+                const vetRes = await fetch("/api/admin/veterinaria");
+                if (vetRes.ok) {
+                    const data = await vetRes.json();
+                    setVetAppointments(data.slice(0, 5)); // Only show last 5
+                }
+
+                // Fetch PRP
+                const prpRes = await fetch("/api/admin/appointments");
+                if (prpRes.ok) {
+                    const data = await prpRes.json();
+                    setPrpAppointments(data.slice(0, 5)); // Only show last 5
+                }
             } catch (error) {
                 console.error("Error fetching dashboard data:", error);
             } finally {
@@ -78,7 +96,7 @@ export default function Dashboard() {
 
     const currentStats = [
         { label: "Consultas hoy", value: statsData.consultasHoy.toString(), icon: MessageSquare, color: "text-blue-600", bg: "bg-blue-50" },
-        { label: "Pacientes nuevos", value: statsData.totalPacientes.toString(), icon: Users, color: "text-primary-green", bg: "bg-green-50" },
+        { label: "Solicitudes Vet", value: statsData.veterinaryToday.toString(), icon: Dog, color: "text-primary-green", bg: "bg-green-50" },
         { label: "Estudios listos", value: statsData.estudiosListos, icon: CheckCircle2, color: "text-primary-burgundy", bg: "bg-red-50" },
         { label: "Turnos mañana", value: statsData.turnosManana.toString(), icon: Calendar, color: "text-orange-600", bg: "bg-orange-50" },
     ];
@@ -173,8 +191,8 @@ export default function Dashboard() {
                                 ))}
                             </div>
 
-                            <div className="grid lg:grid-cols-3 gap-8 text-black">
-                                <div className="lg:col-span-2 bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
+                            <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8 text-black">
+                                <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
                                     <div className="flex items-center justify-between mb-6">
                                         <h3 className="text-xl font-bold">Consultas Recientes</h3>
                                         <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Últimas {submissions.length}</p>
@@ -213,6 +231,108 @@ export default function Dashboard() {
                                             ))
                                         )}
                                     </div>
+                                </div>
+
+                                <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <h3 className="text-xl font-bold">Turnos Veterinarios</h3>
+                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Últimos {vetAppointments.length}</p>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {loadingSubmissions ? (
+                                            <div className="py-12 text-center text-gray-400 animate-pulse font-bold uppercase tracking-widest text-xs">
+                                                Cargando...
+                                            </div>
+                                        ) : vetAppointments.length === 0 ? (
+                                            <div className="py-12 text-center text-gray-400 font-bold uppercase tracking-widest text-xs border-2 border-dashed border-gray-100 rounded-3xl">
+                                                No hay turnos vet.
+                                            </div>
+                                        ) : (
+                                            vetAppointments.map((apt) => (
+                                                <div key={apt.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-10 h-10 bg-primary-green/5 text-primary-green rounded-xl flex items-center justify-center">
+                                                            <Dog size={20} />
+                                                        </div>
+                                                        <div>
+                                                            <p className="font-bold text-sm">{apt.patient}</p>
+                                                            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-tighter">{apt.veterinary}</p>
+                                                            <div className="flex flex-wrap gap-1 mt-1">
+                                                                {apt.analysis.slice(0, 2).map((a: string, i: number) => (
+                                                                    <span key={i} className="text-[8px] font-black uppercase bg-gray-100 text-gray-400 px-1.5 py-0.5 rounded">
+                                                                        {a}
+                                                                    </span>
+                                                                ))}
+                                                                {apt.analysis.length > 2 && <span className="text-[8px] font-black text-gray-300">+{apt.analysis.length - 2}</span>}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${apt.status === 'PENDING' ? 'text-orange-500 bg-orange-50' :
+                                                            apt.status === 'COMPLETED' ? 'text-primary-green bg-green-50' :
+                                                                'text-red-500 bg-red-50'
+                                                            }`}>
+                                                            {apt.status === 'PENDING' ? 'Pdte' : apt.status === 'COMPLETED' ? 'OK' : 'X'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                    <Link
+                                        href="/admin/veterinaria"
+                                        className="mt-6 block text-center text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-primary-green transition-colors"
+                                    >
+                                        Ver todos los turnos
+                                    </Link>
+                                </div>
+
+                                <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <h3 className="text-xl font-bold">Turnos PRP</h3>
+                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Últimos {prpAppointments.length}</p>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {loadingSubmissions ? (
+                                            <div className="py-12 text-center text-gray-400 animate-pulse font-bold uppercase tracking-widest text-xs">
+                                                Cargando...
+                                            </div>
+                                        ) : prpAppointments.length === 0 ? (
+                                            <div className="py-12 text-center text-gray-400 font-bold uppercase tracking-widest text-xs border-2 border-dashed border-gray-100 rounded-3xl">
+                                                No hay turnos PRP.
+                                            </div>
+                                        ) : (
+                                            prpAppointments.map((apt) => (
+                                                <div key={apt.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center">
+                                                            <Calendar size={20} />
+                                                        </div>
+                                                        <div>
+                                                            <p className="font-bold text-sm">{apt.patient}</p>
+                                                            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-tighter">
+                                                                {apt.date.split('-').reverse().join('/')} | {apt.time} hs
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${apt.status === 'SCHEDULED' ? 'text-orange-500 bg-orange-50' :
+                                                            apt.status === 'COMPLETED' ? 'text-primary-green bg-green-50' :
+                                                                'text-red-500 bg-red-50'
+                                                            }`}>
+                                                            {apt.status === 'SCHEDULED' ? 'Pdte' : apt.status === 'COMPLETED' ? 'OK' : 'X'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                    <Link
+                                        href="/admin/appointments"
+                                        className="mt-6 block text-center text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-orange-600 transition-colors"
+                                    >
+                                        Ver todos los turnos PRP
+                                    </Link>
                                 </div>
                             </div>
                         </>

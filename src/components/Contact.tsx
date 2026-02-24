@@ -26,7 +26,7 @@ export default function Contact() {
 
             if (response.ok) {
                 setStatus("success");
-                setFormData({ name: "", email: "", comment: "", web: "" });
+                setFormData({ name: "", email: "", comment: "" });
             } else {
                 setStatus("error");
             }
@@ -37,9 +37,9 @@ export default function Contact() {
     };
 
     return (
-        <section id="contacto" className="py-24 bg-primary-burgundy/80 relative text-white">
+        <section id="contacto" className="py-24 bg-primary-burgundy/80 relative text-white transition-all duration-300">
             <div className="max-w-7xl mx-auto px-4">
-                {/* ... existing map code ... */}
+
                 <div id="mapa" className="bg-white rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-4 border-white/20 h-80 relative group scroll-mt-24">
                     <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
                         <MapPin size={48} className="text-primary-burgundy animate-bounce" />
