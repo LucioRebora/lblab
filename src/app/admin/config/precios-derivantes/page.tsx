@@ -48,8 +48,10 @@ export default function PreciosDerivantesPage() {
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/admin");
+        } else if (status === "authenticated" && session?.user?.role !== 'ADMIN') {
+            router.push("/admin/dashboard");
         }
-    }, [status, router]);
+    }, [status, router, session]);
 
     const fetchData = async () => {
         setLoading(true);

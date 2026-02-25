@@ -46,8 +46,10 @@ export default function UsersPage() {
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/admin");
+        } else if (status === "authenticated" && session?.user?.role !== 'ADMIN') {
+            router.push("/admin/dashboard");
         }
-    }, [status, router]);
+    }, [status, router, session]);
 
     const fetchUsers = async () => {
         try {
@@ -240,7 +242,9 @@ export default function UsersPage() {
                                         <td className="px-6 py-4">
                                             <span className={`text-[9px] font-black px-2 py-1 rounded-md uppercase tracking-widest ${user.role === 'ADMIN'
                                                 ? 'bg-primary-burgundy/10 text-primary-burgundy'
-                                                : 'bg-blue-100 text-blue-600'
+                                                : user.role === 'SECRETARY'
+                                                    ? 'bg-amber-100 text-amber-600'
+                                                    : 'bg-blue-100 text-blue-600'
                                                 }`}>
                                                 {user.role}
                                             </span>
@@ -399,6 +403,7 @@ export default function UsersPage() {
                                                     className="w-full bg-gray-50 border-none rounded-2xl py-4 pl-12 pr-4 text-sm font-bold focus:ring-2 focus:ring-primary-green outline-none text-black appearance-none"
                                                 >
                                                     <option value="USER">USUARIO (Solo lectura)</option>
+                                                    <option value="SECRETARY">SECRETARIA (Gestión operativa)</option>
                                                     <option value="ADMIN">ADMINISTRADOR (Acceso total)</option>
                                                 </select>
                                             </div>

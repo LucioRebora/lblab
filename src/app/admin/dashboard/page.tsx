@@ -40,7 +40,7 @@ export default function Dashboard() {
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/admin");
-        } else if (status === "authenticated" && session?.user?.role !== 'ADMIN') {
+        } else if (status === "authenticated" && session?.user?.role === 'USER') {
             router.push("/admin/resultados");
         }
     }, [status, router, session]);
@@ -103,6 +103,8 @@ export default function Dashboard() {
     ];
 
     const isAdmin = session?.user?.role === 'ADMIN';
+    const isSecretary = session?.user?.role === 'SECRETARY';
+    const isStaff = isAdmin || isSecretary;
 
     if (!session) return null;
 
@@ -126,7 +128,7 @@ export default function Dashboard() {
                             <div className="text-right hidden sm:block">
                                 <p className="text-sm font-bold text-gray-900">{session.user?.name}</p>
                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
-                                    {isAdmin ? "Admin" : "Usuario"}
+                                    {isAdmin ? "Admin" : isSecretary ? "Secretaria" : "Usuario"}
                                 </p>
                             </div>
                             <div className="w-10 h-10 bg-primary-green rounded-full flex items-center justify-center text-white font-bold text-sm shadow-inner uppercase">
@@ -140,20 +142,20 @@ export default function Dashboard() {
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div>
                             <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">
-                                {isAdmin ? "Panel de Control" : "Área de Usuario"}
+                                {isStaff ? "Panel de Control" : "Área de Usuario"}
                             </h1>
                             <p className="text-gray-500 text-sm font-medium">
-                                {isAdmin ? "Bienvenido de nuevo, Administrador." : "Bienvenido al portal del Laboratorio LB Lab."}
+                                {isStaff ? `Bienvenido de nuevo, ${isSecretary ? "Secretaria" : "Administrador"}.` : "Bienvenido al portal del Laboratorio LB Lab."}
                             </p>
                         </div>
-                        {isAdmin && (
+                        {isStaff && (
                             <button className="bg-primary-green text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary-green/20 hover:scale-105 transition-all">
                                 Nuevo Resultado
                             </button>
                         )}
                     </div>
 
-                    {!isAdmin ? (
+                    {!isStaff ? (
                         <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-12 text-center space-y-6">
                             <div className="w-20 h-20 bg-gray-50 text-gray-300 rounded-[2rem] flex items-center justify-center mx-auto">
                                 <Upload size={40} />

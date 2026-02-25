@@ -104,4 +104,5 @@ model GlobalConfig {
 enum Role {
   ADMIN
   USER
+  SECRETARY
 }

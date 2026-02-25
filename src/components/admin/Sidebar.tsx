@@ -30,17 +30,23 @@ export default function Sidebar() {
     const [isConfigOpen, setIsConfigOpen] = useState(false);
 
     const isAdmin = session?.user?.role === 'ADMIN';
+    const isSecretary = session?.user?.role === 'SECRETARY';
+    const isStaff = isAdmin || isSecretary;
 
-    const menuItems = isAdmin ? [
+    const adminMenuItems = [
         { name: "Dashboard", href: "/admin/dashboard", icon: BarChart3 },
         { name: "Turnos PRP", href: "/admin/appointments", icon: Calendar },
         { name: "Turnos Veterinarios", href: "/admin/veterinaria", icon: Dog },
         { name: "Derivaciones", href: "/admin/derivaciones", icon: Upload },
         { name: "Consultas", href: "/admin/consultas", icon: MessageSquare },
-        { name: "Usuarios", href: "/admin/users", icon: Users },
-    ] : [
-        { name: "Resultados", href: "/admin/resultados", icon: FileText },
+        { name: "Usuarios", href: "/admin/users", icon: Users, adminOnly: true },
     ];
+
+    const menuItems = isStaff
+        ? adminMenuItems.filter(item => !item.adminOnly || isAdmin)
+        : [
+            { name: "Resultados", href: "/admin/resultados", icon: FileText },
+        ];
 
     return (
         <aside className="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col h-screen sticky top-0">

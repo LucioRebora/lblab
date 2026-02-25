@@ -13,8 +13,10 @@ export default function InfoMailPage() {
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/admin");
+        } else if (status === "authenticated" && session?.user?.role !== 'ADMIN') {
+            router.push("/admin/dashboard");
         }
-    }, [status, router]);
+    }, [status, router, session]);
 
     if (status === "loading") {
         return (
