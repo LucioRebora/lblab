@@ -66,15 +66,6 @@ export default function Contact() {
                         viewport={{ once: true }}
                         className="space-y-8"
                     >
-                        <div className="space-y-4">
-                            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-primary-green">
-                                Tecnología y compromiso <br />
-                                en cada análisis.
-                            </h2>
-                            <p className="text-gray-600 text-xl font-light italic uppercase tracking-wider">
-                                Un laboratorio moderno con atención personalizada.
-                            </p>
-                        </div>
 
                         <div className="space-y-6 pt-8">
                             <h3 className="text-xl font-bold uppercase tracking-[0.2em] border-b border-primary-green/10 text-primary-green pb-4">Deja una respuesta</h3>
@@ -174,6 +165,7 @@ export default function Contact() {
                         className="bg-white rounded-[2.5rem] p-12 border border-gray-100 flex flex-col justify-between shadow-xl"
                     >
                         <div className="space-y-12">
+
                             <div className="space-y-4">
                                 <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-primary-green/40">Datos de contacto</h4>
                                 <div className="flex items-center gap-6 group">
@@ -194,52 +186,34 @@ export default function Contact() {
                                         <p className="text-xl font-bold text-gray-900 tracking-tight">+54 9 3446 330365</p>
                                     </div>
                                 </div>
-                                <div className="flex flex-col gap-4 pt-2">
-                                    <div className="flex items-center gap-4">
-                                        <a
-                                            href="tel:3446434574"
-                                            className="flex items-center gap-3 group/social"
-                                        >
-                                            <div className="bg-sage-bg p-3 rounded-xl text-primary-burgundy group-hover:bg-primary-burgundy group-hover:text-white transition-all shadow-sm">
-                                                <Phone size={20} />
-                                            </div>
-                                            <span className="text-sm font-bold text-gray-700 uppercase tracking-widest group-hover/social:text-primary-burgundy transition-colors italic">Llamar</span>
-                                        </a>
-                                        <a
-                                            href="https://wa.me/5493446330365"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-3 group/social"
-                                        >
-                                            <div className="bg-sage-bg p-3 rounded-xl text-[#25D366] group-hover:bg-[#25D366] group-hover:text-white transition-all shadow-sm">
-                                                <MessageCircle size={20} />
-                                            </div>
-                                            <span className="text-sm font-bold text-gray-700 uppercase tracking-widest group-hover/social:text-[#25D366] transition-colors italic">WhatsApp</span>
-                                        </a>
-                                        <a
-                                            href="https://www.instagram.com/lb.lab?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-3 group/social"
-                                        >
-                                            <div className="bg-sage-bg p-3 rounded-xl text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition-all shadow-sm">
-                                                <Instagram size={20} />
-                                            </div>
-                                            <span className="text-sm font-bold text-gray-700 uppercase tracking-widest group-hover/social:text-pink-600 transition-colors italic">LB.LAB</span>
-                                        </a>
-                                        <a
-                                            href="https://web.facebook.com/laboratoriolblab/"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-3 group/social"
-                                        >
-                                            <div className="bg-sage-bg p-3 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
-                                                <Facebook size={20} />
-                                            </div>
-                                            <span className="text-sm font-bold text-gray-700 uppercase tracking-widest group-hover/social:text-blue-600 transition-colors italic">Laboratorio LB Lab</span>
-                                        </a>
+                                <a
+                                    href="https://www.instagram.com/lb.lab?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-6 group"
+                                >
+                                    <div className="bg-sage-bg p-4 rounded-2xl text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition-all shadow-sm">
+                                        <Instagram size={24} />
                                     </div>
-                                </div>
+                                    <div>
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Instagram</p>
+                                        <p className="text-xl font-bold text-gray-900 tracking-tight italic">@lb.lab</p>
+                                    </div>
+                                </a>
+                                <a
+                                    href="https://web.facebook.com/laboratoriolblab/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-6 group"
+                                >
+                                    <div className="bg-sage-bg p-4 rounded-2xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+                                        <Facebook size={24} />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Facebook</p>
+                                        <p className="text-xl font-bold text-gray-900 tracking-tight">Laboratorio LB Lab</p>
+                                    </div>
+                                </a>
                             </div>
 
                             <div className="space-y-4">

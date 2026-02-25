@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle, Mail, MapPinned } from "lucide-react";
+import { MessageCircle, Mail, MapPinned, Instagram, Facebook } from "lucide-react";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -60,6 +60,38 @@ export default function ContactPage() {
                                     <p className="text-base font-black text-gray-900 tracking-tight break-all">laboratorio@lblab.com.ar</p>
                                 </div>
                             </div>
+
+                            {/* Instagram */}
+                            <a
+                                href="https://www.instagram.com/lb.lab?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-white p-8 rounded-[2rem] shadow-xl border border-white flex flex-col gap-4 group hover:scale-105 transition-all"
+                            >
+                                <div className="w-12 h-12 bg-pink-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-pink-600/20">
+                                    <Instagram size={24} strokeWidth={2.5} />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">Instagram</p>
+                                    <p className="text-lg font-black text-gray-900 tracking-tight italic">@lb.lab</p>
+                                </div>
+                            </a>
+
+                            {/* Facebook */}
+                            <a
+                                href="https://web.facebook.com/laboratoriolblab/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-white p-8 rounded-[2rem] shadow-xl border border-white flex flex-col gap-4 group hover:scale-105 transition-all"
+                            >
+                                <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
+                                    <Facebook size={24} strokeWidth={2.5} />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">Facebook</p>
+                                    <p className="text-lg font-black text-gray-900 tracking-tight">Laboratorio LB Lab</p>
+                                </div>
+                            </a>
                         </div>
 
                         {/* Location & Map */}
