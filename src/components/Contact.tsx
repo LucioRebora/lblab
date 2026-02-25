@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Send, MapPin, Phone, MessageCircle, CreditCard, Landmark, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { Send, MapPin, Phone, MessageCircle, CreditCard, Landmark, CheckCircle2, AlertCircle, Loader2, Instagram, Facebook } from "lucide-react";
 
 interface ContactFormData {
     name: string;
@@ -177,6 +177,15 @@ export default function Contact() {
                             <div className="space-y-4">
                                 <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-primary-green/40">Datos de contacto</h4>
                                 <div className="flex items-center gap-6 group">
+                                    <div className="bg-sage-bg p-4 rounded-2xl text-primary-burgundy group-hover:bg-primary-burgundy group-hover:text-white transition-all shadow-sm">
+                                        <Phone size={24} />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Teléfono</p>
+                                        <p className="text-xl font-bold text-gray-900 tracking-tight">3446 434574</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-6 group">
                                     <div className="bg-sage-bg p-4 rounded-2xl text-primary-green group-hover:bg-primary-green group-hover:text-white transition-all shadow-sm">
                                         <MessageCircle size={24} />
                                     </div>
@@ -185,13 +194,50 @@ export default function Contact() {
                                         <p className="text-xl font-bold text-gray-900 tracking-tight">+54 9 3446 330365</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-6 group">
-                                    <div className="bg-sage-bg p-4 rounded-2xl text-primary-burgundy group-hover:bg-primary-burgundy group-hover:text-white transition-all shadow-sm">
-                                        <Phone size={24} />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Teléfono</p>
-                                        <p className="text-xl font-bold text-gray-900 tracking-tight">3446 434574</p>
+                                <div className="flex flex-col gap-4 pt-2">
+                                    <div className="flex items-center gap-4">
+                                        <a
+                                            href="tel:3446434574"
+                                            className="flex items-center gap-3 group/social"
+                                        >
+                                            <div className="bg-sage-bg p-3 rounded-xl text-primary-burgundy group-hover:bg-primary-burgundy group-hover:text-white transition-all shadow-sm">
+                                                <Phone size={20} />
+                                            </div>
+                                            <span className="text-sm font-bold text-gray-700 uppercase tracking-widest group-hover/social:text-primary-burgundy transition-colors italic">Llamar</span>
+                                        </a>
+                                        <a
+                                            href="https://wa.me/5493446330365"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-3 group/social"
+                                        >
+                                            <div className="bg-sage-bg p-3 rounded-xl text-[#25D366] group-hover:bg-[#25D366] group-hover:text-white transition-all shadow-sm">
+                                                <MessageCircle size={20} />
+                                            </div>
+                                            <span className="text-sm font-bold text-gray-700 uppercase tracking-widest group-hover/social:text-[#25D366] transition-colors italic">WhatsApp</span>
+                                        </a>
+                                        <a
+                                            href="https://www.instagram.com/lb.lab?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-3 group/social"
+                                        >
+                                            <div className="bg-sage-bg p-3 rounded-xl text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition-all shadow-sm">
+                                                <Instagram size={20} />
+                                            </div>
+                                            <span className="text-sm font-bold text-gray-700 uppercase tracking-widest group-hover/social:text-pink-600 transition-colors italic">LB.LAB</span>
+                                        </a>
+                                        <a
+                                            href="https://web.facebook.com/laboratoriolblab/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-3 group/social"
+                                        >
+                                            <div className="bg-sage-bg p-3 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+                                                <Facebook size={20} />
+                                            </div>
+                                            <span className="text-sm font-bold text-gray-700 uppercase tracking-widest group-hover/social:text-blue-600 transition-colors italic">Laboratorio LB Lab</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, LayoutDashboard } from "lucide-react";
+import { MapPin, LayoutDashboard, Instagram, Facebook, MessageCircle, Phone } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
@@ -29,10 +29,10 @@ export default function Footer() {
                         </h4>
                         <div className="space-y-3">
                             <p className="text-gray-500 text-sm">
-                                WhatsApp: <span className="font-bold text-gray-800 tracking-wide">+54 9 3446 330365</span>
+                                Teléfono: <span className="font-bold text-gray-800 tracking-wide">3446 434574</span>
                             </p>
                             <p className="text-gray-500 text-sm">
-                                Teléfono: <span className="font-bold text-gray-800 tracking-wide">3446 434574</span>
+                                WhatsApp: <span className="font-bold text-gray-800 tracking-wide">+54 9 3446 330365</span>
                             </p>
                         </div>
                     </div>
@@ -57,25 +57,43 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Section: Separator and Footer Credits */}
-                <div className="pt-10 border-t border-primary-green/10 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+                <div className="pt-10 border-t border-primary-green/10 flex flex-col md:flex-row justify-between items-center md:items-end gap-8">
                     {/* Left side: Copyright */}
-                    <div className="space-y-1">
+                    <div className="space-y-1 w-full md:w-1/3 text-center md:text-left">
                         <p className="text-gray-400 text-[10px] font-black tracking-widest uppercase">
-                            © 2026 LB LAB – LABORATORIO DE BIOANÁLISIS. TODOS LOS DERECHOS RESERVADOS.
+                            © 2026 LB LAB – LABORATORIO DE BIOANÁLISIS.
                         </p>
-                        <p className="text-gray-400 text-[9px] font-bold tracking-[0.2em] uppercase flex items-center gap-2">
+                        <p className="text-gray-400 text-[9px] font-bold tracking-[0.2em] uppercase flex items-center justify-center md:justify-start gap-2">
                             POWERED BY <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="text-primary-green hover:underline">ITIA.AR</a>
                         </p>
                     </div>
 
+                    {/* Center: Social Icons */}
+                    <div className="flex gap-6 items-center justify-center w-full md:w-1/3">
+                        <a href="tel:3446434574" className="text-gray-400 hover:text-primary-burgundy transition-all hover:scale-110">
+                            <Phone size={20} />
+                        </a>
+                        <a href="https://wa.me/5493446330365" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#25D366] transition-all hover:scale-110">
+                            <MessageCircle size={20} />
+                        </a>
+                        <a href="https://www.instagram.com/lb.lab?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-600 transition-all hover:scale-110">
+                            <Instagram size={20} />
+                        </a>
+                        <a href="https://web.facebook.com/laboratoriolblab/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-all hover:scale-110">
+                            <Facebook size={20} />
+                        </a>
+                    </div>
+
                     {/* Right side: Admin Access */}
-                    <Link
-                        href="/admin"
-                        className="inline-flex items-center gap-2 text-[10px] font-black tracking-widest uppercase text-gray-400 hover:text-primary-green transition-colors group"
-                    >
-                        <LayoutDashboard size={14} className="group-hover:scale-110 transition-transform" />
-                        Acceso Panel
-                    </Link>
+                    <div className="w-full md:w-1/3 flex justify-center md:justify-end">
+                        <Link
+                            href="/admin"
+                            className="inline-flex items-center gap-2 text-[10px] font-black tracking-widest uppercase text-gray-400 hover:text-primary-green transition-colors group"
+                        >
+                            <LayoutDashboard size={14} className="group-hover:scale-110 transition-transform" />
+                            Acceso Panel
+                        </Link>
+                    </div>
                 </div>
             </div>
         </footer>
