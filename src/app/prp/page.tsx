@@ -274,16 +274,19 @@ export default function PRPPage() {
                                                     <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 bg-gray-50/50 p-6 rounded-[2.5rem] border border-gray-100">
                                                         {["07:00", "07:20", "07:40", "08:00", "08:20", "08:40", "09:00", "09:20", "09:40", "10:00", "10:20", "10:40", "11:00", "11:20", "11:40"].map((t) => {
                                                             const isBooked = bookedSlots.includes(t);
+                                                            const isPast = formData.date === format(new Date(), "yyyy-MM-dd") && t < format(new Date(), "HH:mm");
+                                                            const isDisabled = isBooked || isPast;
+
                                                             return (
                                                                 <button
                                                                     key={t}
                                                                     type="button"
-                                                                    disabled={isBooked}
+                                                                    disabled={isDisabled}
                                                                     onClick={() => setFormData({ ...formData, time: t })}
                                                                     className={`py-3 text-[11px] font-black rounded-xl border-2 transition-all ${formData.time === t
                                                                         ? "bg-primary-green text-white border-primary-green shadow-lg scale-105"
-                                                                        : isBooked
-                                                                            ? "bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed line-through"
+                                                                        : isDisabled
+                                                                            ? "bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed line-through opacity-50"
                                                                             : "bg-white text-gray-400 border-gray-100 hover:border-primary-green/20 hover:text-primary-green hover:bg-primary-green/5"
                                                                         }`}
                                                                 >
