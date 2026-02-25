@@ -98,7 +98,6 @@ export default function Dashboard() {
     const currentStats = [
         { label: "Consultas hoy", value: statsData.consultasHoy.toString(), icon: MessageSquare, color: "text-blue-600", bg: "bg-blue-50" },
         { label: "Solicitudes Vet", value: statsData.veterinaryToday.toString(), icon: Dog, color: "text-primary-green", bg: "bg-green-50" },
-        { label: "Estudios listos", value: statsData.estudiosListos, icon: CheckCircle2, color: "text-primary-burgundy", bg: "bg-red-50" },
         { label: "Turnos mañana", value: statsData.turnosManana.toString(), icon: Calendar, color: "text-orange-600", bg: "bg-orange-50" },
     ];
 
@@ -191,7 +190,7 @@ export default function Dashboard() {
                                 ))}
                             </div>
 
-                            <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-8 text-black">
+                            <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8 text-black">
                                 <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
                                     <div className="flex items-center justify-between mb-6">
                                         <h3 className="text-xl font-bold">Consultas Recientes</h3>
@@ -332,22 +331,6 @@ export default function Dashboard() {
                                         className="mt-6 block text-center text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-orange-600 transition-colors"
                                     >
                                         Ver todos los turnos PRP
-                                    </Link>
-                                </div>
-
-                                <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8 flex flex-col items-center justify-center text-center space-y-4">
-                                    <div className="w-16 h-16 bg-primary-green/5 text-primary-green rounded-2xl flex items-center justify-center mb-2">
-                                        <Mail size={32} />
-                                    </div>
-                                    <h3 className="text-xl font-bold">InfoMail</h3>
-                                    <p className="text-gray-400 text-xs font-medium px-4">
-                                        Gestión de comunicaciones y boletines informativos.
-                                    </p>
-                                    <Link
-                                        href="/admin/infomail"
-                                        className="mt-4 px-6 py-2 bg-primary-green text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary-green/20 hover:scale-105 transition-all"
-                                    >
-                                        Abrir Módulo
                                     </Link>
                                 </div>
                             </div>

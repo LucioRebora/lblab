@@ -150,10 +150,10 @@ export default function ConsultasPage() {
                     </div>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-xl">
+                            <p className="text-sm font-bold text-gray-900 text-right">{session.user?.name}</p>
                             <div className="w-8 h-8 bg-primary-green rounded-full flex items-center justify-center text-white font-bold text-xs uppercase">
                                 {session.user?.name?.substring(0, 2)}
                             </div>
-                            <p className="text-sm font-bold text-gray-900">{session.user?.name}</p>
                         </div>
                     </div>
                 </header>

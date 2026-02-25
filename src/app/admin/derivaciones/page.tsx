@@ -154,7 +154,6 @@ export default function DerivacionesAdminPage() {
                         <div className="flex items-center gap-3">
                             <div className="text-right hidden sm:block">
                                 <p className="text-sm font-bold text-gray-900">{session.user?.name}</p>
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">Admin</p>
                             </div>
                             <div className="w-10 h-10 bg-primary-green rounded-full flex items-center justify-center text-white font-bold text-sm shadow-inner uppercase">
                                 {session.user?.name?.substring(0, 2)}
