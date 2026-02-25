@@ -4,7 +4,7 @@
   --color-primary-green: #1a5f42;
   --color-primary-burgundy: #a13242;
   --color-sage-bg: #e8eeec;
-  
+
   --font-heading: "Outfit", sans-serif;
   --font-body: "Inter", sans-serif;
 
@@ -27,9 +27,52 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* Base Headings Standard */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
-  letter-spacing: -0.02em;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+/* Typography Scale & Components */
+@layer components {
+
+  /* Hero Large Titles */
+  .lb-title-xl {
+    @apply text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter leading-none font-heading;
+  }
+
+  /* Section Titles */
+  .lb-title-lg {
+    @apply text-2xl md:text-4xl font-black uppercase tracking-tighter leading-tight font-heading;
+  }
+
+  /* Card/Subsection Titles */
+  .lb-title-md {
+    @apply text-lg md:text-xl font-black uppercase tracking-tight leading-snug font-heading;
+  }
+
+  /* Standard Body Text */
+  .lb-body {
+    @apply text-sm md:text-base text-gray-600 font-medium leading-relaxed font-body;
+  }
+
+  /* Small Labels / Microcopy */
+  .lb-label {
+    @apply text-[10px] font-black uppercase tracking-[0.2em] leading-none font-body;
+  }
+
+  /* Italic Descriptions */
+  .lb-description {
+    @apply text-gray-400 font-bold uppercase italic tracking-widest text-[10px] font-body;
+  }
 }
 
 .glass-card {

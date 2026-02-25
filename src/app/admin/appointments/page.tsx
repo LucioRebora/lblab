@@ -102,6 +102,28 @@ export default function AppointmentsAdminPage() {
         }
     };
 
+    const handleComplete = async (id: string) => {
+        setIsUpdating(true);
+        try {
+            const response = await fetch("/api/admin/appointments", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id,
+                    status: "COMPLETED"
+                }),
+            });
+
+            if (response.ok) {
+                await fetchAppointments();
+            }
+        } catch (error) {
+            console.error("Error completing appointment:", error);
+        } finally {
+            setIsUpdating(false);
+        }
+    };
+
     if (status === "loading") {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center font-black uppercase tracking-widest text-primary-burgundy animate-pulse">
@@ -288,22 +310,37 @@ export default function AppointmentsAdminPage() {
                                                                     </div>
                                                                 )}
                                                             </div>
+                                                        ) : apt.status === 'COMPLETED' ? (
+                                                            <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-gray-900 text-white px-4 py-1.5 rounded-full shadow-lg shadow-gray-200">
+                                                                <CheckCircle2 size={10} className="text-primary-green" />
+                                                                Completado
+                                                            </span>
                                                         ) : (
                                                             <div className="flex items-center gap-2">
                                                                 <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
                                                                     <CheckCircle2 size={10} />
                                                                     Programado
                                                                 </span>
-                                                                <button
-                                                                    onClick={() => {
-                                                                        setSelectedAptId(apt.id);
-                                                                        setIsCancelModalOpen(true);
-                                                                    }}
-                                                                    className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                                                                    title="Cancelar Turno"
-                                                                >
-                                                                    <X size={18} />
-                                                                </button>
+                                                                <div className="flex items-center gap-1">
+                                                                    <button
+                                                                        onClick={() => handleComplete(apt.id)}
+                                                                        disabled={isUpdating}
+                                                                        className="p-2 text-gray-300 hover:text-primary-green hover:bg-green-50 rounded-xl transition-all"
+                                                                        title="Marcar como Completado"
+                                                                    >
+                                                                        <CheckCircle2 size={18} />
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            setSelectedAptId(apt.id);
+                                                                            setIsCancelModalOpen(true);
+                                                                        }}
+                                                                        className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                                                        title="Cancelar Turno"
+                                                                    >
+                                                                        <X size={18} />
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         )}
                                                     </div>

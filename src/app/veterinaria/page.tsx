@@ -115,10 +115,10 @@ export default function VeterinariaPage() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="flex items-center gap-4 text-2xl md:text-3xl font-black text-[#1a2b3c] tracking-tighter uppercase"
+                        className="flex items-center gap-4 lb-title-lg text-[#1a2b3c]"
                     >
                         <div className="bg-primary-green/5 p-3 rounded-2xl">
-                            <Dog className="text-primary-green" size={28} />
+                            <Dog className="text-primary-green" size={28} strokeWidth={2.5} />
                         </div>
                         <span>ANÁLISIS VETERINARIOS</span>
                     </motion.div>

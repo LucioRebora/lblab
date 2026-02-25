@@ -118,7 +118,7 @@ export default function PRPPage() {
                             <Droplets size={40} strokeWidth={2.5} />
                         </div>
                         <div className="space-y-1">
-                            <h1 className="text-3xl md:text-6xl font-black text-[#1a2b3c] tracking-tighter uppercase leading-none">
+                            <h1 className="lb-title-xl text-[#1a2b3c]">
                                 Plasma Rico <br className="hidden md:block" />
                                 <span className="text-primary-green">en Plaquetas</span>
                             </h1>

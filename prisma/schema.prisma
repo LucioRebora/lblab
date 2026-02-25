@@ -8,12 +8,14 @@ datasource db {
 }
 
 model ContactSubmission {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  comment   String
-  web       String?
-  createdAt DateTime @default(now())
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  comment      String
+  web          String?
+  status       String   @default("PENDING")
+  replyMessage String?
+  createdAt    DateTime @default(now())
 }
 
 model Patient {

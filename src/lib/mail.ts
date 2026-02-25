@@ -33,7 +33,7 @@ export async function sendMail({
         const html = getEmailTemplate({ title, preheader, data });
 
         // Ruta absoluta al logo para adjuntarlo
-        const logoPath = path.join(process.cwd(), "public", "img", "logo-test.png");
+        const logoPath = path.join(process.cwd(), "public", "img", "logo-lblab.png");
 
         const info = await transporter.sendMail({
             from: `"Laboratorio LB Lab" <${process.env.GMAIL_USER}>`,
@@ -43,9 +43,10 @@ export async function sendMail({
             html,
             attachments: [
                 {
-                    filename: 'logo-test.png',
+                    filename: 'logo-lblab.png',
                     path: logoPath,
-                    cid: 'logo' // mismo ID que usamos en el template <img src="cid:logo">
+                    cid: 'logo', // mismo ID que usamos en el template <img src="cid:logo">
+                    disposition: 'inline'
                 }
             ]
         });

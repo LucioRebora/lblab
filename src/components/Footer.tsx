@@ -2,6 +2,7 @@
 
 import { MapPin, LayoutDashboard } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function Footer() {
     const { status } = useSession();
@@ -56,7 +57,7 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Section: Separator and Footer Credits */}
-                <div className="pt-10 border-t border-primary-green/10 flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
+                <div className="pt-10 border-t border-primary-green/10 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
                     {/* Left side: Copyright */}
                     <div className="space-y-1">
                         <p className="text-gray-400 text-[10px] font-black tracking-widest uppercase">
@@ -66,6 +67,15 @@ export default function Footer() {
                             POWERED BY <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="text-primary-green hover:underline">ITIA.AR</a>
                         </p>
                     </div>
+
+                    {/* Right side: Admin Access */}
+                    <Link
+                        href="/admin"
+                        className="inline-flex items-center gap-2 text-[10px] font-black tracking-widest uppercase text-gray-400 hover:text-primary-green transition-colors group"
+                    >
+                        <LayoutDashboard size={14} className="group-hover:scale-110 transition-transform" />
+                        Acceso Panel
+                    </Link>
                 </div>
             </div>
         </footer>

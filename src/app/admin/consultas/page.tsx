@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
     Users,
     Settings,
@@ -15,7 +15,9 @@ import {
     Globe,
     X,
     CheckCircle2,
-    Upload
+    Upload,
+    Send,
+    Loader2
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -28,6 +30,13 @@ export default function ConsultasPage() {
     const router = useRouter();
     const [submissions, setSubmissions] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+
+    // Modal state
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedSub, setSelectedSub] = useState<any>(null);
+    const [replyEmail, setReplyEmail] = useState("");
+    const [replyMessage, setReplyMessage] = useState("");
+    const [isSending, setIsSending] = useState(false);
 
     useEffect(() => {
         if (status === "unauthenticated") {
@@ -55,6 +64,60 @@ export default function ConsultasPage() {
         }
     }, [session]);
 
+    const handleOpenReply = (sub: any) => {
+        setSelectedSub(sub);
+        setReplyEmail(sub.email);
+        setIsModalOpen(true);
+        setReplyMessage("");
+    };
+
+    const handleSendReply = async () => {
+        if (!selectedSub || !replyMessage) return;
+        setIsSending(true);
+        try {
+            const response = await fetch("/api/admin/submissions", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: selectedSub.id,
+                    email: replyEmail,
+                    name: selectedSub.name,
+                    message: replyMessage
+                }),
+            });
+
+            if (response.ok) {
+                await fetchSubmissions();
+                setIsModalOpen(false);
+                setSelectedSub(null);
+                setReplyMessage("");
+            }
+        } catch (error) {
+            console.error("Error sending reply:", error);
+        } finally {
+            setIsSending(false);
+        }
+    };
+
+    const handleMarkAsPhoned = async (id: string) => {
+        try {
+            const response = await fetch("/api/admin/submissions", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id,
+                    status: "RESPONDED_PHONE"
+                }),
+            });
+
+            if (response.ok) {
+                await fetchSubmissions();
+            }
+        } catch (error) {
+            console.error("Error marking as phoned:", error);
+        }
+    };
+
     if (status === "loading") {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center font-black uppercase tracking-widest text-primary-burgundy animate-pulse">
@@ -69,7 +132,6 @@ export default function ConsultasPage() {
         <div className="min-h-screen bg-gray-50 flex">
             <Sidebar />
 
-            {/* Main Content */}
             <main className="flex-grow overflow-y-auto">
                 <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
                     <h1 className="text-lg font-black text-gray-900 uppercase tracking-tight">Registro de Consultas</h1>
@@ -89,7 +151,6 @@ export default function ConsultasPage() {
                         <p className="text-gray-500 text-sm font-medium">Revisa todos los mensajes enviados desde el sitio web.</p>
                     </div>
 
-                    {/* Submissions List */}
                     <div className="grid gap-6">
                         {loading ? (
                             <div className="bg-white p-12 rounded-[2rem] border border-gray-100 shadow-sm text-center text-gray-400 font-bold uppercase text-xs animate-pulse">
@@ -105,12 +166,12 @@ export default function ConsultasPage() {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.05 }}
-                                className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group"
+                                className={`bg-white p-8 rounded-[2rem] border transition-all group ${sub.status === 'RESPONDED' || sub.status === 'RESPONDED_PHONE' ? 'border-gray-100 opacity-80' : 'border-primary-green/20 bg-green-50/10 shadow-sm hover:shadow-md'}`}
                             >
                                 <div className="flex flex-col md:flex-row justify-between gap-6">
                                     <div className="space-y-4 flex-grow">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 bg-primary-burgundy/5 text-primary-burgundy rounded-2xl flex items-center justify-center font-black text-lg uppercase shadow-inner">
+                                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg uppercase shadow-inner ${sub.status === 'RESPONDED' ? 'bg-gray-100 text-gray-400' : 'bg-primary-burgundy/5 text-primary-burgundy'}`}>
                                                 {sub.name.substring(0, 2)}
                                             </div>
                                             <div>
@@ -128,6 +189,25 @@ export default function ConsultasPage() {
                                             </p>
                                         </div>
 
+                                        {sub.status === 'RESPONDED' && sub.replyMessage && (
+                                            <motion.div
+                                                initial={{ opacity: 0, x: 20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                className="flex justify-end pr-4"
+                                            >
+                                                <div className="bg-white p-6 rounded-2xl border-2 border-primary-green/20 shadow-sm max-w-[85%] relative overflow-hidden">
+                                                    <div className="absolute top-0 left-0 w-1 h-full bg-primary-green/10" />
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                        <CheckCircle2 size={12} className="text-primary-green" />
+                                                        <span className="text-[10px] font-black uppercase tracking-widest text-primary-green">Nuestra Respuesta</span>
+                                                    </div>
+                                                    <p className="text-gray-600 text-sm leading-relaxed font-bold">
+                                                        {sub.replyMessage}
+                                                    </p>
+                                                </div>
+                                            </motion.div>
+                                        )}
+
                                         <div className="flex flex-wrap gap-4">
                                             <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-[10px] font-black uppercase tracking-widest border border-blue-100/50">
                                                 <Mail size={14} />
@@ -142,18 +222,48 @@ export default function ConsultasPage() {
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-col justify-between items-end gap-4 min-w-[120px]">
-                                        <span className="bg-green-100 text-primary-green px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm">
-                                            Nueva Consulta
-                                        </span>
+                                    <div className="flex flex-col justify-between items-end gap-4 min-w-[140px]">
+                                        {sub.status === 'RESPONDED' ? (
+                                            <span className="inline-flex items-center gap-1.5 bg-gray-900 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md">
+                                                <CheckCircle2 size={10} className="text-primary-green" />
+                                                Respondido
+                                            </span>
+                                        ) : sub.status === 'RESPONDED_PHONE' ? (
+                                            <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md">
+                                                <Phone size={10} />
+                                                Resp. Teléfono
+                                            </span>
+                                        ) : (
+                                            <span className="bg-primary-green text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm animate-pulse">
+                                                Nueva Consulta
+                                            </span>
+                                        )}
+
                                         <div className="flex gap-2">
-                                            <a
-                                                href={`mailto:${sub.email}`}
-                                                className="p-3 bg-gray-50 text-gray-400 hover:bg-primary-burgundy hover:text-white rounded-xl transition-all shadow-sm"
-                                                title="Responder por email"
+                                            <button
+                                                onClick={() => handleOpenReply(sub)}
+                                                disabled={sub.status !== 'PENDING'}
+                                                className={`p-3 rounded-xl transition-all shadow-sm ${sub.status !== 'PENDING'
+                                                    ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
+                                                    : 'bg-primary-green text-white hover:scale-110'
+                                                    }`}
+                                                title={sub.status !== 'PENDING' ? "Respuesta ya enviada" : "Responder por Email"}
                                             >
                                                 <Mail size={18} />
-                                            </a>
+                                            </button>
+                                            <button
+                                                onClick={() => handleMarkAsPhoned(sub.id)}
+                                                disabled={sub.status !== 'PENDING'}
+                                                className={`p-3 rounded-xl transition-all shadow-sm ${sub.status === 'RESPONDED_PHONE'
+                                                    ? 'bg-blue-600 text-white shadow-inner'
+                                                    : sub.status === 'RESPONDED'
+                                                        ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
+                                                        : 'bg-gray-50 text-gray-400 hover:bg-blue-600 hover:text-white'
+                                                    }`}
+                                                title={sub.status !== 'PENDING' ? "Consulta ya gestionada" : "Marcar como Respondido Telefónicamente"}
+                                            >
+                                                <Phone size={18} />
+                                            </button>
                                             <button className="p-3 bg-gray-50 text-gray-400 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all shadow-sm">
                                                 <X size={18} />
                                             </button>
@@ -165,6 +275,90 @@ export default function ConsultasPage() {
                     </div>
                 </div>
             </main>
+
+            {/* Reply Modal */}
+            <AnimatePresence>
+                {isModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsModalOpen(false)}
+                            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl relative z-10 overflow-hidden"
+                        >
+                            <div className="bg-primary-green p-8 text-center relative">
+                                <button
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
+                                >
+                                    <X size={20} />
+                                </button>
+                                <div className="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center text-white mx-auto mb-4 backdrop-blur-md">
+                                    <Mail size={32} />
+                                </div>
+                                <h3 className="text-xl font-black text-white uppercase tracking-tight">Responder Consulta</h3>
+                                <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mt-1">Para: {selectedSub?.name} &lt;{selectedSub?.email}&gt;</p>
+                            </div>
+
+                            <div className="p-8 space-y-6">
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-primary-green/60 ml-4">Enviar a (Email)</label>
+                                        <input
+                                            type="email"
+                                            value={replyEmail}
+                                            onChange={(e) => setReplyEmail(e.target.value)}
+                                            className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-6 text-sm font-bold focus:border-primary-green outline-none text-black shadow-sm"
+                                        />
+                                    </div>
+
+                                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 text-xs text-gray-500 italic">
+                                        En respuesta a: "{selectedSub?.comment}"
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-primary-green/60 ml-4">Mensaje de Respuesta</label>
+                                    <textarea
+                                        autoFocus
+                                        value={replyMessage}
+                                        onChange={(e) => setReplyMessage(e.target.value)}
+                                        placeholder="Escribe tu respuesta aquí..."
+                                        className="w-full bg-white border border-gray-200 rounded-2xl py-4 px-6 text-sm font-medium focus:border-primary-green outline-none text-black min-h-[160px] resize-none shadow-sm transition-all"
+                                    />
+                                </div>
+
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={() => setIsModalOpen(false)}
+                                        className="flex-1 bg-gray-100 text-gray-400 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-200 transition-all"
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        disabled={isSending || !replyMessage}
+                                        onClick={handleSendReply}
+                                        className="flex-[2] bg-primary-green text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-primary-green/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                                    >
+                                        {isSending ? (
+                                            <>Enviando... <Loader2 className="animate-spin" size={16} /></>
+                                        ) : (
+                                            <>Enviar Respuesta <Send size={16} /></>
+                                        )}
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

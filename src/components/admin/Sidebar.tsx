@@ -17,7 +17,8 @@ import {
     ChevronDown,
     ChevronRight,
     FileText,
-    Dog
+    Dog,
+    Mail
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -46,7 +47,7 @@ export default function Sidebar() {
             <div className="py-3 px-4 border-b border-gray-100 flex items-center justify-center">
                 <div className="relative w-48 h-32">
                     <Image
-                        src="/img/logo-test.png"
+                        src="/img/logo-lblab.png"
                         alt="LB Lab Logo"
                         fill
                         className="object-contain"
@@ -96,6 +97,16 @@ export default function Sidebar() {
                                     exit={{ height: 0, opacity: 0 }}
                                     className="overflow-hidden pl-10"
                                 >
+                                    <Link
+                                        href="/admin/infomail"
+                                        className={`w-full flex items-center gap-3 py-2 text-xs font-bold transition-all ${pathname === "/admin/infomail"
+                                            ? "text-primary-burgundy"
+                                            : "text-gray-400 hover:text-gray-600"
+                                            }`}
+                                    >
+                                        <Mail size={14} />
+                                        InfoMail
+                                    </Link>
                                     <Link
                                         href="/admin/config/precios-derivantes"
                                         className={`w-full flex items-center gap-3 py-2 text-xs font-bold transition-all ${pathname === "/admin/config/precios-derivantes"

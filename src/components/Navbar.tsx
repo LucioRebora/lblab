@@ -41,7 +41,7 @@ export default function Navbar() {
                         <Link href="/" className="flex items-center">
                             <div className="relative w-40 h-40 md:w-52 md:h-52 flex items-center">
                                 <Image
-                                    src="/img/logo-test.png"
+                                    src="/img/logo-lblab.png"
                                     alt="LB Lab Logo"
                                     width={200}
                                     height={200}
@@ -70,7 +70,7 @@ export default function Navbar() {
                             UBICACIÓN
                         </Link>
                         <Link
-                            href="/admin/dashboard"
+                            href="/resultados"
                             className="bg-primary-burgundy text-white px-6 py-2.5 rounded-full text-[13px] font-black tracking-widest hover:bg-opacity-90 transition-all shadow-lg hover:shadow-primary-burgundy/20"
                         >
                             RESULTADOS
@@ -106,7 +106,7 @@ export default function Navbar() {
                         </Link>
                     ))}
                     <Link
-                        href="/admin/dashboard"
+                        href="/resultados"
                         onClick={() => setIsOpen(false)}
                         className="block w-full text-center bg-primary-burgundy text-white px-5 py-5 rounded-2xl text-xs font-black mt-8 tracking-[0.2em]"
                     >
