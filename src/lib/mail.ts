@@ -46,7 +46,6 @@ export async function sendMail({
                     filename: 'logo-lblab.png',
                     path: logoPath,
                     cid: 'logo', // mismo ID que usamos en el template <img src="cid:logo">
-                    disposition: 'inline'
                 }
             ]
         });
