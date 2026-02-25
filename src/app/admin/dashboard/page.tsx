@@ -144,11 +144,6 @@ export default function Dashboard() {
                                 {isStaff ? `Bienvenido de nuevo, ${isSecretary ? "Secretaria" : "Administrador"}.` : "Bienvenido al portal del Laboratorio LB Lab."}
                             </p>
                         </div>
-                        {isStaff && (
-                            <button className="bg-primary-green text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary-green/20 hover:scale-105 transition-all">
-                                Nuevo Resultado
-                            </button>
-                        )}
                     </div>
 
                     {!isStaff ? (
