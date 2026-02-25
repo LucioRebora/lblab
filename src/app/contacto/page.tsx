@@ -110,7 +110,7 @@ export default function ContactPage() {
 
                             <div className="bg-white p-2 rounded-[2.5rem] overflow-hidden shadow-2xl border border-white h-[300px] relative group w-full">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3393.362908233777!2d-58.514444!3d-33.008889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa80693a7413d%3A0xe5a3c0e3a4e9b60b!2sBol%C3%ADvar%201002%2C%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3393.28420556152!2d-58.521186!3d-33.0109665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa828f2a75599%3A0xb5a7bfcdf19a703!2sLB%20LAB%2C%20Laboratorio%20de%20Bioan%C3%A1lisis.!5e0!3m2!1ses-419!2sar!4v1740520464654!5m2!1ses-419!2sar"
                                     className="absolute inset-0 w-full h-full border-0 rounded-[2.2rem]"
                                     loading="lazy"
                                 ></iframe>
