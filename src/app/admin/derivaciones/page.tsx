@@ -333,8 +333,8 @@ export default function DerivacionesAdminPage() {
                                                                 )}
                                                             </div>
                                                         ) : d.status === 'COMPLETED' ? (
-                                                            <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-gray-900 text-white px-4 py-1.5 rounded-full shadow-lg shadow-gray-200">
-                                                                <CheckCircle2 size={10} className="text-primary-green" />
+                                                            <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
+                                                                <CheckCircle2 size={10} />
                                                                 Completado
                                                             </span>
                                                         ) : (

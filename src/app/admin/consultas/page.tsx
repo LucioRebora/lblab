@@ -316,12 +316,12 @@ export default function ConsultasPage() {
 
                                         <div className="flex flex-col justify-between items-end gap-4 min-w-[140px]">
                                             {sub.status === 'RESPONDED' ? (
-                                                <span className="inline-flex items-center gap-1.5 bg-gray-900 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md">
-                                                    <CheckCircle2 size={10} className="text-primary-green" />
+                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
+                                                    <CheckCircle2 size={10} />
                                                     Respondido
                                                 </span>
                                             ) : sub.status === 'RESPONDED_PHONE' ? (
-                                                <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md">
+                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-4 py-1.5 rounded-full border border-blue-100">
                                                     <Phone size={10} />
                                                     Resp. Teléfono
                                                 </span>
