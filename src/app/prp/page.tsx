@@ -355,11 +355,11 @@ export default function PRPPage() {
                                                 </div>
                                             </div>
 
-                                            <div className="pt-8 flex flex-col sm:flex-row gap-4">
+                                            <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-8 border-t border-gray-50">
                                                 <button
                                                     type="submit"
                                                     disabled={isSubmitting}
-                                                    className="flex-1 bg-primary-green text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-green-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                                                    className="w-full sm:w-fit bg-primary-green text-white px-16 py-6 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl shadow-green-100 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-3"
                                                 >
                                                     {isSubmitting ? "ENVIANDO..." : "SOLICITAR TURNO"}
                                                 </button>
@@ -375,7 +375,7 @@ export default function PRPPage() {
                                                         preparation: [],
                                                         otherPreparation: ""
                                                     })}
-                                                    className="px-8 py-5 rounded-2xl font-black text-[10px] text-gray-400 uppercase tracking-widest hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100"
+                                                    className="text-[10px] font-black text-gray-400 uppercase tracking-widest hover:text-red-500 transition-colors"
                                                 >
                                                     BORRAR FORMULARIO
                                                 </button>
