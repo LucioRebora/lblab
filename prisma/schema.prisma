@@ -90,7 +90,7 @@ model AnalysisPrice {
   id        String   @id @default(cuid())
   name      String   @unique
   nbuUnits  Float
-  category  String?  @default("GENERAL")
+  category  String?  @default("DERIVANTE")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

@@ -37,7 +37,7 @@ export async function POST(request: Request) {
             data: {
                 name,
                 nbuUnits: parseFloat(nbuUnits),
-                category: category || "GENERAL"
+                category: category || "DERIVANTE"
             }
         });
 

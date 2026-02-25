@@ -99,7 +99,7 @@ export default function VeterinariaPage() {
 
     const tabs: { id: TabType; label: string; icon: any }[] = [
         { id: "INSTRUCCIONES", label: "TOMA DE MUESTRAS", icon: Info },
-        { id: "SOLICITUD", label: "SOLICITAR TURNO", icon: ClipboardList },
+        { id: "SOLICITUD", label: "SOLICITAR ESTUDIOS", icon: ClipboardList },
         { id: "PRECIOS", label: "LISTA DE PRECIOS", icon: DollarSign },
     ];
 

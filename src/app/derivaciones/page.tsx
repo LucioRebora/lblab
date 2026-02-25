@@ -57,7 +57,7 @@ export default function DerivacionesPage() {
             setLoadingPrices(true);
             try {
                 const [pricesRes, configRes] = await Promise.all([
-                    fetch("/api/admin/config/prices"),
+                    fetch("/api/admin/config/prices?category=DERIVANTE"),
                     fetch("/api/admin/config/global")
                 ]);
 

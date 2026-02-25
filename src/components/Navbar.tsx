@@ -63,7 +63,7 @@ export default function Navbar() {
                             </Link>
                         ))}
                         <Link
-                            href="/contacto"
+                            href="/#mapa"
                             className="flex items-center gap-2 bg-sage-bg text-gray-700 px-4 py-2.5 rounded-full text-[13px] font-black tracking-widest hover:bg-gray-200 transition-all border border-gray-200"
                         >
                             <MapPin size={14} className="text-primary-green" />
@@ -107,6 +107,14 @@ export default function Navbar() {
                             {link.name}
                         </Link>
                     ))}
+                    <Link
+                        href="/#mapa"
+                        onClick={() => setIsOpen(false)}
+                        className="block py-4 text-xs font-black text-primary-green border-b border-gray-50 uppercase tracking-widest flex items-center gap-2"
+                    >
+                        <MapPin size={14} />
+                        UBICACIÓN
+                    </Link>
                     <a
                         href="https://redlab.com.ar/lblab"
                         target="_blank"

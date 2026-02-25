@@ -22,6 +22,7 @@ export const metadata: Metadata = {
 };
 
 import { Providers } from "@/components/Providers";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function RootLayout({
   children,
@@ -31,7 +32,10 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${outfit.variable} ${inter.variable}`}>
       <body className="antialiased font-body">
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <WhatsAppButton />
+        </Providers>
       </body>
     </html>
   );

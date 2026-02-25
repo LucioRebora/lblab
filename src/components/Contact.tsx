@@ -47,7 +47,7 @@ export default function Contact() {
         <section id="contacto" className="py-24 bg-sage-bg relative text-gray-900 transition-all duration-300">
             <div className="max-w-7xl mx-auto px-4">
 
-                <div id="mapa" className="bg-white rounded-[2.5rem] overflow-hidden mb-16 shadow-xl border-4 border-white h-80 relative group scroll-mt-24">
+                <div id="mapa" className="bg-white rounded-[2.5rem] overflow-hidden mb-16 shadow-xl border-4 border-white h-80 relative group scroll-mt-32">
                     <div className="absolute inset-0 bg-gray-100 animate-pulse flex items-center justify-center">
                         <MapPin size={48} className="text-primary-green animate-bounce" />
                         <span className="ml-4 text-gray-500 font-bold uppercase tracking-widest text-sm">UBICACIÓN: Bolívar 1002, Gualeguaychú</span>
