@@ -3,6 +3,7 @@
 import { FileText, Search, Users, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Results() {
     return (
@@ -80,10 +81,15 @@ export default function Results() {
                         </div>
 
                         <div className="pt-6">
-                            <button className="bg-primary-burgundy text-white px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl hover:shadow-primary-burgundy/30 hover:scale-105 transition-all flex items-center gap-4 group">
-                                ACCEDER A RESULTADOS
+                            <a
+                                href="https://redlab.com.ar/lblab"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-primary-burgundy text-white px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl hover:shadow-primary-burgundy/30 hover:scale-105 transition-all flex items-center gap-4 group w-fit"
+                            >
+                                RESULTADOS
                                 <ChevronRight size={18} className="group-hover:translate-x-2 transition-transform" strokeWidth={4} />
-                            </button>
+                            </a>
                         </div>
                     </motion.div>
                 </div>

@@ -20,7 +20,8 @@ import {
     AlertTriangle,
     Info,
     Building2,
-    Upload
+    Upload,
+    Send
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -34,7 +35,8 @@ export default function DerivacionesAdminPage() {
     const router = useRouter();
     const [derivaciones, setDerivaciones] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [filterDate, setFilterDate] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
 
     // Cancellation state
@@ -53,9 +55,6 @@ export default function DerivacionesAdminPage() {
         setLoading(true);
         try {
             let url = "/api/admin/derivaciones";
-            if (filterDate) {
-                url += `?date=${filterDate}`;
-            }
             const response = await fetch(url);
             if (response.ok) {
                 const data = await response.json();
@@ -72,7 +71,7 @@ export default function DerivacionesAdminPage() {
         if (session) {
             fetchDerivaciones();
         }
-    }, [session, filterDate]);
+    }, [session]);
 
     const handleCancel = async () => {
         if (!selectedId || !cancelReason) return;
@@ -96,6 +95,28 @@ export default function DerivacionesAdminPage() {
             }
         } catch (error) {
             console.error("Error cancelling derivacion:", error);
+        } finally {
+            setIsUpdating(false);
+        }
+    };
+
+    const handleComplete = async (id: string) => {
+        setIsUpdating(true);
+        try {
+            const response = await fetch("/api/admin/derivaciones", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id,
+                    status: "COMPLETED"
+                }),
+            });
+
+            if (response.ok) {
+                await fetchDerivaciones();
+            }
+        } catch (error) {
+            console.error("Error completing derivacion:", error);
         } finally {
             setIsUpdating(false);
         }
@@ -143,30 +164,42 @@ export default function DerivacionesAdminPage() {
                 </header>
 
                 <div className="p-8 space-y-8">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                         <div>
                             <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Derivaciones</h1>
                             <p className="text-gray-500 text-sm font-medium">Gestión de muestras de laboratorios externos.</p>
                         </div>
 
-                        <div className="flex items-center gap-3">
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                                    <Filter size={14} />
-                                </div>
+                        <div className="flex items-center gap-4 bg-white p-2 rounded-2xl border border-gray-100 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary-burgundy/20">
+                            <div className="flex flex-col px-3">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Desde</label>
                                 <input
                                     type="date"
-                                    value={filterDate}
-                                    onChange={(e) => setFilterDate(e.target.value)}
-                                    className="bg-white border border-gray-200 rounded-xl py-2 pl-10 pr-4 text-sm font-bold focus:ring-2 focus:ring-primary-burgundy outline-none transition-all shadow-sm"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    className="text-xs font-bold text-gray-900 outline-none bg-transparent"
                                 />
                             </div>
-                            {filterDate && (
+                            <div className="h-8 w-px bg-gray-100" />
+                            <div className="flex flex-col px-3">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Hasta</label>
+                                <input
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    className="text-xs font-bold text-gray-900 outline-none bg-transparent"
+                                />
+                            </div>
+                            {(startDate || endDate) && (
                                 <button
-                                    onClick={() => setFilterDate("")}
-                                    className="text-xs font-bold text-primary-burgundy hover:underline"
+                                    onClick={() => {
+                                        setStartDate("");
+                                        setEndDate("");
+                                    }}
+                                    className="p-2 text-gray-300 hover:text-red-500 transition-colors"
+                                    title="Limpiar filtros"
                                 >
-                                    Limpiar
+                                    <X size={16} />
                                 </button>
                             )}
                         </div>
@@ -194,24 +227,39 @@ export default function DerivacionesAdminPage() {
                                                 </div>
                                             </td>
                                         </tr>
-                                    ) : derivaciones.filter(d => {
-                                        const q = searchQuery.toLowerCase();
-                                        return d.patient?.toLowerCase().includes(q) ||
-                                            d.labName?.toLowerCase().includes(q) ||
-                                            d.email?.toLowerCase().includes(q);
-                                    }).length === 0 ? (
-                                        <tr>
-                                            <td colSpan={5} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
-                                                No se encontraron registros.
-                                            </td>
-                                        </tr>
-                                    ) : (
-                                        derivaciones.filter(d => {
+                                    ) : (() => {
+                                        const filtered = derivaciones.filter(d => {
                                             const q = searchQuery.toLowerCase();
-                                            return d.patient?.toLowerCase().includes(q) ||
+                                            const matchesSearch = d.patient?.toLowerCase().includes(q) ||
                                                 d.labName?.toLowerCase().includes(q) ||
                                                 d.email?.toLowerCase().includes(q);
-                                        }).map((d) => (
+
+                                            const aptDate = new Date(d.date + "T00:00:00");
+                                            let matchesDate = true;
+
+                                            if (startDate) {
+                                                const start = new Date(startDate + "T00:00:00");
+                                                if (aptDate < start) matchesDate = false;
+                                            }
+                                            if (endDate) {
+                                                const end = new Date(endDate + "T00:00:00");
+                                                if (aptDate > end) matchesDate = false;
+                                            }
+
+                                            return matchesSearch && matchesDate;
+                                        });
+
+                                        if (filtered.length === 0) {
+                                            return (
+                                                <tr>
+                                                    <td colSpan={5} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
+                                                        No se encontraron registros que coincidan con la búsqueda.
+                                                    </td>
+                                                </tr>
+                                            );
+                                        }
+
+                                        return filtered.map((d) => (
                                             <motion.tr
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
@@ -249,7 +297,11 @@ export default function DerivacionesAdminPage() {
                                                         </div>
                                                         <div className="flex items-center gap-2 text-xs font-bold text-gray-400 mt-1 uppercase">
                                                             <Clock size={12} />
-                                                            {d.time} hs
+                                                            {d.time === 'SOLICITUD' ? (
+                                                                format(new Date(d.createdAt), "HH:mm")
+                                                            ) : (
+                                                                d.time
+                                                            )} hs
                                                         </div>
                                                     </div>
                                                 </td>
@@ -281,29 +333,44 @@ export default function DerivacionesAdminPage() {
                                                                     </div>
                                                                 )}
                                                             </div>
+                                                        ) : d.status === 'COMPLETED' ? (
+                                                            <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-gray-900 text-white px-4 py-1.5 rounded-full shadow-lg shadow-gray-200">
+                                                                <CheckCircle2 size={10} className="text-primary-green" />
+                                                                Completado
+                                                            </span>
                                                         ) : (
                                                             <div className="flex items-center gap-2">
                                                                 <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
                                                                     <CheckCircle2 size={10} />
                                                                     Programado
                                                                 </span>
-                                                                <button
-                                                                    onClick={() => {
-                                                                        setSelectedId(d.id);
-                                                                        setIsCancelModalOpen(true);
-                                                                    }}
-                                                                    className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                                                                    title="Anular Solicitud"
-                                                                >
-                                                                    <X size={18} />
-                                                                </button>
+                                                                <div className="flex items-center gap-1">
+                                                                    <button
+                                                                        onClick={() => handleComplete(d.id)}
+                                                                        disabled={isUpdating}
+                                                                        className="p-2 text-gray-300 hover:text-primary-green hover:bg-green-50 rounded-xl transition-all"
+                                                                        title="Marcar como Completado"
+                                                                    >
+                                                                        <CheckCircle2 size={18} />
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            setSelectedId(d.id);
+                                                                            setIsCancelModalOpen(true);
+                                                                        }}
+                                                                        className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                                                        title="Anular Solicitud"
+                                                                    >
+                                                                        <X size={18} />
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         )}
                                                     </div>
                                                 </td>
                                             </motion.tr>
-                                        ))
-                                    )}
+                                        ));
+                                    })()}
                                 </tbody>
                             </table>
                         </div>

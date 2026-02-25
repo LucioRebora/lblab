@@ -69,12 +69,14 @@ export default function Navbar() {
                             <MapPin size={14} className="text-primary-green" />
                             UBICACIÓN
                         </Link>
-                        <Link
-                            href="/resultados"
+                        <a
+                            href="https://redlab.com.ar/lblab"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="bg-primary-burgundy text-white px-6 py-2.5 rounded-full text-[13px] font-black tracking-widest hover:bg-opacity-90 transition-all shadow-lg hover:shadow-primary-burgundy/20"
                         >
                             RESULTADOS
-                        </Link>
+                        </a>
                     </div>
 
                     {/* Mobile Button */}
@@ -105,13 +107,15 @@ export default function Navbar() {
                             {link.name}
                         </Link>
                     ))}
-                    <Link
-                        href="/resultados"
+                    <a
+                        href="https://redlab.com.ar/lblab"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         onClick={() => setIsOpen(false)}
                         className="block w-full text-center bg-primary-burgundy text-white px-5 py-5 rounded-2xl text-xs font-black mt-8 tracking-[0.2em]"
                     >
                         RESULTADOS ONLINE
-                    </Link>
+                    </a>
                 </div>
             </div>
         </nav>

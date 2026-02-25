@@ -20,7 +20,8 @@ import {
     ArrowRight,
     Building2,
     Check,
-    Search
+    Search,
+    ChevronRight
 } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
@@ -481,25 +482,36 @@ export default function DerivacionesPage() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="flex flex-col items-center justify-center py-32 text-center space-y-12 bg-white rounded-[3rem] border border-gray-100 shadow-xl shadow-gray-100/50"
+                                className="bg-white rounded-[3rem] p-12 lg:p-20 shadow-2xl shadow-primary-green/5 border border-gray-100 text-center space-y-8"
                             >
-                                <div className="w-32 h-32 bg-gray-50 text-primary-green rounded-[3rem] flex items-center justify-center shadow-lg border border-gray-100 group hover:scale-110 transition-transform duration-500">
-                                    <Microscope size={64} strokeWidth={1.5} className="group-hover:rotate-12 transition-transform" />
-                                </div>
-                                <div className="space-y-4">
-                                    <h2 className="text-4xl font-black text-gray-900 uppercase tracking-tighter">Portal de <span className="text-primary-green">Resultados</span></h2>
-                                    <p className="text-gray-400 text-lg font-bold italic uppercase tracking-wider max-w-sm mx-auto text-sm">Acceda con sus credenciales de profesional para visualizar informes.</p>
+                                <div className="w-24 h-24 bg-primary-burgundy/5 rounded-[2rem] flex items-center justify-center mx-auto text-primary-burgundy">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>
                                 </div>
 
-                                <div className="flex flex-col gap-6">
-                                    <Link
-                                        href="/admin/login"
-                                        className="bg-primary-green text-white px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl shadow-green-100 hover:scale-105 transition-all"
-                                    >
-                                        INGRESAR AL PORTAL
-                                    </Link>
-                                    <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] italic">¿No tiene usuario? Contáctenos para solicitar el alta.</p>
+                                <div className="space-y-4">
+                                    <h2 className="text-4xl lg:text-5xl font-black text-gray-900 uppercase tracking-tight leading-tight">
+                                        Visualización de <br /><span className="text-primary-green">Resultados Online</span>
+                                    </h2>
+                                    <p className="text-gray-500 text-lg font-medium max-w-xl mx-auto">
+                                        Para una mayor comodidad y seguridad en el manejo de su información académica y médica, acceda a nuestro sistema de autogestión de pacientes.
+                                    </p>
                                 </div>
+
+                                <div className="pt-6">
+                                    <a
+                                        href="https://redlab.com.ar/lblab"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-primary-burgundy text-white px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl hover:shadow-primary-burgundy/30 hover:scale-105 transition-all flex items-center gap-4 group w-fit mx-auto"
+                                    >
+                                        RESULTADOS
+                                        <ChevronRight size={18} className="group-hover:translate-x-2 transition-transform" strokeWidth={4} />
+                                    </a>
+                                </div>
+
+                                <p className="text-gray-400 text-xs font-bold uppercase tracking-widest pt-8">
+                                    Será redirigido a: <span className="text-gray-500 underline">redlab.com.ar/lblab</span>
+                                </p>
                             </motion.div>
                         )}
 

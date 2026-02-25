@@ -30,6 +30,10 @@ export default function ConsultasPage() {
     const router = useRouter();
     const [submissions, setSubmissions] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState("ALL");
 
     // Modal state
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -134,7 +138,16 @@ export default function ConsultasPage() {
 
             <main className="flex-grow overflow-y-auto">
                 <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
-                    <h1 className="text-lg font-black text-gray-900 uppercase tracking-tight">Registro de Consultas</h1>
+                    <div className="relative w-96">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Buscar por nombre, email..."
+                            className="w-full bg-gray-50 border-none rounded-xl py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary-green outline-none text-black"
+                        />
+                    </div>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-xl">
                             <div className="w-8 h-8 bg-primary-green rounded-full flex items-center justify-center text-white font-bold text-xs uppercase">
@@ -146,9 +159,59 @@ export default function ConsultasPage() {
                 </header>
 
                 <div className="p-8 space-y-8 text-black">
-                    <div>
-                        <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Buzón de Consultas</h2>
-                        <p className="text-gray-500 text-sm font-medium">Revisa todos los mensajes enviados desde el sitio web.</p>
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Buzón de Consultas</h2>
+                            <p className="text-gray-500 text-sm font-medium">Revisa todos los mensajes enviados desde el sitio web.</p>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-4 bg-white p-2 rounded-2xl border border-gray-100 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary-burgundy/20">
+                            <div className="flex flex-col px-3 border-r border-gray-100">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Estado</label>
+                                <select
+                                    value={statusFilter}
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    className="text-xs font-bold text-gray-900 outline-none bg-transparent cursor-pointer"
+                                >
+                                    <option value="ALL">TODOS</option>
+                                    <option value="PENDING">PENDIENTES</option>
+                                    <option value="RESPONDED">RESPONDIDOS</option>
+                                    <option value="RESPONDED_PHONE">RESP. TELÉFONO</option>
+                                </select>
+                            </div>
+                            <div className="flex flex-col px-3">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Desde</label>
+                                <input
+                                    type="date"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    className="text-xs font-bold text-gray-900 outline-none bg-transparent"
+                                />
+                            </div>
+                            <div className="h-8 w-px bg-gray-100" />
+                            <div className="flex flex-col px-3">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Hasta</label>
+                                <input
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    className="text-xs font-bold text-gray-900 outline-none bg-transparent"
+                                />
+                            </div>
+                            {(startDate || endDate || statusFilter !== "ALL") && (
+                                <button
+                                    onClick={() => {
+                                        setStartDate("");
+                                        setEndDate("");
+                                        setStatusFilter("ALL");
+                                    }}
+                                    className="p-2 text-gray-300 hover:text-red-500 transition-colors"
+                                    title="Limpiar filtros"
+                                >
+                                    <X size={16} />
+                                </button>
+                            )}
+                        </div>
                     </div>
 
                     <div className="grid gap-6">
@@ -156,122 +219,152 @@ export default function ConsultasPage() {
                             <div className="bg-white p-12 rounded-[2rem] border border-gray-100 shadow-sm text-center text-gray-400 font-bold uppercase text-xs animate-pulse">
                                 Cargando consultas...
                             </div>
-                        ) : submissions.length === 0 ? (
-                            <div className="bg-white p-12 rounded-[2rem] border-2 border-dashed border-gray-100 shadow-sm text-center text-gray-400 font-bold uppercase text-xs">
-                                No hay consultas registradas aún.
-                            </div>
-                        ) : submissions.map((sub, i) => (
-                            <motion.div
-                                key={sub.id}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.05 }}
-                                className={`bg-white p-8 rounded-[2rem] border transition-all group ${sub.status === 'RESPONDED' || sub.status === 'RESPONDED_PHONE' ? 'border-gray-100 opacity-80' : 'border-primary-green/20 bg-green-50/10 shadow-sm hover:shadow-md'}`}
-                            >
-                                <div className="flex flex-col md:flex-row justify-between gap-6">
-                                    <div className="space-y-4 flex-grow">
-                                        <div className="flex items-center gap-4">
-                                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg uppercase shadow-inner ${sub.status === 'RESPONDED' ? 'bg-gray-100 text-gray-400' : 'bg-primary-burgundy/5 text-primary-burgundy'}`}>
-                                                {sub.name.substring(0, 2)}
-                                            </div>
-                                            <div>
-                                                <h3 className="font-black text-gray-900 text-lg uppercase tracking-tight">{sub.name}</h3>
-                                                <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                                                    <Calendar size={12} className="text-primary-green" />
-                                                    Recibido el {new Date(sub.createdAt).toLocaleDateString()} a las {new Date(sub.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                </p>
-                                            </div>
-                                        </div>
+                        ) : (() => {
+                            const filtered = submissions.filter(sub => {
+                                const q = searchQuery.toLowerCase();
+                                const matchesSearch = sub.name?.toLowerCase().includes(q) ||
+                                    sub.email?.toLowerCase().includes(q) ||
+                                    sub.comment?.toLowerCase().includes(q);
 
-                                        <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100/50">
-                                            <p className="text-gray-700 text-sm leading-relaxed font-medium italic">
-                                                "{sub.comment}"
-                                            </p>
-                                        </div>
+                                const subDate = new Date(sub.createdAt);
+                                subDate.setHours(0, 0, 0, 0);
 
-                                        {sub.status === 'RESPONDED' && sub.replyMessage && (
-                                            <motion.div
-                                                initial={{ opacity: 0, x: 20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                className="flex justify-end pr-4"
-                                            >
-                                                <div className="bg-white p-6 rounded-2xl border-2 border-primary-green/20 shadow-sm max-w-[85%] relative overflow-hidden">
-                                                    <div className="absolute top-0 left-0 w-1 h-full bg-primary-green/10" />
-                                                    <div className="flex items-center gap-2 mb-2">
-                                                        <CheckCircle2 size={12} className="text-primary-green" />
-                                                        <span className="text-[10px] font-black uppercase tracking-widest text-primary-green">Nuestra Respuesta</span>
-                                                    </div>
-                                                    <p className="text-gray-600 text-sm leading-relaxed font-bold">
-                                                        {sub.replyMessage}
+                                let matchesDate = true;
+                                if (startDate) {
+                                    const start = new Date(startDate + "T00:00:00");
+                                    if (subDate < start) matchesDate = false;
+                                }
+                                if (endDate) {
+                                    const end = new Date(endDate + "T00:00:00");
+                                    if (subDate > end) matchesDate = false;
+                                }
+
+                                const matchesStatus = statusFilter === "ALL" || sub.status === statusFilter;
+
+                                return matchesSearch && matchesDate && matchesStatus;
+                            });
+
+                            if (filtered.length === 0) {
+                                return (
+                                    <div className="bg-white p-12 rounded-[2rem] border-2 border-dashed border-gray-100 shadow-sm text-center text-gray-400 font-bold uppercase text-xs">
+                                        No se encontraron consultas con los filtros aplicados.
+                                    </div>
+                                );
+                            }
+
+                            return filtered.map((sub, i) => (
+                                <motion.div
+                                    key={sub.id}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.05 }}
+                                    className={`bg-white p-8 rounded-[2rem] border transition-all group ${sub.status === 'RESPONDED' || sub.status === 'RESPONDED_PHONE' ? 'border-gray-100 opacity-80' : 'border-primary-green/20 bg-green-50/10 shadow-sm hover:shadow-md'}`}
+                                >
+                                    <div className="flex flex-col md:flex-row justify-between gap-6">
+                                        <div className="space-y-4 flex-grow">
+                                            <div className="flex items-center gap-4">
+                                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg uppercase shadow-inner ${sub.status === 'RESPONDED' ? 'bg-gray-100 text-gray-400' : 'bg-primary-burgundy/5 text-primary-burgundy'}`}>
+                                                    {sub.name.substring(0, 2)}
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-black text-gray-900 text-lg uppercase tracking-tight">{sub.name}</h3>
+                                                    <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+                                                        <Calendar size={12} className="text-primary-green" />
+                                                        Recibido el {new Date(sub.createdAt).toLocaleDateString()} a las {new Date(sub.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                     </p>
                                                 </div>
-                                            </motion.div>
-                                        )}
-
-                                        <div className="flex flex-wrap gap-4">
-                                            <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-[10px] font-black uppercase tracking-widest border border-blue-100/50">
-                                                <Mail size={14} />
-                                                {sub.email}
                                             </div>
-                                            {sub.web && (
-                                                <div className="flex items-center gap-2 px-4 py-2 bg-orange-50 text-orange-600 rounded-xl text-[10px] font-black uppercase tracking-widest border border-orange-100/50">
-                                                    <Globe size={14} />
-                                                    {sub.web}
-                                                </div>
+
+                                            <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100/50">
+                                                <p className="text-gray-700 text-sm leading-relaxed font-medium italic">
+                                                    "{sub.comment}"
+                                                </p>
+                                            </div>
+
+                                            {sub.status === 'RESPONDED' && sub.replyMessage && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, x: 20 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    className="flex justify-end pr-4"
+                                                >
+                                                    <div className="bg-white p-6 rounded-2xl border-2 border-primary-green/20 shadow-sm max-w-[85%] relative overflow-hidden">
+                                                        <div className="absolute top-0 left-0 w-1 h-full bg-primary-green/10" />
+                                                        <div className="flex items-center gap-2 mb-2">
+                                                            <CheckCircle2 size={12} className="text-primary-green" />
+                                                            <span className="text-[10px] font-black uppercase tracking-widest text-primary-green">Nuestra Respuesta</span>
+                                                        </div>
+                                                        <p className="text-gray-600 text-sm leading-relaxed font-bold">
+                                                            {sub.replyMessage}
+                                                        </p>
+                                                    </div>
+                                                </motion.div>
                                             )}
+
+                                            <div className="flex flex-wrap gap-4">
+                                                <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-[10px] font-black uppercase tracking-widest border border-blue-100/50">
+                                                    <Mail size={14} />
+                                                    {sub.email}
+                                                </div>
+                                                {sub.web && (
+                                                    <div className="flex items-center gap-2 px-4 py-2 bg-orange-50 text-orange-600 rounded-xl text-[10px] font-black uppercase tracking-widest border border-orange-100/50">
+                                                        <Globe size={14} />
+                                                        {sub.web}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className="flex flex-col justify-between items-end gap-4 min-w-[140px]">
-                                        {sub.status === 'RESPONDED' ? (
-                                            <span className="inline-flex items-center gap-1.5 bg-gray-900 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md">
-                                                <CheckCircle2 size={10} className="text-primary-green" />
-                                                Respondido
-                                            </span>
-                                        ) : sub.status === 'RESPONDED_PHONE' ? (
-                                            <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md">
-                                                <Phone size={10} />
-                                                Resp. Teléfono
-                                            </span>
-                                        ) : (
-                                            <span className="bg-primary-green text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm animate-pulse">
-                                                Nueva Consulta
-                                            </span>
-                                        )}
+                                        <div className="flex flex-col justify-between items-end gap-4 min-w-[140px]">
+                                            {sub.status === 'RESPONDED' ? (
+                                                <span className="inline-flex items-center gap-1.5 bg-gray-900 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md">
+                                                    <CheckCircle2 size={10} className="text-primary-green" />
+                                                    Respondido
+                                                </span>
+                                            ) : sub.status === 'RESPONDED_PHONE' ? (
+                                                <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md">
+                                                    <Phone size={10} />
+                                                    Resp. Teléfono
+                                                </span>
+                                            ) : (
+                                                <span className="bg-primary-green text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm animate-pulse">
+                                                    Nueva Consulta
+                                                </span>
+                                            )}
 
-                                        <div className="flex gap-2">
-                                            <button
-                                                onClick={() => handleOpenReply(sub)}
-                                                disabled={sub.status !== 'PENDING'}
-                                                className={`p-3 rounded-xl transition-all shadow-sm ${sub.status !== 'PENDING'
-                                                    ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
-                                                    : 'bg-primary-green text-white hover:scale-110'
-                                                    }`}
-                                                title={sub.status !== 'PENDING' ? "Respuesta ya enviada" : "Responder por Email"}
-                                            >
-                                                <Mail size={18} />
-                                            </button>
-                                            <button
-                                                onClick={() => handleMarkAsPhoned(sub.id)}
-                                                disabled={sub.status !== 'PENDING'}
-                                                className={`p-3 rounded-xl transition-all shadow-sm ${sub.status === 'RESPONDED_PHONE'
-                                                    ? 'bg-blue-600 text-white shadow-inner'
-                                                    : sub.status === 'RESPONDED'
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() => handleOpenReply(sub)}
+                                                    disabled={sub.status !== 'PENDING'}
+                                                    className={`p-3 rounded-xl transition-all shadow-sm ${sub.status !== 'PENDING'
                                                         ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
-                                                        : 'bg-gray-50 text-gray-400 hover:bg-blue-600 hover:text-white'
-                                                    }`}
-                                                title={sub.status !== 'PENDING' ? "Consulta ya gestionada" : "Marcar como Respondido Telefónicamente"}
-                                            >
-                                                <Phone size={18} />
-                                            </button>
-                                            <button className="p-3 bg-gray-50 text-gray-400 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all shadow-sm">
-                                                <X size={18} />
-                                            </button>
+                                                        : 'bg-primary-green text-white hover:scale-110'
+                                                        }`}
+                                                    title={sub.status !== 'PENDING' ? "Respuesta ya enviada" : "Responder por Email"}
+                                                >
+                                                    <Mail size={18} />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleMarkAsPhoned(sub.id)}
+                                                    disabled={sub.status !== 'PENDING'}
+                                                    className={`p-3 rounded-xl transition-all shadow-sm ${sub.status === 'RESPONDED_PHONE'
+                                                        ? 'bg-blue-600 text-white shadow-inner'
+                                                        : sub.status === 'RESPONDED'
+                                                            ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
+                                                            : 'bg-gray-50 text-gray-400 hover:bg-blue-600 hover:text-white'
+                                                        }`}
+                                                    title={sub.status !== 'PENDING' ? "Consulta ya gestionada" : "Marcar como Respondido Telefónicamente"}
+                                                >
+                                                    <Phone size={18} />
+                                                </button>
+                                                <button className="p-3 bg-gray-50 text-gray-400 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all shadow-sm">
+                                                    <X size={18} />
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </motion.div>
-                        ))}
+                                </motion.div>
+                            ));
+                        })()}
                     </div>
                 </div>
             </main>

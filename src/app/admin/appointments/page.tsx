@@ -35,7 +35,8 @@ export default function AppointmentsAdminPage() {
     const router = useRouter();
     const [appointments, setAppointments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [filterDate, setFilterDate] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
 
     // Cancellation state
@@ -54,9 +55,6 @@ export default function AppointmentsAdminPage() {
         setLoading(true);
         try {
             let url = "/api/admin/appointments";
-            if (filterDate) {
-                url += `?date=${filterDate}`;
-            }
             const response = await fetch(url);
             if (response.ok) {
                 const data = await response.json();
@@ -73,7 +71,7 @@ export default function AppointmentsAdminPage() {
         if (session) {
             fetchAppointments();
         }
-    }, [session, filterDate]);
+    }, [session]);
 
     const handleCancel = async () => {
         if (!selectedAptId || !cancelReason) return;
@@ -156,7 +154,6 @@ export default function AppointmentsAdminPage() {
                         <div className="flex items-center gap-3">
                             <div className="text-right hidden sm:block">
                                 <p className="text-sm font-bold text-gray-900">{session.user?.name}</p>
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">Admin</p>
                             </div>
                             <div className="w-10 h-10 bg-primary-green rounded-full flex items-center justify-center text-white font-bold text-sm shadow-inner uppercase">
                                 {session.user?.name?.substring(0, 2)}
@@ -166,30 +163,42 @@ export default function AppointmentsAdminPage() {
                 </header>
 
                 <div className="p-8 space-y-8">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                         <div>
                             <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Turnos PRP</h1>
                             <p className="text-gray-500 text-sm font-medium">Gestiona las solicitudes de Plasma Rico en Plaquetas.</p>
                         </div>
 
-                        <div className="flex items-center gap-3">
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                                    <Filter size={14} />
-                                </div>
+                        <div className="flex items-center gap-4 bg-white p-2 rounded-2xl border border-gray-100 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary-burgundy/20">
+                            <div className="flex flex-col px-3">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Desde</label>
                                 <input
                                     type="date"
-                                    value={filterDate}
-                                    onChange={(e) => setFilterDate(e.target.value)}
-                                    className="bg-white border border-gray-200 rounded-xl py-2 pl-10 pr-4 text-sm font-bold focus:ring-2 focus:ring-primary-burgundy outline-none transition-all shadow-sm"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    className="text-xs font-bold text-gray-900 outline-none bg-transparent"
                                 />
                             </div>
-                            {filterDate && (
+                            <div className="h-8 w-px bg-gray-100" />
+                            <div className="flex flex-col px-3">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Hasta</label>
+                                <input
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    className="text-xs font-bold text-gray-900 outline-none bg-transparent"
+                                />
+                            </div>
+                            {(startDate || endDate) && (
                                 <button
-                                    onClick={() => setFilterDate("")}
-                                    className="text-xs font-bold text-primary-burgundy hover:underline"
+                                    onClick={() => {
+                                        setStartDate("");
+                                        setEndDate("");
+                                    }}
+                                    className="p-2 text-gray-300 hover:text-red-500 transition-colors"
+                                    title="Limpiar filtros"
                                 >
-                                    Limpiar
+                                    <X size={16} />
                                 </button>
                             )}
                         </div>
@@ -217,28 +226,41 @@ export default function AppointmentsAdminPage() {
                                                 </div>
                                             </td>
                                         </tr>
-                                    ) : appointments.filter(apt => {
-                                        const query = searchQuery.toLowerCase();
-                                        return (
-                                            apt.patient?.toLowerCase().includes(query) ||
-                                            apt.email?.toLowerCase().includes(query) ||
-                                            apt.professional?.toLowerCase().includes(query)
-                                        );
-                                    }).length === 0 ? (
-                                        <tr>
-                                            <td colSpan={5} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
-                                                No se encontraron turnos que coincidan con la búsqueda.
-                                            </td>
-                                        </tr>
-                                    ) : (
-                                        appointments.filter(apt => {
+                                    ) : (() => {
+                                        const filtered = appointments.filter(apt => {
                                             const query = searchQuery.toLowerCase();
-                                            return (
+                                            const matchesSearch = (
                                                 apt.patient?.toLowerCase().includes(query) ||
                                                 apt.email?.toLowerCase().includes(query) ||
                                                 apt.professional?.toLowerCase().includes(query)
                                             );
-                                        }).map((apt) => (
+
+                                            const aptDate = new Date(apt.date + "T00:00:00");
+                                            let matchesDate = true;
+
+                                            if (startDate) {
+                                                const start = new Date(startDate + "T00:00:00");
+                                                if (aptDate < start) matchesDate = false;
+                                            }
+                                            if (endDate) {
+                                                const end = new Date(endDate + "T00:00:00");
+                                                if (aptDate > end) matchesDate = false;
+                                            }
+
+                                            return matchesSearch && matchesDate;
+                                        });
+
+                                        if (filtered.length === 0) {
+                                            return (
+                                                <tr>
+                                                    <td colSpan={5} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
+                                                        No se encontraron turnos que coincidan con la búsqueda.
+                                                    </td>
+                                                </tr>
+                                            );
+                                        }
+
+                                        return filtered.map((apt) => (
                                             <motion.tr
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
@@ -346,8 +368,8 @@ export default function AppointmentsAdminPage() {
                                                     </div>
                                                 </td>
                                             </motion.tr>
-                                        ))
-                                    )}
+                                        ));
+                                    })()}
                                 </tbody>
                             </table>
                         </div>

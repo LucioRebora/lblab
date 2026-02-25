@@ -74,8 +74,9 @@ export async function POST(request: Request) {
 
         // Enviar notificación por email
         try {
+            // Mail al laboratorio/profesional
             await sendMail({
-                to: email, // Enviado directamente al laboratorio/profesional
+                to: email,
                 subject: `Comprobante de Solicitud de Derivación: ${labName || patient}`,
                 title: "Su solicitud ha sido recibida",
                 preheader: `Hola, hemos recibido tu solicitud de derivación para ${patient || labName}`,
@@ -86,6 +87,24 @@ export async function POST(request: Request) {
                     "Fecha de solicitud": submissionDate
                 }
             });
+
+            // Copia a los administradores
+            const contactEmails = process.env.EMAILS_CONTACTO;
+            if (contactEmails) {
+                await sendMail({
+                    to: contactEmails,
+                    subject: `[COPIA] Solicitud de Derivación: ${labName || patient}`,
+                    title: "Nueva Solicitud de Derivación Recibida",
+                    preheader: `Se ha registrado una nueva derivación para ${patient || labName}`,
+                    data: {
+                        "Enviado por": email,
+                        "Laboratorio / Profesional": labName || "No especificado",
+                        "Detalles (Protocolo/Paciente)": patient,
+                        "Análisis solicitados": analysisType && analysisType.length > 0 ? analysisType.join(", ") : "General",
+                        "Fecha de solicitud": submissionDate
+                    }
+                });
+            }
         } catch (mailError) {
             console.error("Error al enviar mail de derivación:", mailError);
         }

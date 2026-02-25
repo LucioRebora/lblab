@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ChevronRight } from "lucide-react";
 
 export default function ResultadosPage() {
     return (
@@ -28,10 +29,10 @@ export default function ResultadosPage() {
                                 href="https://redlab.com.ar/lblab"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-3 bg-primary-burgundy text-white px-10 py-5 rounded-2xl text-[15px] font-black tracking-widest hover:bg-opacity-95 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-primary-burgundy/20 uppercase"
+                                className="bg-primary-burgundy text-white px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl hover:shadow-primary-burgundy/30 hover:scale-105 transition-all flex items-center gap-4 group w-fit mx-auto"
                             >
-                                Ingresar al Portal de Resultados
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+                                RESULTADOS
+                                <ChevronRight size={18} className="group-hover:translate-x-2 transition-transform" strokeWidth={4} />
                             </a>
                         </div>
 

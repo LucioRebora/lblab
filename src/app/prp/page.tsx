@@ -200,7 +200,7 @@ export default function PRPPage() {
                                                         <input
                                                             required
                                                             type="email"
-                                                            placeholder="Tu respuesta"
+                                                            placeholder="ejemplo@correo.com"
                                                             className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                             value={formData.email}
                                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -214,7 +214,7 @@ export default function PRPPage() {
                                                         <Stethoscope className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-green/40" size={18} />
                                                         <input
                                                             type="text"
-                                                            placeholder="Tu respuesta"
+                                                            placeholder="Nombre del médico"
                                                             className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                             value={formData.professional}
                                                             onChange={(e) => setFormData({ ...formData, professional: e.target.value })}
@@ -229,7 +229,7 @@ export default function PRPPage() {
                                                     <User className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-green/40" size={18} />
                                                     <input
                                                         type="text"
-                                                        placeholder="Tu respuesta"
+                                                        placeholder="Nombre completo"
                                                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                         value={formData.patient}
                                                         onChange={(e) => setFormData({ ...formData, patient: e.target.value })}
@@ -272,7 +272,7 @@ export default function PRPPage() {
                                                 <div className="space-y-6">
                                                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2 block">2. Seleccionar Hora</label>
                                                     <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 bg-gray-50/50 p-6 rounded-[2.5rem] border border-gray-100">
-                                                        {["07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30"].map((t) => {
+                                                        {["07:00", "07:20", "07:40", "08:00", "08:20", "08:40", "09:00", "09:20", "09:40", "10:00", "10:20", "10:40", "11:00", "11:20", "11:40"].map((t) => {
                                                             const isBooked = bookedSlots.includes(t);
                                                             return (
                                                                 <button
@@ -708,15 +708,15 @@ export default function PRPPage() {
                                             </p>
                                         </div>
                                     </div>
-                                    <Link
-                                        href="/admin/dashboard"
-                                        className="inline-flex items-center gap-6 bg-primary-green text-white px-12 py-6 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl shadow-green-100 hover:scale-105 transition-all group"
+                                    <a
+                                        href="https://redlab.com.ar/lblab"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-primary-burgundy text-white px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl hover:shadow-primary-burgundy/30 hover:scale-105 transition-all flex items-center gap-4 group w-fit mx-auto"
                                     >
-                                        ACCEDER AL PORTAL
-                                        <div className="bg-white/20 p-2 rounded-lg text-white group-hover:bg-white group-hover:text-primary-green transition-all">
-                                            <ArrowRight size={16} strokeWidth={3} />
-                                        </div>
-                                    </Link>
+                                        RESULTADOS
+                                        <ChevronRight size={18} className="group-hover:translate-x-2 transition-transform" strokeWidth={4} />
+                                    </a>
                                 </div>
                             </motion.div>
                         )}

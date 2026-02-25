@@ -18,11 +18,7 @@ export default function AdminPage() {
 
     useEffect(() => {
         if (status === "authenticated") {
-            if (session?.user?.role === 'ADMIN') {
-                router.push("/admin/dashboard");
-            } else {
-                router.push("/admin/resultados");
-            }
+            router.push("/admin/dashboard");
         }
     }, [status, router, session]);
 
@@ -41,7 +37,6 @@ export default function AdminPage() {
                 setError(true);
                 setTimeout(() => setError(false), 3000);
             } else {
-                // El useEffect se encargará de la redirección basada en el rol
                 router.push("/admin/dashboard");
                 router.refresh();
             }

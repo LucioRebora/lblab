@@ -27,6 +27,8 @@ export default function VeterinaryAdminPage() {
     const [appointments, setAppointments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
     // Cancellation state
     const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -99,12 +101,31 @@ export default function VeterinaryAdminPage() {
 
     const filteredAppointments = appointments.filter(apt => {
         const query = searchQuery.toLowerCase();
-        return (
+        const matchesSearch = (
             apt.patient?.toLowerCase().includes(query) ||
             apt.email?.toLowerCase().includes(query) ||
             apt.veterinary?.toLowerCase().includes(query) ||
             apt.professional?.toLowerCase().includes(query)
         );
+
+        const aptDate = new Date(apt.createdAt);
+        aptDate.setHours(0, 0, 0, 0);
+
+        let matchesDate = true;
+        if (startDate) {
+            const start = new Date(startDate);
+            start.setMinutes(start.getMinutes() + start.getTimezoneOffset());
+            start.setHours(0, 0, 0, 0);
+            if (aptDate < start) matchesDate = false;
+        }
+        if (endDate) {
+            const end = new Date(endDate);
+            end.setMinutes(end.getMinutes() + end.getTimezoneOffset());
+            end.setHours(0, 0, 0, 0);
+            if (aptDate > end) matchesDate = false;
+        }
+
+        return matchesSearch && matchesDate;
     });
 
     return (
@@ -138,9 +159,45 @@ export default function VeterinaryAdminPage() {
                 </header>
 
                 <div className="p-8 space-y-8">
-                    <div>
-                        <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Turnos Veterinarios</h1>
-                        <p className="text-gray-500 text-sm font-medium">Gestión de solicitudes de análisis para clínicas veterinarias.</p>
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Turnos Veterinarios</h1>
+                            <p className="text-gray-500 text-sm font-medium">Gestión de solicitudes de análisis para clínicas veterinarias.</p>
+                        </div>
+
+                        <div className="flex items-center gap-4 bg-white p-2 rounded-2xl border border-gray-100 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary-green/20">
+                            <div className="flex flex-col px-3">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Desde</label>
+                                <input
+                                    type="date"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    className="text-xs font-bold text-gray-900 outline-none bg-transparent"
+                                />
+                            </div>
+                            <div className="h-8 w-px bg-gray-100" />
+                            <div className="flex flex-col px-3">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Hasta</label>
+                                <input
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    className="text-xs font-bold text-gray-900 outline-none bg-transparent"
+                                />
+                            </div>
+                            {(startDate || endDate) && (
+                                <button
+                                    onClick={() => {
+                                        setStartDate("");
+                                        setEndDate("");
+                                    }}
+                                    className="p-2 text-gray-300 hover:text-red-500 transition-colors"
+                                    title="Limpiar filtros"
+                                >
+                                    <X size={16} />
+                                </button>
+                            )}
+                        </div>
                     </div>
 
                     <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden">
