@@ -400,12 +400,15 @@ export default function UsersPage() {
                                                 <select
                                                     value={formData.role}
                                                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                                                    className="w-full bg-gray-50 border-none rounded-2xl py-4 pl-12 pr-4 text-sm font-bold focus:ring-2 focus:ring-primary-green outline-none text-black appearance-none"
+                                                    className="w-full bg-gray-50 border-none rounded-2xl py-4 pl-12 pr-10 text-sm font-bold focus:ring-2 focus:ring-primary-green outline-none text-black appearance-none cursor-pointer"
                                                 >
                                                     <option value="USER">USUARIO (Solo lectura)</option>
                                                     <option value="SECRETARY">SECRETARIA (Gestión operativa)</option>
                                                     <option value="ADMIN">ADMINISTRADOR (Acceso total)</option>
                                                 </select>
+                                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                                                </div>
                                             </div>
                                         </div>
 
