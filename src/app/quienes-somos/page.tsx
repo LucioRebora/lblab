@@ -164,108 +164,97 @@ export default function QuienesSomosPage() {
                             <p className="text-gray-400 font-bold uppercase text-xs tracking-widest">El equipo profesional detrás de cada diagnóstico</p>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-12">
-                            {/* Renata Lambruschini */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                className="group"
-                            >
-                                <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden mb-6 border border-gray-100 shadow-xl group-hover:shadow-2xl transition-all duration-500">
-                                    <Image
-                                        src="/img/renata.jpg"
-                                        alt="Renata Lambruschini"
-                                        fill
-                                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                                        <p className="text-white text-[10px] leading-relaxed font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 italic">
-                                            Fundadora de LB LAB. Bioquímica con amplia trayectoria en diagnóstico clínico y gestión de calidad.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="space-y-4 text-center">
-                                    <div className="space-y-2">
-                                        <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight">Renata Lambruschini</h3>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-primary-green font-black text-[10px] uppercase tracking-[0.2em]">Bioquímica – MP</span>
-                                            <span className="text-gray-400 font-bold text-xs uppercase">Socio Propietario – LB LAB</span>
-                                        </div>
-                                    </div>
-                                    <p className="text-[11px] text-gray-500 leading-relaxed px-4 italic line-clamp-3 group-hover:line-clamp-none transition-all duration-500">
-                                        Cofundadora del laboratorio en 2015. Lidera la visión estratégica y el compromiso con la excelencia institucional de LB LAB.
-                                    </p>
-                                </div>
-                            </motion.div>
-
+                        <div className="flex flex-col gap-16">
                             {/* Emiliano Tommasi */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: 0.1 }}
-                                className="group"
+                                className="group flex flex-col md:flex-row gap-10 items-start"
                             >
-                                <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden mb-6 border border-gray-100 shadow-xl group-hover:shadow-2xl transition-all duration-500">
+                                <div className="relative w-full md:w-64 shrink-0 aspect-[3/4] rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-xl group-hover:shadow-2xl transition-all duration-500">
                                     <Image
                                         src="/img/emiliano.jpg"
                                         alt="Emiliano Tommasi"
                                         fill
                                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                                        <p className="text-white text-[10px] leading-relaxed font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 italic">
-                                            Bioquímico (UNR) con residencia en Hospital Italiano. 24 años de experiencia en bioanálisis e innovación.
-                                        </p>
-                                    </div>
                                 </div>
-                                <div className="space-y-4 text-center">
-                                    <div className="space-y-2">
-                                        <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight">Emiliano Tommasi</h3>
+                                <div className="flex-1 space-y-5 pt-2">
+                                    <div className="space-y-1">
+                                        <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight">Emiliano Tommasi</h3>
                                         <div className="flex flex-col gap-1">
                                             <span className="text-primary-green font-black text-[10px] uppercase tracking-[0.2em]">Bioquímico – MP 902</span>
                                             <span className="text-gray-400 font-bold text-xs uppercase">Socio Propietario – LB LAB</span>
                                         </div>
                                     </div>
-                                    <p className="text-[11px] text-gray-500 leading-relaxed px-4 italic line-clamp-3 group-hover:line-clamp-none transition-all duration-500">
-                                        Egresado de la UNR. Trayectoria en el Hospital Italiano y Sanatorio Julio Corso. Actualmente bioquímico en Hospital Centenario y Socio en LB LAB.
-                                    </p>
+                                    <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
+                                        <p>Bioquímico con 24 años de trayectoria en el ámbito clínico y hospitalario. Formado en la Universidad Nacional de Rosario y con residencia profesional en el Hospital Italiano, desarrolló experiencia en bioquímica clínica, urgencias, toxicología laboral, toxicología ambiental, y bromatología. Trabajó en instituciones de referencia como el IBC Rosario y el Sanatorio Julio Corso.</p>
+                                        <p>Su enfoque integra rigurosidad analítica con innovación tecnológica, impulsando la automatización de procesos y el uso estratégico de herramientas digitales orientadas a mejorar la calidad del servicio y la seguridad del paciente. Actualmente es socio propietario de LB LAB y bioquímico del Hospital Centenario de Gualeguaychú.</p>
+                                    </div>
                                 </div>
                             </motion.div>
 
-                            {/* Ivan Perez Duarte */}
+                            {/* Renata Lambruschini */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.1 }}
+                                className="group flex flex-col md:flex-row-reverse gap-10 items-start"
+                            >
+                                <div className="relative w-full md:w-64 shrink-0 aspect-[3/4] rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-xl group-hover:shadow-2xl transition-all duration-500">
+                                    <Image
+                                        src="/img/renata.jpg"
+                                        alt="Renata Lambruschini"
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                    />
+                                </div>
+                                <div className="flex-1 space-y-5 pt-2">
+                                    <div className="space-y-1">
+                                        <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight">Renata Lambruschini</h3>
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-primary-green font-black text-[10px] uppercase tracking-[0.2em]">Bioquímica – MP 981</span>
+                                            <span className="text-gray-400 font-bold text-xs uppercase">Socia Fundadora – LB LAB</span>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
+                                        <p>Bioquímica egresada de la Universidad J. F. Kennedy, con formación de posgrado en Endocrinología realizada en la Sociedad Argentina de Endocrinología y Metabolismo (SAEM). Inició su trayectoria con prácticas profesionales en el Hospital Militar Central y continuó su desarrollo en el Laboratorio Dr. Stamboulian.</p>
+                                        <p>Desde 2014 integra el equipo del Hospital Centenario de Gualeguaychú, primero en el laboratorio de Guardia y actualmente como bioquímica asistente del Laboratorio Central.</p>
+                                        <p>Es socia fundadora de LB LAB, donde aporta su experiencia en bioquímica clínica, endocrinología y gestión de procesos. Su trabajo se caracteriza por la precisión analítica, la responsabilidad profesional y el compromiso con la calidad diagnóstica.</p>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* Iván Pérez Duarte */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.2 }}
-                                className="group"
+                                className="group flex flex-col md:flex-row gap-10 items-start"
                             >
-                                <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden mb-6 border border-gray-100 shadow-xl group-hover:shadow-2xl transition-all duration-500">
+                                <div className="relative w-full md:w-64 shrink-0 aspect-[3/4] rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-xl group-hover:shadow-2xl transition-all duration-500">
                                     <Image
                                         src="/img/ivan.png"
                                         alt="Ivan Perez Duarte"
                                         fill
                                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                                        <p className="text-white text-[10px] leading-relaxed font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 italic">
-                                            Bioquímico especialista en Microbiología. Aporta innovación y rigor técnico al equipo de profesionales.
-                                        </p>
-                                    </div>
                                 </div>
-                                <div className="space-y-4 text-center">
-                                    <div className="space-y-2">
-                                        <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight">Ivan Perez Duarte</h3>
+                                <div className="flex-1 space-y-5 pt-2">
+                                    <div className="space-y-1">
+                                        <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight">Iván Pérez Duarte</h3>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-primary-green font-black text-[10px] uppercase tracking-[0.2em]">Bioquímico – MP</span>
-                                            <span className="text-gray-400 font-bold text-xs uppercase">Socio Propietario – LB LAB</span>
+                                            <span className="text-primary-green font-black text-[10px] uppercase tracking-[0.2em]">Bioquímico – MP 1100</span>
+                                            <span className="text-gray-400 font-bold text-xs uppercase">Bioquímico – LB LAB</span>
                                         </div>
                                     </div>
-                                    <p className="text-[11px] text-gray-500 leading-relaxed px-4 italic line-clamp-3 group-hover:line-clamp-none transition-all duration-500">
-                                        Responsable del área de Microbiología. Comprometido con la excelencia diagnóstica y la atención personalizada de cada paciente.
-                                    </p>
+                                    <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
+                                        <p>Bioquímico egresado de la Universidad Nacional de Rosario, con formación y experiencia en Microbiología Clínica. Su desarrollo profesional integra actividad hospitalaria, docencia universitaria y participación en programas de actualización científica, incluyendo su selección como Joven Embajador Argentino por la American Society for Microbiology (ASM).</p>
+                                        <p>Su práctica se caracteriza por la precisión diagnóstica, la responsabilidad ética y el compromiso con cada paciente. Concibe al laboratorio como un espacio donde la ciencia, la técnica y la calidad humana se articulan para brindar resultados confiables y un acompañamiento profesional sólido.</p>
+                                    </div>
                                 </div>
                             </motion.div>
                         </div>
