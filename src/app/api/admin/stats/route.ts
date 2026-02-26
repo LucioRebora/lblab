@@ -11,15 +11,12 @@ export async function GET() {
     }
 
     try {
-        // Consultas hoy (ContactSubmission created today)
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        const consultasHoy = await prisma.contactSubmission.count({
+        const consultasPendientes = await prisma.contactSubmission.count({
             where: {
-                createdAt: {
-                    gte: today
-                }
+                status: "PENDING"
             }
         });
 
@@ -44,11 +41,17 @@ export async function GET() {
 
         const turnosManana = prpTomorrow + derivTomorrow;
 
-        // Turnos Veterinarios Hoy (VeterinaryAppointment created today)
+        // Solicitudes Veterinarias Pendientes (Todas)
         // @ts-ignore
-        const veterinaryToday = await prisma.veterinaryAppointment.count({
+        const veterinaryPending = await prisma.veterinaryAppointment.count({
             where: {
-                createdAt: { gte: today },
+                status: "PENDING"
+            }
+        });
+
+        // Derivaciones Pendientes
+        const derivacionesPendientes = await prisma.derivacion.count({
+            where: {
                 status: "PENDING"
             }
         });
@@ -61,10 +64,11 @@ export async function GET() {
         const totalPacientes = uniquePatients.length;
 
         return NextResponse.json({
-            consultasHoy,
+            consultasHoy: consultasPendientes,
             turnosManana,
             totalPacientes,
-            veterinaryToday,
+            veterinaryToday: veterinaryPending,
+            derivacionesPendientes,
             estudiosListos: "95%" // Placeholder standard
         });
     } catch (error) {

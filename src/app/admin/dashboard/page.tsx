@@ -35,6 +35,7 @@ export default function Dashboard() {
     });
     const [vetAppointments, setVetAppointments] = useState<any[]>([]);
     const [prpAppointments, setPrpAppointments] = useState<any[]>([]);
+    const [derivaciones, setDerivaciones] = useState<any[]>([]);
     const [loadingSubmissions, setLoadingSubmissions] = useState(true);
 
     useEffect(() => {
@@ -75,6 +76,13 @@ export default function Dashboard() {
                     const data = await prpRes.json();
                     setPrpAppointments(data.slice(0, 5)); // Only show last 5
                 }
+
+                // Fetch Derivaciones
+                const derivRes = await fetch("/api/admin/derivaciones");
+                if (derivRes.ok) {
+                    const data = await derivRes.json();
+                    setDerivaciones(data.slice(0, 5)); // Only show last 5
+                }
             } catch (error) {
                 console.error("Error fetching dashboard data:", error);
             } finally {
@@ -96,8 +104,9 @@ export default function Dashboard() {
     }
 
     const currentStats = [
-        { label: "Consultas hoy", value: statsData.consultasHoy.toString(), icon: MessageSquare, color: "text-blue-600", bg: "bg-blue-50" },
-        { label: "Solicitudes Vet", value: statsData.veterinaryToday.toString(), icon: Dog, color: "text-primary-green", bg: "bg-green-50" },
+        { label: "Consultas pendientes", value: statsData.consultasHoy.toString(), icon: MessageSquare, color: "text-blue-600", bg: "bg-blue-50" },
+        { label: "Solicitudes Vet pendientes", value: statsData.veterinaryToday.toString(), icon: Dog, color: "text-primary-green", bg: "bg-green-50" },
+        { label: "Derivaciones pendientes", value: (statsData as any).derivacionesPendientes?.toString() || "0", icon: ExternalLink, color: "text-purple-600", bg: "bg-purple-50" },
         { label: "Turnos mañana", value: statsData.turnosManana.toString(), icon: Calendar, color: "text-orange-600", bg: "bg-orange-50" },
     ];
 
@@ -216,7 +225,9 @@ export default function Dashboard() {
                                                         </div>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className="text-[10px] font-bold text-primary-green bg-green-50 px-3 py-1 rounded-full uppercase block mb-1">Nueva</span>
+                                                        <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase block mb-1 ${sub.status === 'PENDING' ? 'text-primary-green bg-green-50' : 'text-gray-400 bg-gray-100'}`}>
+                                                            {sub.status === 'PENDING' ? 'Nueva' : 'Respondida'}
+                                                        </span>
                                                         <span className="text-[9px] text-gray-300 font-bold uppercase">
                                                             {new Date(sub.createdAt).toLocaleDateString()}
                                                         </span>
@@ -266,7 +277,7 @@ export default function Dashboard() {
                                                             apt.status === 'COMPLETED' ? 'text-primary-green bg-green-50' :
                                                                 'text-red-500 bg-red-50'
                                                             }`}>
-                                                            {apt.status === 'PENDING' ? 'Pdte' : apt.status === 'COMPLETED' ? 'OK' : 'X'}
+                                                            {apt.status === 'PENDING' ? 'Pdte' : apt.status === 'COMPLETED' ? 'Completado' : 'Cancelado'}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -310,11 +321,11 @@ export default function Dashboard() {
                                                         </div>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${apt.status === 'SCHEDULED' ? 'text-orange-500 bg-orange-50' :
+                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${(apt.status === 'SCHEDULED' || apt.status === 'PENDING') ? 'text-orange-500 bg-orange-50' :
                                                             apt.status === 'COMPLETED' ? 'text-primary-green bg-green-50' :
                                                                 'text-red-500 bg-red-50'
                                                             }`}>
-                                                            {apt.status === 'SCHEDULED' ? 'Pdte' : apt.status === 'COMPLETED' ? 'OK' : 'X'}
+                                                            {(apt.status === 'SCHEDULED' || apt.status === 'PENDING') ? 'Pdte' : apt.status === 'COMPLETED' ? 'Completado' : 'Cancelado'}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -326,6 +337,59 @@ export default function Dashboard() {
                                         className="mt-6 block text-center text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-orange-600 transition-colors"
                                     >
                                         Ver todos los turnos PRP
+                                    </Link>
+                                </div>
+
+                                <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <h3 className="text-xl font-bold">Derivaciones</h3>
+                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Últimas {derivaciones.length}</p>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {loadingSubmissions ? (
+                                            <div className="py-12 text-center text-gray-400 animate-pulse font-bold uppercase tracking-widest text-xs">
+                                                Cargando...
+                                            </div>
+                                        ) : derivaciones.length === 0 ? (
+                                            <div className="py-12 text-center text-gray-400 font-bold uppercase tracking-widest text-xs border-2 border-dashed border-gray-100 rounded-3xl">
+                                                No hay derivaciones.
+                                            </div>
+                                        ) : (
+                                            derivaciones.map((deriv) => (
+                                                <div key={deriv.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center">
+                                                            <ExternalLink size={20} />
+                                                        </div>
+                                                        <div>
+                                                            <p className="font-bold text-sm">{deriv.patient}</p>
+                                                            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-tighter">
+                                                                {deriv.labName || "Sin Laboratorio"}
+                                                            </p>
+                                                            <div className="flex gap-2 mt-1">
+                                                                <span className="text-[9px] text-gray-300 font-bold uppercase">
+                                                                    {new Date(deriv.createdAt).toLocaleDateString()}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${(deriv.status === 'PENDING' || deriv.status === 'SCHEDULED') ? 'text-orange-500 bg-orange-50' :
+                                                            deriv.status === 'COMPLETED' ? 'text-primary-green bg-green-50' :
+                                                                'text-red-500 bg-red-50'
+                                                            }`}>
+                                                            {(deriv.status === 'PENDING' || deriv.status === 'SCHEDULED') ? 'Pdte' : deriv.status === 'COMPLETED' ? 'Completado' : 'Cancelado'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                    <Link
+                                        href="/admin/derivaciones"
+                                        className="mt-6 block text-center text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-purple-600 transition-colors"
+                                    >
+                                        Ver todas las derivaciones
                                     </Link>
                                 </div>
                             </div>
