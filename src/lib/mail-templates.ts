@@ -6,10 +6,12 @@ export function getEmailTemplate({
   title,
   preheader,
   data,
+  customBody,
 }: {
   title: string;
   preheader: string;
   data: Record<string, string>;
+  customBody?: string;
 }) {
   const rows = Object.entries(data)
     .map(([key, value], index) => {
@@ -41,18 +43,37 @@ export function getEmailTemplate({
   <meta charset="utf-8">
   <meta name="x-apple-disable-message-reformatting">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <style>
+    :root {
+      color-scheme: light;
+      supported-color-schemes: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      body, .body-bg { background-color: #f8fafc !important; color: #1e293b !important; }
+      .content-bg { background-color: #ffffff !important; color: #1e293b !important; }
+      .text-dark, p, td, h1 { color: #1e293b !important; }
+      .text-muted { color: #64748b !important; }
+      .header-dark { background-color: #1a1a1a !important; color: #ffffff !important; }
+    }
+    /* Selectores específicos para Gmail y Outlook */
+    [data-ogsc] .body-bg { background-color: #f8fafc !important; }
+    [data-ogsc] .content-bg { background-color: #ffffff !important; }
+    [data-ogsc] .text-dark { color: #1e293b !important; }
+  </style>
   <title>${title}</title>
 </head>
-<body style="margin:0; padding:0; background-color:#f8fafc; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<body class="body-bg" style="margin:0; padding:0; background-color:#f8fafc; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
   <!-- Preheader -->
   <div style="display:none; max-height:0; overflow:hidden; opacity:0;">
     ${preheader}
   </div>
 
-  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color:#f8fafc; padding:40px 10px;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" class="body-bg" style="background-color:#f8fafc; padding:40px 10px;">
     <tr>
       <td align="center">
-        <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="max-width:600px; background-color:#ffffff; border-radius:24px; overflow:hidden; border:1px solid #e2e8f0; box-shadow:0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="600" class="content-bg" style="max-width:600px; background-color:#ffffff; border-radius:24px; overflow:hidden; border:1px solid #e2e8f0; box-shadow:0 4px 6px -1px rgba(0, 0, 0, 0.05);">
           
           <!-- Header -->
           <tr>
@@ -60,7 +81,7 @@ export function getEmailTemplate({
               <table role="presentation" width="100%">
                 <tr>
                   <td align="center">
-                    <img src="cid:logo" alt="LB Lab" width="180" style="display:block; border:0; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic;">
+                    <img src="https://lblab.com.ar/img/logo-lblab.png" alt="LB Lab" width="180" style="display:block; border:0; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic;">
                   </td>
                 </tr>
               </table>
@@ -69,7 +90,7 @@ export function getEmailTemplate({
 
           <!-- Title Bar -->
           <tr>
-            <td style="padding:24px 32px; background-color:#1a1a1a;">
+            <td class="header-dark" style="padding:24px 32px; background-color:#1a1a1a;">
               <table role="presentation" width="100%">
                 <tr>
                   <td>
@@ -90,8 +111,8 @@ export function getEmailTemplate({
           <!-- Body -->
           <tr>
             <td style="padding:40px 32px;">
-              <p style="margin:0 0 24px 0; font-size:16px; color:#1e293b; font-weight:700;">
-                Se ha recibido una nueva notificación con los siguientes detalles:
+              <p class="text-dark" style="margin:0 0 24px 0; font-size:16px; color:#1e293b; font-weight:700;">
+                ${customBody || "Se ha recibido una nueva notificación con los siguientes detalles:"}
               </p>
 
               <!-- Data Table Card -->
@@ -99,9 +120,7 @@ export function getEmailTemplate({
                 ${rows}
               </table>
 
-              <p style="margin:32px 0 0 0; font-size:14px; color:#64748b; line-height:1.6; font-style:italic;">
-                Por favor, procese esta información según el protocolo correspondiente.
-              </p>
+
             </td>
           </tr>
 

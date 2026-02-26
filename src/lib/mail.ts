@@ -1,6 +1,4 @@
 import nodemailer from "nodemailer";
-import path from "path";
-import fs from "fs";
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -21,33 +19,25 @@ export async function sendMail({
     subject,
     title,
     preheader,
-    data
+    data,
+    customBody,
 }: {
     to: string;
     subject: string;
     title: string;
     preheader: string;
     data: Record<string, string>;
+    customBody?: string;
 }) {
     try {
-        const html = getEmailTemplate({ title, preheader, data });
-
-        // Ruta absoluta al logo para adjuntarlo
-        const logoPath = path.join(process.cwd(), "public", "img", "logo-lblab.png");
+        const html = getEmailTemplate({ title, preheader, data, customBody });
 
         const info = await transporter.sendMail({
             from: `"Laboratorio LB Lab" <${process.env.GMAIL_USER}>`,
             to,
             subject,
-            text: `${title}\n\n${Object.entries(data).map(([k, v]) => `${k}: ${v}`).join("\n")}`,
+            text: `${customBody ? customBody.replace(/<br\s*\/?>/gi, '\n') + '\n\n' : ''}${title}\n\n${Object.entries(data).map(([k, v]) => `${k}: ${v}`).join("\n")}`,
             html,
-            attachments: [
-                {
-                    filename: 'logo-lblab.png',
-                    path: logoPath,
-                    cid: 'logo', // mismo ID que usamos en el template <img src="cid:logo">
-                }
-            ]
         });
 
         console.log("Email enviado: %s", info.messageId);

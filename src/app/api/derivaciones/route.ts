@@ -40,6 +40,16 @@ export async function POST(request: Request) {
             );
         }
 
+        const now = new Date();
+        const formattedNow = now.toLocaleDateString('es-AR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        }) + " " + now.toLocaleTimeString('es-AR', {
+            hour: '2-digit',
+            minute: '2-digit'
+        }) + " Hs.";
+
         const submissionDate = date || new Date().toISOString().split('T')[0];
         const submissionTime = time || "SOLICITUD";
 
@@ -77,14 +87,15 @@ export async function POST(request: Request) {
             // Mail al laboratorio/profesional
             await sendMail({
                 to: email,
-                subject: `Comprobante de Solicitud de Derivación: ${labName || patient}`,
+                subject: `Confirmación de derivación: ${labName || patient}`,
                 title: "Su solicitud ha sido recibida",
                 preheader: `Hola, hemos recibido tu solicitud de derivación para ${patient || labName}`,
+                customBody: `Estimado/a colega.<br>Hemos recibido correctamente su solicitud de derivación.<br>Con los detalles registrados:`,
                 data: {
-                    "Laboratorio / Profesional": labName || "No especificado",
-                    "Detalles (Protocolo/Paciente)": patient,
-                    "Análisis solicitados": analysisType && analysisType.length > 0 ? analysisType.join(", ") : "General",
-                    "Fecha de solicitud": submissionDate
+                    "Laboratorio / Profesional Derivante": labName || "No especificado",
+                    "N° de Protocolo / Paciente / Observaciones": patient,
+                    "Determinaciones solicitadas": analysisType && analysisType.length > 0 ? analysisType.join(", ") : "General",
+                    "Fecha de solicitud": formattedNow
                 }
             });
 
@@ -93,15 +104,16 @@ export async function POST(request: Request) {
             if (contactEmails) {
                 await sendMail({
                     to: contactEmails,
-                    subject: `[COPIA] Solicitud de Derivación: ${labName || patient}`,
+                    subject: `[COPIA] Confirmación de derivación: ${labName || patient}`,
                     title: "Nueva Solicitud de Derivación Recibida",
                     preheader: `Se ha registrado una nueva derivación para ${patient || labName}`,
+                    customBody: `Estimado/a colega.<br>Hemos recibido correctamente su solicitud de derivación.<br>Con los detalles registrados:`,
                     data: {
                         "Enviado por": email,
-                        "Laboratorio / Profesional": labName || "No especificado",
-                        "Detalles (Protocolo/Paciente)": patient,
-                        "Análisis solicitados": analysisType && analysisType.length > 0 ? analysisType.join(", ") : "General",
-                        "Fecha de solicitud": submissionDate
+                        "Laboratorio / Profesional Derivante": labName || "No especificado",
+                        "N° de Protocolo / Paciente / Observaciones": patient,
+                        "Determinaciones solicitadas": analysisType && analysisType.length > 0 ? analysisType.join(", ") : "General",
+                        "Fecha de solicitud": formattedNow
                     }
                 });
             }
