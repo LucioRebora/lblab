@@ -18,8 +18,13 @@ export default function Footer() {
                         <p className="text-gray-400 text-[10px] font-black tracking-widest uppercase">
                             © 2026 LB LAB – LABORATORIO DE BIOANÁLISIS.
                         </p>
-                        <p className="text-gray-400 text-[9px] font-bold tracking-[0.2em] uppercase flex items-center justify-center md:justify-start gap-2">
-                            POWERED BY <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="text-primary-green hover:underline">ITIA.AR</a>
+                        <p className="flex items-baseline justify-center md:justify-start gap-1 text-gray-600">
+                            <span className="font-light text-[11px] tracking-normal">
+                                Hecho con <span className="text-[13px] mx-0.5 text-red-500 font-normal">♡</span> en
+                            </span>
+                            <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="font-bold text-[11px] tracking-normal hover:underline transition-colors hover:text-gray-800">
+                                itia.ar
+                            </a>
                         </p>
                     </div>
 
