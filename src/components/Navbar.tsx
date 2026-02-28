@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Menu, X, MapPin } from "lucide-react";
+import { Menu, X, MapPin, Settings } from "lucide-react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 
@@ -77,6 +77,13 @@ export default function Navbar() {
                         >
                             RESULTADOS
                         </a>
+                        <Link
+                            href="/admin"
+                            className="text-gray-400 hover:text-primary-green transition-colors p-1 flex items-center justify-center"
+                            title="Panel de Control"
+                        >
+                            <Settings size={20} strokeWidth={2.5} />
+                        </Link>
                     </div>
 
                     {/* Mobile Button */}
@@ -124,6 +131,14 @@ export default function Navbar() {
                     >
                         RESULTADOS ONLINE
                     </a>
+                    <Link
+                        href="/admin"
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center justify-center gap-2 mt-6 text-gray-400 hover:text-primary-green text-[11px] font-black tracking-widest uppercase transition-colors"
+                    >
+                        <Settings size={18} strokeWidth={2.5} />
+                        Panel de Control
+                    </Link>
                 </div>
             </div>
         </nav>
