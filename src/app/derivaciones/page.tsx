@@ -26,6 +26,7 @@ import {
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import * as XLSX from "xlsx";
 import "react-day-picker/dist/style.css";
 
 type TabType = "INSTRUCCIONES" | "SOLICITUD" | "RESULTADOS" | "PRECIOS";
@@ -52,6 +53,30 @@ export default function DerivacionesPage() {
     const [loadingPrices, setLoadingPrices] = useState(true);
     const [priceSearch, setPriceSearch] = useState("");
 
+    const handleDownloadExcel = () => {
+        if (!prices || prices.length === 0) return;
+
+        // Formatear datos para el Excel
+        const data = prices.map((item) => ({
+            "Determinación": item.name,
+            "Precio Final ($)": (item.nbuUnits * nbuValue).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+            "Observaciones": `VIGENTE AL ${validity}`
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Lista de Precios");
+
+        // Ajustar el ancho de las columnas
+        worksheet["!cols"] = [
+            { wpx: 350 }, // Determinación
+            { wpx: 120 }, // Precio Final
+            { wpx: 150 }  // Observaciones
+        ];
+
+        XLSX.writeFile(workbook, `Lista_Precios_Derivantes_${validity.replace(/\s+/g, '_')}.xlsx`);
+    };
+
     useEffect(() => {
         const fetchPricesData = async () => {
             setLoadingPrices(true);
@@ -63,7 +88,8 @@ export default function DerivacionesPage() {
 
                 if (pricesRes.ok) {
                     const data = await pricesRes.json();
-                    setPrices(data);
+                    const sortedData = data.sort((a: any, b: any) => a.name.localeCompare(b.name));
+                    setPrices(sortedData);
                 }
 
                 if (configRes.ok) {
@@ -605,11 +631,13 @@ export default function DerivacionesPage() {
                                 </div>
 
                                 <div className="text-center pt-8">
-                                    <button className="bg-white text-gray-900 border border-gray-100 px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-lg hover:border-primary-green transition-all flex items-center gap-4 mx-auto group">
+                                    <button
+                                        onClick={handleDownloadExcel}
+                                        className="bg-white text-gray-900 border border-gray-100 px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-lg hover:border-primary-green transition-all flex items-center gap-4 mx-auto group">
                                         <FileText size={18} strokeWidth={2.5} className="text-primary-green group-hover:scale-110 transition-transform" />
                                         Descargar LISTA COMPLETA
                                     </button>
-                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-6 italic">Documento PDF optimizado para impresión</p>
+                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-6 italic">Documento Excel con detalle de valores NBU</p>
                                 </div>
                             </motion.div>
                         )}

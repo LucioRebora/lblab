@@ -60,7 +60,8 @@ export default function PreciosDerivantesPage() {
             const pricesRes = await fetch("/api/admin/config/prices?category=DERIVANTE");
             if (pricesRes.ok) {
                 const data = await pricesRes.json();
-                setPrices(data);
+                const sortedData = data.sort((a: AnalysisPrice, b: AnalysisPrice) => a.name.localeCompare(b.name));
+                setPrices(sortedData);
             }
 
             // Fetch Global Config

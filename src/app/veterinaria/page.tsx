@@ -17,10 +17,12 @@ import {
     Calendar,
     Search,
     Plus,
-    Minus
+    Minus,
+    FileText
 } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import * as XLSX from "xlsx";
 
 type TabType = "INSTRUCCIONES" | "SOLICITUD" | "PRECIOS";
 
@@ -67,6 +69,30 @@ export default function VeterinariaPage() {
     const [loadingPrices, setLoadingPrices] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const handleDownloadExcel = () => {
+        if (!prices || prices.length === 0) return;
+
+        const data = prices.map((item) => ({
+            "Determinación": item.name,
+            "Cant. NBU": item.nbuUnits,
+            "Precio Final ($)": (item.nbuUnits * nbuValue).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+            "Observaciones": `VIGENTE AL ${validity}`
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Lista de Precios Vet");
+
+        worksheet["!cols"] = [
+            { wpx: 350 }, // Determinación
+            { wpx: 80 },  // NBU
+            { wpx: 120 }, // Precio Final
+            { wpx: 150 }  // Observaciones
+        ];
+
+        XLSX.writeFile(workbook, `Lista_Precios_Veterinaria_${validity.replace(/\s+/g, '_')}.xlsx`);
+    };
+
     useEffect(() => {
         const fetchPrices = async () => {
             setLoadingPrices(true);
@@ -74,7 +100,8 @@ export default function VeterinariaPage() {
                 const res = await fetch("/api/admin/config/prices?category=VETERINARIA");
                 if (res.ok) {
                     const data = await res.json();
-                    setPrices(data);
+                    const sortedData = data.sort((a: any, b: any) => a.name.localeCompare(b.name));
+                    setPrices(sortedData);
                 }
 
                 const configRes = await fetch("/api/admin/config/global");
@@ -494,11 +521,21 @@ export default function VeterinariaPage() {
                                         </table>
                                     </div>
                                     {validity && (
-                                        <div className="bg-gray-50 px-8 py-3 border-t border-gray-100 flex justify-between items-center">
+                                        <div className="bg-gray-50 px-8 py-3 flex justify-between items-center">
                                             <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Vigencia: {validity}</span>
                                             <span className="text-[10px] font-black text-primary-green uppercase tracking-widest">Valores actualizados</span>
                                         </div>
                                     )}
+                                </div>
+
+                                <div className="text-center pt-8">
+                                    <button
+                                        onClick={handleDownloadExcel}
+                                        className="bg-white text-gray-900 border border-gray-100 px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-lg hover:border-primary-green transition-all flex items-center gap-4 mx-auto group">
+                                        <FileText size={18} strokeWidth={2.5} className="text-primary-green group-hover:scale-110 transition-transform" />
+                                        Descargar LISTA COMPLETA
+                                    </button>
+                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-6 italic">Documento Excel con detalle de valores NBU</p>
                                 </div>
                             </motion.div>
                         )}
