@@ -240,6 +240,7 @@ export default function VeterinaryAdminPage() {
                                     <tr className="bg-gray-50/50 border-b border-gray-100">
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Paciente / Especie</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Veterinaria / Prof.</th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Protocolo</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Análisis Solicitados</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Fecha Solicitud</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">Estado</th>
@@ -248,7 +249,7 @@ export default function VeterinaryAdminPage() {
                                 <tbody className="divide-y divide-gray-50">
                                     {loading ? (
                                         <tr>
-                                            <td colSpan={5} className="px-8 py-20 text-center">
+                                            <td colSpan={6} className="px-8 py-20 text-center">
                                                 <div className="flex flex-col items-center gap-4">
                                                     <div className="w-8 h-8 border-4 border-primary-green border-t-transparent rounded-full animate-spin" />
                                                     <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Cargando solicitudes...</p>
@@ -257,7 +258,7 @@ export default function VeterinaryAdminPage() {
                                         </tr>
                                     ) : filteredAppointments.length === 0 ? (
                                         <tr>
-                                            <td colSpan={5} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
+                                            <td colSpan={6} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
                                                 No se encontraron solicitudes.
                                             </td>
                                         </tr>
@@ -290,6 +291,13 @@ export default function VeterinaryAdminPage() {
                                                             <Stethoscope size={12} />
                                                             {apt.professional}
                                                         </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <div className="flex flex-col gap-1">
+                                                        <span className={`font-black text-sm ${apt.status === 'CANCELLED' ? 'text-gray-300' : 'text-gray-900'}`}>
+                                                            {apt.protocolo || "-"}
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td className="px-8 py-6">
@@ -461,7 +469,7 @@ export default function VeterinaryAdminPage() {
                                 <div className="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center text-white mx-auto mb-4 backdrop-blur-md">
                                     <Eye size={32} />
                                 </div>
-                                <h3 className="text-xl font-black text-white uppercase tracking-tight">Detalles del Turno</h3>
+                                <h3 className="text-xl font-black text-white uppercase tracking-tight">Detalle de la solicitud</h3>
                                 <p className="text-white/60 text-xs font-bold uppercase tracking-widest mt-1">
                                     Enviado el {format(new Date(viewModalData.createdAt), "dd/MM/yyyy HH:mm")} hs
                                 </p>

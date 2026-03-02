@@ -252,8 +252,11 @@ export default function PRPPage() {
                                                     <div className="flex justify-center bg-gray-50/50 p-6 rounded-[2.5rem] border border-gray-100">
                                                         <DayPicker
                                                             mode="single"
+                                                            required
                                                             selected={formData.date ? new Date(formData.date + "T12:00:00") : undefined}
-                                                            onSelect={(day) => setFormData({ ...formData, date: day ? format(day, "yyyy-MM-dd") : "" })}
+                                                            onSelect={(day) => {
+                                                                if (day) setFormData({ ...formData, date: format(day, "yyyy-MM-dd") });
+                                                            }}
                                                             locale={es}
                                                             disabled={{ before: new Date(new Date().setHours(0, 0, 0, 0)) }}
                                                             modifiersClassNames={{

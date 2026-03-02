@@ -244,6 +244,7 @@ export default function DerivacionesAdminPage() {
                                 <thead>
                                     <tr className="bg-gray-50/50 border-b border-gray-100">
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Paciente</th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Protocolo</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Origen</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Fecha/Hora de Envío</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Análisis</th>
@@ -253,7 +254,7 @@ export default function DerivacionesAdminPage() {
                                 <tbody className="divide-y divide-gray-50">
                                     {loading ? (
                                         <tr>
-                                            <td colSpan={5} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs">
+                                            <td colSpan={6} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs">
                                                 <div className="flex flex-col items-center gap-4">
                                                     <div className="w-8 h-8 border-4 border-primary-burgundy border-t-transparent rounded-full animate-spin" />
                                                     Cargando derivaciones...
@@ -285,7 +286,7 @@ export default function DerivacionesAdminPage() {
                                         if (filtered.length === 0) {
                                             return (
                                                 <tr>
-                                                    <td colSpan={5} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
+                                                    <td colSpan={6} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
                                                         No se encontraron registros que coincidan con la búsqueda.
                                                     </td>
                                                 </tr>
@@ -308,6 +309,13 @@ export default function DerivacionesAdminPage() {
                                                             <p className={`font-bold transition-colors ${d.status === 'CANCELLED' ? 'text-gray-400 line-through' : 'text-gray-900 group-hover:text-primary-burgundy'}`}>{d.patient}</p>
                                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">PACIENTE</p>
                                                         </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <div className="flex flex-col gap-1">
+                                                        <span className={`font-black text-sm ${d.status === 'CANCELLED' ? 'text-gray-300' : 'text-gray-900'}`}>
+                                                            {d.protocolo || "-"}
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td className="px-8 py-6">
