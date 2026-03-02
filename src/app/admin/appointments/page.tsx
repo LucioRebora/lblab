@@ -21,7 +21,9 @@ import {
     X,
     AlertTriangle,
     Info,
-    Upload
+    Upload,
+    Eye,
+    Save
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -44,6 +46,37 @@ export default function AppointmentsAdminPage() {
     const [selectedAptId, setSelectedAptId] = useState<string | null>(null);
     const [cancelReason, setCancelReason] = useState("");
     const [isUpdating, setIsUpdating] = useState(false);
+
+    // View/Edit state
+    const [viewModalData, setViewModalData] = useState<any | null>(null);
+    const [editStatus, setEditStatus] = useState("");
+
+    const handleSaveDetails = async () => {
+        if (!viewModalData) return;
+        setIsUpdating(true);
+        try {
+            const response = await fetch("/api/admin/appointments", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: viewModalData.id,
+                    status: editStatus,
+                    cancelReason: editStatus === "CANCELLED" ? cancelReason : viewModalData.cancelReason
+                }),
+            });
+
+            if (response.ok) {
+                await fetchAppointments();
+                setViewModalData(null);
+            } else {
+                alert("Error al guardar los detalles.");
+            }
+        } catch (error) {
+            console.error("Error updating details:", error);
+        } finally {
+            setIsUpdating(false);
+        }
+    };
 
     useEffect(() => {
         if (status === "unauthenticated") {
@@ -95,6 +128,28 @@ export default function AppointmentsAdminPage() {
             }
         } catch (error) {
             console.error("Error cancelling appointment:", error);
+        } finally {
+            setIsUpdating(false);
+        }
+    };
+
+    const handleConfirm = async (id: string) => {
+        setIsUpdating(true);
+        try {
+            const response = await fetch("/api/admin/appointments", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id,
+                    status: "CONFIRMED"
+                }),
+            });
+
+            if (response.ok) {
+                await fetchAppointments();
+            }
+        } catch (error) {
+            console.error("Error confirming appointment:", error);
         } finally {
             setIsUpdating(false);
         }
@@ -315,53 +370,53 @@ export default function AppointmentsAdminPage() {
                                                 </td>
                                                 <td className="px-8 py-6 text-right">
                                                     <div className="flex flex-col items-end gap-2">
-                                                        {apt.status === 'CANCELLED' ? (
-                                                            <div className="flex flex-col items-end gap-1">
+                                                        <div className="flex items-center justify-end gap-2 w-full">
+                                                            {apt.status === 'CANCELLED' && (
                                                                 <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-red-50 text-red-500 px-4 py-1.5 rounded-full border border-red-100">
                                                                     <X size={10} />
                                                                     Cancelado
                                                                 </span>
-                                                                {apt.cancelReason && (
-                                                                    <div className="group/reason relative">
-                                                                        <span className="text-[9px] text-gray-400 font-bold uppercase flex items-center gap-1 cursor-help hover:text-gray-600 transition-colors">
-                                                                            <Info size={10} /> Ver Motivo
-                                                                        </span>
-                                                                        <div className="absolute right-0 bottom-full mb-2 w-48 bg-gray-900 text-white text-[10px] p-2 rounded-xl opacity-0 group-hover/reason:opacity-100 pointer-events-none transition-opacity shadow-xl z-20 font-medium">
-                                                                            {apt.cancelReason}
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        ) : apt.status === 'COMPLETED' ? (
-                                                            <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-gray-900 text-white px-4 py-1.5 rounded-full shadow-lg shadow-gray-200">
-                                                                <CheckCircle2 size={10} className="text-primary-green" />
-                                                                Completado
-                                                            </span>
-                                                        ) : (
-                                                            <div className="flex items-center gap-2">
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
+                                                            )}
+                                                            {apt.status === 'COMPLETED' && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-500 px-4 py-1.5 rounded-full border border-orange-100 shadow-sm">
                                                                     <CheckCircle2 size={10} />
-                                                                    Programado
+                                                                    Realizado
                                                                 </span>
-                                                                <div className="flex items-center gap-1">
-                                                                    <button
-                                                                        onClick={() => handleComplete(apt.id)}
-                                                                        disabled={isUpdating}
-                                                                        className="p-2 text-gray-300 hover:text-primary-green hover:bg-green-50 rounded-xl transition-all"
-                                                                        title="Marcar como Completado"
-                                                                    >
-                                                                        <CheckCircle2 size={18} />
-                                                                    </button>
-                                                                    <button
-                                                                        onClick={() => {
-                                                                            setSelectedAptId(apt.id);
-                                                                            setIsCancelModalOpen(true);
-                                                                        }}
-                                                                        className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                                                                        title="Cancelar Turno"
-                                                                    >
-                                                                        <X size={18} />
-                                                                    </button>
+                                                            )}
+                                                            {apt.status === 'CONFIRMED' && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-500 px-4 py-1.5 rounded-full border border-orange-100">
+                                                                    <CheckCircle2 size={10} />
+                                                                    Confirmado
+                                                                </span>
+                                                            )}
+                                                            {(apt.status === 'SCHEDULED' || apt.status === 'PENDING' || (!['COMPLETED', 'CONFIRMED', 'CANCELLED'].includes(apt.status))) && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-500 px-4 py-1.5 rounded-full border border-blue-100">
+                                                                    <CheckCircle2 size={10} />
+                                                                    Solicitado
+                                                                </span>
+                                                            )}
+
+                                                            <div className="flex items-center gap-1 ml-2">
+                                                                <button
+                                                                    onClick={() => {
+                                                                        setViewModalData(apt);
+                                                                        setEditStatus(apt.status);
+                                                                        setCancelReason(apt.cancelReason || "");
+                                                                    }}
+                                                                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all group-hover:bg-white"
+                                                                    title="Ver/Editar Detalles"
+                                                                >
+                                                                    <Eye size={18} />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        {apt.status === 'CANCELLED' && apt.cancelReason && (
+                                                            <div className="group/reason relative mt-1">
+                                                                <span className="text-[9px] text-gray-400 font-bold uppercase flex items-center gap-1 cursor-help hover:text-gray-600 transition-colors">
+                                                                    <Info size={10} /> Ver Motivo
+                                                                </span>
+                                                                <div className="absolute right-0 bottom-full mb-2 w-48 bg-gray-900 text-white text-[10px] p-2 rounded-xl opacity-0 group-hover/reason:opacity-100 pointer-events-none transition-opacity shadow-xl z-20 font-medium text-left">
+                                                                    {apt.cancelReason}
                                                                 </div>
                                                             </div>
                                                         )}
@@ -433,6 +488,140 @@ export default function AppointmentsAdminPage() {
                                         className="flex-[2] bg-red-500 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-red-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                                     >
                                         {isUpdating ? "Cancelando..." : "Confirmar Cancelación"}
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+
+                {/* View Details Modal */}
+                {viewModalData && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setViewModalData(null)}
+                            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl relative z-10 overflow-hidden flex flex-col max-h-[90vh]"
+                        >
+                            <div className="bg-primary-burgundy p-8 text-center relative flex-shrink-0">
+                                <button
+                                    onClick={() => setViewModalData(null)}
+                                    className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors p-2"
+                                >
+                                    <X size={20} />
+                                </button>
+                                <div className="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center text-white mx-auto mb-4 backdrop-blur-md">
+                                    <Eye size={32} />
+                                </div>
+                                <h3 className="text-xl font-black text-white uppercase tracking-tight">Detalles del Turno PRP</h3>
+                                <p className="text-white/60 text-xs font-bold uppercase tracking-widest mt-1">
+                                    Turno para el {format(new Date(viewModalData.date + "T12:00:00"), "dd/MM/yyyy")} a las {viewModalData.time} hs
+                                </p>
+                            </div>
+
+                            <div className="p-8 overflow-y-auto space-y-6 text-left">
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="space-y-4">
+                                        <div>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Paciente</p>
+                                            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                                                <p className="font-black text-gray-900 text-sm uppercase">{viewModalData.patient}</p>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-gray-500 mt-2 lowercase">
+                                                    <Mail size={12} />
+                                                    {viewModalData.email}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Profesional</p>
+                                            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex flex-col justify-center">
+                                                <p className="font-bold text-gray-800 text-sm italic">{viewModalData.professional || "No especificado"}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid md:grid-cols-1 gap-6 pt-2">
+                                    <div>
+                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Estado del Turno</p>
+                                        <select
+                                            value={editStatus}
+                                            onChange={(e) => setEditStatus(e.target.value)}
+                                            className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-burgundy transition-all text-sm font-black text-gray-900 cursor-pointer"
+                                        >
+                                            <option value="SCHEDULED">Solicitado</option>
+                                            <option value="CONFIRMED">Confirmado</option>
+                                            <option value="COMPLETED">Realizado</option>
+                                            <option value="CANCELLED">Cancelado</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="pt-2">
+                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Preparación Requerida</p>
+                                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                                        <div className="flex flex-wrap gap-2">
+                                            {viewModalData.preparation?.map((p: string, i: number) => (
+                                                <span key={i} className="text-[10px] font-black uppercase tracking-tighter bg-white text-primary-burgundy shadow-sm px-3 py-1.5 rounded-lg border border-gray-100">
+                                                    {p}
+                                                </span>
+                                            ))}
+                                            {(!viewModalData.preparation || viewModalData.preparation.length === 0) && (
+                                                <span className="text-xs font-bold text-gray-500 italic">No se especificó preparación.</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {editStatus === "CANCELLED" && (
+                                    <div className="mt-4 p-4 rounded-2xl border border-red-100 bg-red-50">
+                                        <p className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                            <AlertTriangle size={12} />
+                                            Motivo de Cancelación
+                                        </p>
+                                        <textarea
+                                            value={cancelReason}
+                                            onChange={(e) => setCancelReason(e.target.value)}
+                                            placeholder="Ingresa el motivo de cancelación..."
+                                            className="w-full bg-white border border-red-100 rounded-xl py-2 px-3 text-[11px] outline-none focus:ring-2 focus:ring-red-500 min-h-[60px] resize-none"
+                                        />
+                                    </div>
+                                )}
+
+                                {viewModalData.cancelReason && editStatus !== "CANCELLED" && (
+                                    <div className="mt-4 p-4 rounded-2xl border border-gray-200 bg-gray-50">
+                                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                            <Info size={12} />
+                                            Motivo de Cancelación Previo
+                                        </p>
+                                        <p className="font-bold text-gray-600 text-sm italic">{viewModalData.cancelReason}</p>
+                                    </div>
+                                )}
+
+                                <div className="pt-6 border-t border-gray-100 flex justify-end gap-4 mt-8">
+                                    <button
+                                        onClick={() => setViewModalData(null)}
+                                        className="px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-xs text-gray-400 hover:bg-gray-100 transition-all"
+                                    >
+                                        Cerrar
+                                    </button>
+                                    <button
+                                        onClick={handleSaveDetails}
+                                        disabled={isUpdating}
+                                        className="bg-primary-burgundy text-white px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-red-900/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
+                                    >
+                                        <Save size={16} />
+                                        {isUpdating ? "Guardando..." : "Guardar Cambios"}
                                     </button>
                                 </div>
                             </div>

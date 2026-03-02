@@ -229,12 +229,12 @@ export default function Dashboard() {
                                                         </div>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${(deriv.status === 'PENDING' || deriv.status === 'SCHEDULED') ? 'text-orange-500 bg-orange-50' :
-                                                            deriv.status === 'RECEIVED' ? 'text-blue-500 bg-blue-50' :
-                                                                deriv.status === 'COMPLETED' ? 'text-primary-green bg-green-50' :
+                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${(deriv.status === 'PENDING' || deriv.status === 'SCHEDULED') ? 'text-blue-500 bg-blue-50' :
+                                                            deriv.status === 'RECEIVED' ? 'text-green-500 bg-green-50' :
+                                                                deriv.status === 'COMPLETED' ? 'text-orange-500 bg-orange-50' :
                                                                     'text-red-500 bg-red-50'
                                                             }`}>
-                                                            {(deriv.status === 'PENDING' || deriv.status === 'SCHEDULED') ? 'Pdte' : deriv.status === 'RECEIVED' ? 'Recibido' : deriv.status === 'COMPLETED' ? 'Completado' : 'Cancelado'}
+                                                            {(deriv.status === 'PENDING' || deriv.status === 'SCHEDULED') ? 'Solicitado' : deriv.status === 'RECEIVED' ? 'Recibido' : deriv.status === 'COMPLETED' ? 'Completado' : 'Cancelado'}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -284,12 +284,12 @@ export default function Dashboard() {
                                                         </div>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${apt.status === 'PENDING' ? 'text-orange-500 bg-orange-50' :
-                                                            apt.status === 'RECEIVED' ? 'text-blue-500 bg-blue-50' :
-                                                                apt.status === 'COMPLETED' ? 'text-primary-green bg-green-50' :
+                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${(apt.status === 'PENDING' || apt.status === 'SCHEDULED') ? 'text-blue-500 bg-blue-50' :
+                                                            apt.status === 'RECEIVED' ? 'text-green-500 bg-green-50' :
+                                                                apt.status === 'COMPLETED' ? 'text-orange-500 bg-orange-50' :
                                                                     'text-red-500 bg-red-50'
                                                             }`}>
-                                                            {apt.status === 'PENDING' ? 'Pdte' : apt.status === 'RECEIVED' ? 'Recibido' : apt.status === 'COMPLETED' ? 'Completado' : 'Cancelado'}
+                                                            {(apt.status === 'PENDING' || apt.status === 'SCHEDULED') ? 'Solicitado' : apt.status === 'RECEIVED' ? 'Recibido' : apt.status === 'COMPLETED' ? 'Completado' : 'Cancelado'}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -333,12 +333,12 @@ export default function Dashboard() {
                                                         </div>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${(apt.status === 'SCHEDULED' || apt.status === 'PENDING') ? 'text-orange-500 bg-orange-50' :
-                                                            apt.status === 'RECEIVED' ? 'text-blue-500 bg-blue-50' :
-                                                                apt.status === 'COMPLETED' ? 'text-primary-green bg-green-50' :
+                                                        <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${(apt.status === 'SCHEDULED' || apt.status === 'PENDING') ? 'text-blue-500 bg-blue-50' :
+                                                            apt.status === 'CONFIRMED' ? 'text-orange-500 bg-orange-50' :
+                                                                apt.status === 'COMPLETED' ? 'text-orange-500 bg-orange-50 shadow-sm' :
                                                                     'text-red-500 bg-red-50'
                                                             }`}>
-                                                            {(apt.status === 'SCHEDULED' || apt.status === 'PENDING') ? 'Pdte' : apt.status === 'RECEIVED' ? 'Recibido' : apt.status === 'COMPLETED' ? 'Completado' : 'Cancelado'}
+                                                            {(apt.status === 'SCHEDULED' || apt.status === 'PENDING') ? 'Solicitado' : apt.status === 'CONFIRMED' ? 'Confirmado' : apt.status === 'COMPLETED' ? 'Realizado' : 'Cancelado'}
                                                         </span>
                                                     </div>
                                                 </div>
