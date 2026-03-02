@@ -21,7 +21,10 @@ import {
     Info,
     Building2,
     Upload,
-    Send
+    Send,
+    Eye,
+    Save, // Add Save
+    Edit2 // Add Edit2
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -45,6 +48,37 @@ export default function DerivacionesAdminPage() {
     const [cancelReason, setCancelReason] = useState("");
     const [isUpdating, setIsUpdating] = useState(false);
 
+    // View/Edit state
+    const [viewModalData, setViewModalData] = useState<any | null>(null);
+    const [editProtocolo, setEditProtocolo] = useState("");
+    const [editStatus, setEditStatus] = useState("");
+
+    const handleSaveDetails = async () => {
+        if (!viewModalData) return;
+        setIsUpdating(true);
+        try {
+            const response = await fetch("/api/admin/derivaciones", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: viewModalData.id,
+                    protocolo: editProtocolo,
+                    status: editStatus
+                }),
+            });
+
+            if (response.ok) {
+                await fetchDerivaciones();
+                setViewModalData(null);
+            } else {
+                alert("Error al guardar los detalles.");
+            }
+        } catch (error) {
+            console.error("Error updating details:", error);
+        } finally {
+            setIsUpdating(false);
+        }
+    };
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/admin");
@@ -315,53 +349,68 @@ export default function DerivacionesAdminPage() {
                                                 </td>
                                                 <td className="px-8 py-6 text-right">
                                                     <div className="flex flex-col items-end gap-2">
-                                                        {d.status === 'CANCELLED' ? (
-                                                            <div className="flex flex-col items-end gap-1">
+                                                        <div className="flex items-center justify-end gap-2 w-full">
+                                                            {d.status === 'CANCELLED' && (
                                                                 <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-red-50 text-red-500 px-4 py-1.5 rounded-full border border-red-100">
                                                                     <X size={10} />
                                                                     Cancelado
                                                                 </span>
-                                                                {d.cancelReason && (
-                                                                    <div className="group/reason relative">
-                                                                        <span className="text-[9px] text-gray-400 font-bold uppercase flex items-center gap-1 cursor-help hover:text-gray-600 transition-colors">
-                                                                            <Info size={10} /> Ver Motivo
-                                                                        </span>
-                                                                        <div className="absolute right-0 bottom-full mb-2 w-48 bg-gray-900 text-white text-[10px] p-2 rounded-xl opacity-0 group-hover/reason:opacity-100 pointer-events-none transition-opacity shadow-xl z-20 font-medium">
-                                                                            {d.cancelReason}
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        ) : d.status === 'COMPLETED' ? (
-                                                            <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
-                                                                <CheckCircle2 size={10} />
-                                                                Completado
-                                                            </span>
-                                                        ) : (
-                                                            <div className="flex items-center gap-2">
+                                                            )}
+                                                            {d.status === 'COMPLETED' && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
+                                                                    <CheckCircle2 size={10} />
+                                                                    Completado
+                                                                </span>
+                                                            )}
+                                                            {d.status !== 'CANCELLED' && d.status !== 'COMPLETED' && (
                                                                 <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
                                                                     <CheckCircle2 size={10} />
                                                                     Programado
                                                                 </span>
-                                                                <div className="flex items-center gap-1">
-                                                                    <button
-                                                                        onClick={() => handleComplete(d.id)}
-                                                                        disabled={isUpdating}
-                                                                        className="p-2 text-gray-300 hover:text-primary-green hover:bg-green-50 rounded-xl transition-all"
-                                                                        title="Marcar como Completado"
-                                                                    >
-                                                                        <CheckCircle2 size={18} />
-                                                                    </button>
-                                                                    <button
-                                                                        onClick={() => {
-                                                                            setSelectedId(d.id);
-                                                                            setIsCancelModalOpen(true);
-                                                                        }}
-                                                                        className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                                                                        title="Anular Solicitud"
-                                                                    >
-                                                                        <X size={18} />
-                                                                    </button>
+                                                            )}
+                                                            <div className="flex items-center gap-1 ml-2">
+                                                                <button
+                                                                    onClick={() => {
+                                                                        setViewModalData(d);
+                                                                        setEditProtocolo(d.protocolo || "");
+                                                                        setEditStatus(d.status);
+                                                                    }}
+                                                                    className="p-2 text-gray-300 hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all"
+                                                                    title="Ver/Editar Detalles"
+                                                                >
+                                                                    <Eye size={18} />
+                                                                </button>
+                                                                {d.status !== 'CANCELLED' && d.status !== 'COMPLETED' && (
+                                                                    <>
+                                                                        <button
+                                                                            onClick={() => handleComplete(d.id)}
+                                                                            disabled={isUpdating}
+                                                                            className="p-2 text-gray-300 hover:text-primary-green hover:bg-green-50 rounded-xl transition-all"
+                                                                            title="Marcar como Completado"
+                                                                        >
+                                                                            <CheckCircle2 size={18} />
+                                                                        </button>
+                                                                        <button
+                                                                            onClick={() => {
+                                                                                setSelectedId(d.id);
+                                                                                setIsCancelModalOpen(true);
+                                                                            }}
+                                                                            className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                                                            title="Anular Solicitud"
+                                                                        >
+                                                                            <X size={18} />
+                                                                        </button>
+                                                                    </>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                        {d.status === 'CANCELLED' && d.cancelReason && (
+                                                            <div className="group/reason relative mt-1">
+                                                                <span className="text-[9px] text-gray-400 font-bold uppercase flex items-center gap-1 cursor-help hover:text-gray-600 transition-colors">
+                                                                    <Info size={10} /> Ver Motivo
+                                                                </span>
+                                                                <div className="absolute right-0 bottom-full mb-2 w-48 bg-gray-900 text-white text-[10px] p-2 rounded-xl opacity-0 group-hover/reason:opacity-100 pointer-events-none transition-opacity shadow-xl z-20 font-medium text-left">
+                                                                    {d.cancelReason}
                                                                 </div>
                                                             </div>
                                                         )}
@@ -433,6 +482,135 @@ export default function DerivacionesAdminPage() {
                                         className="flex-[2] bg-red-500 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-red-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                                     >
                                         {isUpdating ? "Anulando..." : "Confirmar Anulación"}
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+
+                {/* View Details Modal */}
+                {viewModalData && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setViewModalData(null)}
+                            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl relative z-10 overflow-hidden flex flex-col max-h-[90vh]"
+                        >
+                            <div className="bg-primary-burgundy p-8 text-center relative flex-shrink-0">
+                                <button
+                                    onClick={() => setViewModalData(null)}
+                                    className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors p-2"
+                                >
+                                    <X size={20} />
+                                </button>
+                                <div className="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center text-white mx-auto mb-4 backdrop-blur-md">
+                                    <Eye size={32} />
+                                </div>
+                                <h3 className="text-xl font-black text-white uppercase tracking-tight">Detalles de la Derivación</h3>
+                                <p className="text-white/60 text-xs font-bold uppercase tracking-widest mt-1">
+                                    Enviado el {format(new Date(viewModalData.createdAt), "dd/MM/yyyy HH:mm")} hs
+                                </p>
+                            </div>
+
+                            <div className="p-8 overflow-y-auto space-y-6 text-left">
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="space-y-4">
+                                        <div>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Origen</p>
+                                            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                                                <p className="font-black text-gray-900 text-sm uppercase">{viewModalData.labName}</p>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-gray-500 mt-2 lowercase">
+                                                    <Mail size={12} />
+                                                    {viewModalData.email}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Paciente / Observaciones</p>
+                                            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex flex-col justify-center">
+                                                <p className="font-bold text-gray-800 text-sm italic whitespace-pre-line">{viewModalData.patient}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-6 pt-2">
+                                    <div>
+                                        <p className="text-[10px] font-black text-primary-burgundy uppercase tracking-widest mb-1 outline-none">Nº Protocolo</p>
+                                        <input
+                                            type="text"
+                                            maxLength={12}
+                                            placeholder="Protocolo"
+                                            value={editProtocolo}
+                                            onChange={(e) => setEditProtocolo(e.target.value.replace(/[^0-9]/g, ''))}
+                                            className="w-full bg-white border border-gray-200 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-burgundy transition-all text-sm font-black text-gray-900 placeholder:text-gray-300 shadow-inner"
+                                        />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Estado Solicitud</p>
+                                        <select
+                                            value={editStatus}
+                                            onChange={(e) => setEditStatus(e.target.value)}
+                                            className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-green transition-all text-sm font-black text-gray-900 cursor-pointer"
+                                        >
+                                            <option value="SCHEDULED">Programado</option>
+                                            <option value="COMPLETED">Completado</option>
+                                            <option value="CANCELLED">Cancelado</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="pt-2">
+                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Análisis Solicitados</p>
+                                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                                        <div className="flex flex-wrap gap-2">
+                                            {viewModalData.analysisType?.map((type: string, i: number) => (
+                                                <span key={i} className="text-[10px] font-black uppercase tracking-tighter bg-white text-primary-burgundy shadow-sm px-3 py-1.5 rounded-lg border border-gray-100">
+                                                    {type}
+                                                </span>
+                                            ))}
+                                            {(!viewModalData.analysisType || viewModalData.analysisType.length === 0) && (
+                                                <span className="text-xs font-bold text-gray-500 italic">No se especificaron análisis.</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {viewModalData.cancelReason && editStatus === "CANCELLED" && (
+                                    <div className="mt-4 p-4 rounded-2xl border border-red-100 bg-red-50">
+                                        <p className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                            <AlertTriangle size={12} />
+                                            Motivo de Anulación
+                                        </p>
+                                        <p className="font-bold text-red-600 text-sm italic">{viewModalData.cancelReason}</p>
+                                    </div>
+                                )}
+
+                                <div className="pt-6 border-t border-gray-100 flex justify-end gap-4 mt-8">
+                                    <button
+                                        onClick={() => setViewModalData(null)}
+                                        className="px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-xs text-gray-400 hover:bg-gray-100 transition-all"
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        onClick={handleSaveDetails}
+                                        disabled={isUpdating}
+                                        className="bg-primary-green text-white px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-green-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
+                                    >
+                                        <Save size={16} />
+                                        {isUpdating ? "Guardando..." : "Guardar Cambios"}
                                     </button>
                                 </div>
                             </div>

@@ -68,6 +68,7 @@ model Derivacion {
   date         String
   time         String
   analysisType String[]
+  protocolo    String?
   status       String   @default("SCHEDULED")
   cancelReason String?
   createdAt    DateTime @default(now())
