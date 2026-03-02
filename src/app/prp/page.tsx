@@ -62,6 +62,17 @@ export default function PRPPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!formData.date || !formData.time) {
+            alert("Por favor selecciona el día y la hora para el turno.");
+            return;
+        }
+
+        if (formData.preparation.length === 0 && !formData.otherPreparation.trim()) {
+            alert("Por favor selecciona al menos un tipo de preparación o especifica otro.");
+            return;
+        }
+
         setIsSubmitting(true);
 
         const finalPreparation = [...formData.preparation];
@@ -90,6 +101,9 @@ export default function PRPPage() {
                     preparation: [],
                     otherPreparation: ""
                 });
+            } else if (response.status === 409) {
+                alert("Su turno ya no se encuentra disponible, por favor seleccione una nueva opción");
+                setBookedSlots([...bookedSlots, formData.time]);
             } else {
                 alert("Error al guardar el turno. Por favor intenta de nuevo.");
             }
@@ -201,7 +215,7 @@ export default function PRPPage() {
                                                             required
                                                             type="email"
                                                             placeholder="ejemplo@correo.com"
-                                                            className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                            className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                             value={formData.email}
                                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                         />
@@ -209,13 +223,14 @@ export default function PRPPage() {
                                                 </div>
 
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Profesional:</label>
+                                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Profesional *</label>
                                                     <div className="relative">
                                                         <Stethoscope className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-green/40" size={18} />
                                                         <input
+                                                            required
                                                             type="text"
                                                             placeholder="Nombre del médico"
-                                                            className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                            className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                             value={formData.professional}
                                                             onChange={(e) => setFormData({ ...formData, professional: e.target.value })}
                                                         />
@@ -224,13 +239,14 @@ export default function PRPPage() {
                                             </div>
 
                                             <div className="space-y-2">
-                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Paciente:</label>
+                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Paciente *</label>
                                                 <div className="relative">
                                                     <User className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-green/40" size={18} />
                                                     <input
+                                                        required
                                                         type="text"
                                                         placeholder="Nombre completo"
-                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                        className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                         value={formData.patient}
                                                         onChange={(e) => setFormData({ ...formData, patient: e.target.value })}
                                                     />
