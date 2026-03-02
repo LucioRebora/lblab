@@ -32,7 +32,7 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
     try {
         const body = await request.json();
-        const { id, status, cancelReason } = body;
+        const { id, status, cancelReason, protocolo } = body;
 
         if (!id) {
             return NextResponse.json({ error: "ID de turno requerido" }, { status: 400 });
@@ -42,7 +42,8 @@ export async function PATCH(request: Request) {
             where: { id },
             data: {
                 status,
-                cancelReason
+                cancelReason,
+                protocolo
             },
         });
 

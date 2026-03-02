@@ -56,6 +56,7 @@ model PrpAppointment {
   time         String
   preparation  String[]
   status       String   @default("SCHEDULED")
+  protocolo    String?
   createdAt    DateTime @default(now())
   cancelReason String?
 }

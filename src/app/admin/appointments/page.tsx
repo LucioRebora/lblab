@@ -50,6 +50,7 @@ export default function AppointmentsAdminPage() {
     // View/Edit state
     const [viewModalData, setViewModalData] = useState<any | null>(null);
     const [editStatus, setEditStatus] = useState("");
+    const [editProtocolo, setEditProtocolo] = useState("");
 
     const handleSaveDetails = async () => {
         if (!viewModalData) return;
@@ -61,6 +62,7 @@ export default function AppointmentsAdminPage() {
                 body: JSON.stringify({
                     id: viewModalData.id,
                     status: editStatus,
+                    protocolo: editProtocolo,
                     cancelReason: editStatus === "CANCELLED" ? cancelReason : viewModalData.cancelReason
                 }),
             });
@@ -268,6 +270,7 @@ export default function AppointmentsAdminPage() {
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Contacto</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Fecha y Hora</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Médico / Preparación</th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Protocolo</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">Estado / Acciones</th>
                                     </tr>
                                 </thead>
@@ -368,6 +371,13 @@ export default function AppointmentsAdminPage() {
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td className="px-8 py-6 text-black">
+                                                    <div className="flex flex-col gap-1">
+                                                        <span className={`font-black text-sm ${apt.status === 'CANCELLED' ? 'text-gray-300' : 'text-gray-900'}`}>
+                                                            {apt.protocolo || "-"}
+                                                        </span>
+                                                    </div>
+                                                </td>
                                                 <td className="px-8 py-6 text-right">
                                                     <div className="flex flex-col items-end gap-2">
                                                         <div className="flex items-center justify-end gap-2 w-full">
@@ -402,6 +412,7 @@ export default function AppointmentsAdminPage() {
                                                                         setViewModalData(apt);
                                                                         setEditStatus(apt.status);
                                                                         setCancelReason(apt.cancelReason || "");
+                                                                        setEditProtocolo(apt.protocolo || "");
                                                                     }}
                                                                     className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all group-hover:bg-white"
                                                                     title="Ver/Editar Detalles"
@@ -551,7 +562,18 @@ export default function AppointmentsAdminPage() {
                                     </div>
                                 </div>
 
-                                <div className="grid md:grid-cols-1 gap-6 pt-2">
+                                <div className="grid md:grid-cols-2 gap-6 pt-2">
+                                    <div>
+                                        <p className="text-[10px] font-black text-primary-burgundy uppercase tracking-widest mb-1 outline-none">Nº Protocolo</p>
+                                        <input
+                                            type="text"
+                                            maxLength={12}
+                                            placeholder="Protocolo"
+                                            value={editProtocolo}
+                                            onChange={(e) => setEditProtocolo(e.target.value.replace(/[^0-9]/g, ''))}
+                                            className="w-full bg-white border border-gray-200 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-burgundy transition-all text-sm font-black text-gray-900 placeholder:text-gray-300 shadow-inner"
+                                        />
+                                    </div>
                                     <div>
                                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Estado del Turno</p>
                                         <select
