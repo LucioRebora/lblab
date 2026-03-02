@@ -380,28 +380,6 @@ export default function DerivacionesAdminPage() {
                                                                 >
                                                                     <Eye size={18} />
                                                                 </button>
-                                                                {d.status !== 'CANCELLED' && d.status !== 'COMPLETED' && (
-                                                                    <>
-                                                                        <button
-                                                                            onClick={() => handleComplete(d.id)}
-                                                                            disabled={isUpdating}
-                                                                            className="p-2 text-gray-300 hover:text-primary-green hover:bg-green-50 rounded-xl transition-all"
-                                                                            title="Marcar como Completado"
-                                                                        >
-                                                                            <CheckCircle2 size={18} />
-                                                                        </button>
-                                                                        <button
-                                                                            onClick={() => {
-                                                                                setSelectedId(d.id);
-                                                                                setIsCancelModalOpen(true);
-                                                                            }}
-                                                                            className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                                                                            title="Anular Solicitud"
-                                                                        >
-                                                                            <X size={18} />
-                                                                        </button>
-                                                                    </>
-                                                                )}
                                                             </div>
                                                         </div>
                                                         {d.status === 'CANCELLED' && d.cancelReason && (

@@ -351,27 +351,6 @@ export default function VeterinaryAdminPage() {
                                                                 >
                                                                     <Eye size={18} />
                                                                 </button>
-                                                                {apt.status !== 'CANCELLED' && apt.status !== 'COMPLETED' && (
-                                                                    <>
-                                                                        <button
-                                                                            onClick={() => handleUpdateStatus(apt.id, 'COMPLETED')}
-                                                                            className="p-2 text-gray-300 hover:text-primary-green hover:bg-green-50 rounded-xl transition-all"
-                                                                            title="Marcar como Completado"
-                                                                        >
-                                                                            <CheckCircle2 size={18} />
-                                                                        </button>
-                                                                        <button
-                                                                            onClick={() => {
-                                                                                setSelectedAptId(apt.id);
-                                                                                setIsCancelModalOpen(true);
-                                                                            }}
-                                                                            className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                                                                            title="Cancelar"
-                                                                        >
-                                                                            <X size={18} />
-                                                                        </button>
-                                                                    </>
-                                                                )}
                                                             </div>
                                                         </div>
                                                         {apt.status === 'CANCELLED' && apt.cancelReason && (
