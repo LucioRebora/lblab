@@ -137,6 +137,12 @@ export default function DerivacionesPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (formData.analysisType.length === 0 && !formData.otherAnalysis.trim()) {
+            alert("Por favor selecciona al menos un estudio o especifica otro.");
+            return;
+        }
+
         setIsSubmitting(true);
 
         const finalAnalysis = [...formData.analysisType];
@@ -384,7 +390,7 @@ export default function DerivacionesPage() {
                                                     required
                                                     type="text"
                                                     placeholder="Nombre del laboratorio"
-                                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all"
+                                                    className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all"
                                                     value={formData.labName}
                                                     onChange={(e) => setFormData({ ...formData, labName: e.target.value })}
                                                 />
@@ -395,7 +401,7 @@ export default function DerivacionesPage() {
                                                     required
                                                     type="email"
                                                     placeholder="ejemplo@correo.com"
-                                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all"
+                                                    className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all"
                                                     value={formData.email}
                                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                 />
@@ -408,7 +414,7 @@ export default function DerivacionesPage() {
                                                 required
                                                 placeholder="Detalles del paciente y observaciones relevantes"
                                                 rows={3}
-                                                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all resize-none"
+                                                className="scroll-mt-[300px] w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all resize-none"
                                                 value={formData.patient}
                                                 onChange={(e) => setFormData({ ...formData, patient: e.target.value })}
                                             />
