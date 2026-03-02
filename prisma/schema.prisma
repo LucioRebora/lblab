@@ -82,6 +82,7 @@ model VeterinaryAppointment {
   patient      String
   analysis     String[]
   other        String?
+  protocolo    String?
   status       String   @default("PENDING")
   cancelReason String?
   createdAt    DateTime @default(now())
