@@ -335,8 +335,14 @@ export default function VeterinariaPage() {
                                                     profesional: formData.get("profesional"),
                                                     paciente: formData.get("paciente"),
                                                     analysis: formData.getAll("analysis"),
-                                                    otro: formData.get("otro"),
+                                                    otro: formData.get("otro") as string,
                                                 };
+
+                                                if (data.analysis.length === 0 && (!data.otro || !data.otro.trim())) {
+                                                    alert("Por favor selecciona al menos un estudio o especifica otro.");
+                                                    setIsSubmitting(false);
+                                                    return;
+                                                }
 
                                                 try {
                                                     const res = await fetch("/api/veterinaria", {
@@ -362,7 +368,7 @@ export default function VeterinariaPage() {
                                                     required
                                                     type="email"
                                                     placeholder="ejemplo@correo.com"
-                                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                    className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                 />
                                             </div>
 
@@ -374,7 +380,7 @@ export default function VeterinariaPage() {
                                                         required
                                                         type="text"
                                                         placeholder="Nombre de la veterinaria"
-                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                        className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
@@ -384,7 +390,7 @@ export default function VeterinariaPage() {
                                                         required
                                                         type="text"
                                                         placeholder="Nombre del veterinario"
-                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                        className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                     />
                                                 </div>
                                             </div>
@@ -396,7 +402,7 @@ export default function VeterinariaPage() {
                                                     required
                                                     type="text"
                                                     placeholder="Ej: Canino, 'Paco', Juan Perez"
-                                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                    className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                 />
                                             </div>
 
