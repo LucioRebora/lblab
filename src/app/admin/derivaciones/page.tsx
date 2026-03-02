@@ -365,15 +365,21 @@ export default function DerivacionesAdminPage() {
                                                                 </span>
                                                             )}
                                                             {d.status === 'COMPLETED' && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-500 px-4 py-1.5 rounded-full border border-orange-100">
                                                                     <CheckCircle2 size={10} />
                                                                     Completado
                                                                 </span>
                                                             )}
-                                                            {d.status !== 'CANCELLED' && d.status !== 'COMPLETED' && (
+                                                            {d.status === 'RECEIVED' && (
                                                                 <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
                                                                     <CheckCircle2 size={10} />
-                                                                    Programado
+                                                                    Recibido
+                                                                </span>
+                                                            )}
+                                                            {(d.status === 'SCHEDULED' || d.status === 'PENDING' || (!['COMPLETED', 'RECEIVED', 'CANCELLED'].includes(d.status))) && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-500 px-4 py-1.5 rounded-full border border-blue-100">
+                                                                    <CheckCircle2 size={10} />
+                                                                    Solicitado
                                                                 </span>
                                                             )}
                                                             <div className="flex items-center gap-1 ml-2">
@@ -550,7 +556,8 @@ export default function DerivacionesAdminPage() {
                                             onChange={(e) => setEditStatus(e.target.value)}
                                             className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-green transition-all text-sm font-black text-gray-900 cursor-pointer"
                                         >
-                                            <option value="SCHEDULED">Programado</option>
+                                            <option value="SCHEDULED">Solicitado</option>
+                                            <option value="RECEIVED">Recibido</option>
                                             <option value="COMPLETED">Completado</option>
                                             <option value="CANCELLED">Cancelado</option>
                                         </select>
