@@ -28,7 +28,11 @@ export default function AdminPage() {
         setLoading(true);
 
         // Set rememberMe cookie to be picked up by NextAuth route handler
-        document.cookie = `rememberMe=${rememberMe}; path=/; max-age=60`; // lives briefly just for the login flow
+        if (rememberMe) {
+            document.cookie = `rememberMe=true; path=/; max-age=${30 * 24 * 60 * 60}`; // 30 days
+        } else {
+            document.cookie = `rememberMe=; path=/; max-age=0`; // Delete
+        }
 
         try {
             const result = await signIn("credentials", {
