@@ -412,7 +412,7 @@ export default function VeterinariaPage() {
                                                     {[
                                                         "HEMOGRAMA", "GLUCEMIA", "UREMIA", "CREATININA",
                                                         "HEPATOGRAMA", "GAMMA GT", "CALCEMIA", "FOSFATEMIA",
-                                                        "MAGENSEMIA", "PROTEINAS TOTALES", "ALBUMIMA", "ORINA", "CULTIVO"
+                                                        "MAGENSEMIA", "PROTEINAS TOTALES", "ALBUMIMA", "ORINA", "CULTIVO", "COAGULOGRAMA"
                                                     ].map((item) => (
                                                         <label key={item} className="flex items-center gap-3 cursor-pointer group">
                                                             <div className="relative flex items-center">
