@@ -12,6 +12,7 @@ export default function AdminPage() {
     const { data: session, status } = useSession();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -25,6 +26,9 @@ export default function AdminPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+
+        // Set rememberMe cookie to be picked up by NextAuth route handler
+        document.cookie = `rememberMe=${rememberMe}; path=/; max-age=60`; // lives briefly just for the login flow
 
         try {
             const result = await signIn("credentials", {
@@ -132,7 +136,12 @@ export default function AdminPage() {
 
                             <div className="flex items-center justify-between pt-2">
                                 <label className="flex items-center gap-2 cursor-pointer group">
-                                    <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-primary-burgundy focus:ring-primary-burgundy" />
+                                    <input
+                                        type="checkbox"
+                                        checked={rememberMe}
+                                        onChange={(e) => setRememberMe(e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-primary-burgundy focus:ring-primary-burgundy"
+                                    />
                                     <span className="text-xs text-gray-500 font-medium">Recordarme</span>
                                 </label>
                                 <a href="#" className="text-xs text-primary-burgundy font-bold hover:underline">
