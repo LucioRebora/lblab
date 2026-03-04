@@ -116,7 +116,7 @@ export default function DerivacionesAdminPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     id: selectedId,
-                    status: "CANCELLED",
+                    status: "ANULADO",
                     cancelReason
                 }),
             });
@@ -142,7 +142,7 @@ export default function DerivacionesAdminPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     id,
-                    status: "COMPLETED"
+                    status: "FINALIZADO"
                 }),
             });
 
@@ -298,29 +298,29 @@ export default function DerivacionesAdminPage() {
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
                                                 key={d.id}
-                                                className={`hover:bg-gray-50/50 transition-colors group ${d.status === 'CANCELLED' ? 'opacity-60' : ''}`}
+                                                className={`hover:bg-gray-50/50 transition-colors group ${(d.status === 'CANCELLED' || d.status === 'ANULADO') ? 'opacity-60' : ''}`}
                                             >
                                                 <td className="px-8 py-6">
                                                     <div className="flex items-center gap-4">
-                                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-xs ${d.status === 'CANCELLED' ? 'bg-gray-200 text-gray-500' : 'bg-primary-burgundy/5 text-primary-burgundy'}`}>
+                                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-xs ${(d.status === 'CANCELLED' || d.status === 'ANULADO') ? 'bg-gray-200 text-gray-500' : 'bg-primary-burgundy/5 text-primary-burgundy'}`}>
                                                             {d.patient?.substring(0, 2).toUpperCase()}
                                                         </div>
                                                         <div>
-                                                            <p className={`font-bold transition-colors ${d.status === 'CANCELLED' ? 'text-gray-400 line-through' : 'text-gray-900 group-hover:text-primary-burgundy'}`}>{d.patient}</p>
+                                                            <p className={`font-bold transition-colors ${(d.status === 'CANCELLED' || d.status === 'ANULADO') ? 'text-gray-400 line-through' : 'text-gray-900 group-hover:text-primary-burgundy'}`}>{d.patient}</p>
                                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">PACIENTE</p>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td className="px-8 py-6">
                                                     <div className="flex flex-col gap-1">
-                                                        <span className={`font-black text-sm ${d.status === 'CANCELLED' ? 'text-gray-300' : 'text-gray-900'}`}>
+                                                        <span className={`font-black text-sm ${(d.status === 'CANCELLED' || d.status === 'ANULADO') ? 'text-gray-300' : 'text-gray-900'}`}>
                                                             {d.protocolo || "-"}
                                                         </span>
                                                     </div>
                                                 </td>
                                                 <td className="px-8 py-6">
                                                     <div className="flex flex-col gap-1">
-                                                        <div className={`flex items-center gap-2 text-sm font-bold ${d.status === 'CANCELLED' ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                        <div className={`flex items-center gap-2 text-sm font-bold ${(d.status === 'CANCELLED' || d.status === 'ANULADO') ? 'text-gray-300' : 'text-gray-700'}`}>
                                                             <Building2 size={14} className="text-primary-green" />
                                                             {d.labName || "No especificado"}
                                                         </div>
@@ -332,8 +332,8 @@ export default function DerivacionesAdminPage() {
                                                 </td>
                                                 <td className="px-8 py-6">
                                                     <div className="flex flex-col">
-                                                        <div className={`flex items-center gap-2 font-bold text-sm ${d.status === 'CANCELLED' ? 'text-gray-300' : 'text-gray-800'}`}>
-                                                            <Calendar size={14} className={d.status === 'CANCELLED' ? 'text-gray-300' : 'text-primary-burgundy'} />
+                                                        <div className={`flex items-center gap-2 font-bold text-sm ${(d.status === 'CANCELLED' || d.status === 'ANULADO') ? 'text-gray-300' : 'text-gray-800'}`}>
+                                                            <Calendar size={14} className={(d.status === 'CANCELLED' || d.status === 'ANULADO') ? 'text-gray-300' : 'text-primary-burgundy'} />
                                                             {format(new Date(d.date + "T12:00:00"), "dd/MM/yyyy")}
                                                         </div>
                                                         <div className="flex items-center gap-2 text-xs font-bold text-gray-400 mt-1 uppercase">
@@ -358,28 +358,28 @@ export default function DerivacionesAdminPage() {
                                                 <td className="px-8 py-6 text-right">
                                                     <div className="flex flex-col items-end gap-2">
                                                         <div className="flex items-center justify-end gap-2 w-full">
-                                                            {d.status === 'CANCELLED' && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-red-50 text-red-500 px-4 py-1.5 rounded-full border border-red-100">
+                                                            {(d.status === 'CANCELLED' || d.status === 'ANULADO') && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-red-50 text-red-500 px-4 py-1.5 rounded-full border border-red-100 whitespace-nowrap">
                                                                     <X size={10} />
-                                                                    Cancelado
+                                                                    Anulado
                                                                 </span>
                                                             )}
-                                                            {d.status === 'COMPLETED' && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-500 px-4 py-1.5 rounded-full border border-orange-100">
+                                                            {(d.status === 'COMPLETED' || d.status === 'FINALIZADO') && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-500 px-4 py-1.5 rounded-full border border-orange-100 whitespace-nowrap">
                                                                     <CheckCircle2 size={10} />
-                                                                    Completado
+                                                                    Finalizado
                                                                 </span>
                                                             )}
-                                                            {d.status === 'RECEIVED' && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
+                                                            {(d.status === 'RECEIVED' || d.status === 'EN_PROCESO') && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100 whitespace-nowrap">
                                                                     <CheckCircle2 size={10} />
-                                                                    Recibido
+                                                                    En Proceso
                                                                 </span>
                                                             )}
-                                                            {(d.status === 'SCHEDULED' || d.status === 'PENDING' || (!['COMPLETED', 'RECEIVED', 'CANCELLED'].includes(d.status))) && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-500 px-4 py-1.5 rounded-full border border-blue-100">
+                                                            {(d.status === 'SCHEDULED' || d.status === 'PENDING' || d.status === 'PENDIENTE' || (!['COMPLETED', 'FINALIZADO', 'RECEIVED', 'EN_PROCESO', 'CANCELLED', 'ANULADO'].includes(d.status))) && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-500 px-4 py-1.5 rounded-full border border-blue-100 whitespace-nowrap">
                                                                     <CheckCircle2 size={10} />
-                                                                    Solicitado
+                                                                    Pendiente
                                                                 </span>
                                                             )}
                                                             <div className="flex items-center gap-1 ml-2">
@@ -396,7 +396,7 @@ export default function DerivacionesAdminPage() {
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        {d.status === 'CANCELLED' && d.cancelReason && (
+                                                        {(d.status === 'CANCELLED' || d.status === 'ANULADO') && d.cancelReason && (
                                                             <div className="group/reason relative mt-1">
                                                                 <span className="text-[9px] text-gray-400 font-bold uppercase flex items-center gap-1 cursor-help hover:text-gray-600 transition-colors">
                                                                     <Info size={10} /> Ver Motivo
@@ -556,10 +556,10 @@ export default function DerivacionesAdminPage() {
                                             onChange={(e) => setEditStatus(e.target.value)}
                                             className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-green transition-all text-sm font-black text-gray-900 cursor-pointer"
                                         >
-                                            <option value="SCHEDULED">Solicitado</option>
-                                            <option value="RECEIVED">Recibido</option>
-                                            <option value="COMPLETED">Completado</option>
-                                            <option value="CANCELLED">Cancelado</option>
+                                            <option value="PENDIENTE">Pendiente</option>
+                                            <option value="EN_PROCESO">En Proceso</option>
+                                            <option value="FINALIZADO">Finalizado</option>
+                                            <option value="ANULADO">Anulado</option>
                                         </select>
                                     </div>
                                 </div>
@@ -580,7 +580,7 @@ export default function DerivacionesAdminPage() {
                                     </div>
                                 </div>
 
-                                {viewModalData.cancelReason && editStatus === "CANCELLED" && (
+                                {viewModalData.cancelReason && (editStatus === "CANCELLED" || editStatus === "ANULADO") && (
                                     <div className="mt-4 p-4 rounded-2xl border border-red-100 bg-red-50">
                                         <p className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-2 flex items-center gap-2">
                                             <AlertTriangle size={12} />

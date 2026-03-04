@@ -117,7 +117,7 @@ export default function AppointmentsAdminPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     id: selectedAptId,
-                    status: "CANCELLED",
+                    status: "ANULADO",
                     cancelReason
                 }),
             });
@@ -143,7 +143,7 @@ export default function AppointmentsAdminPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     id,
-                    status: "CONFIRMED"
+                    status: "CONFIRMADO"
                 }),
             });
 
@@ -165,7 +165,7 @@ export default function AppointmentsAdminPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     id,
-                    status: "COMPLETED"
+                    status: "FINALIZADO"
                 }),
             });
 
@@ -323,22 +323,22 @@ export default function AppointmentsAdminPage() {
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
                                                 key={apt.id}
-                                                className={`hover:bg-gray-50/50 transition-colors group ${apt.status === 'CANCELLED' ? 'opacity-60' : ''}`}
+                                                className={`hover:bg-gray-50/50 transition-colors group ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'opacity-60' : ''}`}
                                             >
                                                 <td className="px-8 py-6">
                                                     <div className="flex items-center gap-4">
-                                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-xs ${apt.status === 'CANCELLED' ? 'bg-gray-200 text-gray-500' : 'bg-primary-burgundy/5 text-primary-burgundy'}`}>
+                                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-xs ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'bg-gray-200 text-gray-500' : 'bg-primary-burgundy/5 text-primary-burgundy'}`}>
                                                             {apt.patient?.substring(0, 2).toUpperCase()}
                                                         </div>
                                                         <div>
-                                                            <p className={`font-bold transition-colors ${apt.status === 'CANCELLED' ? 'text-gray-400 line-through' : 'text-gray-900 group-hover:text-primary-burgundy'}`}>{apt.patient}</p>
+                                                            <p className={`font-bold transition-colors ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'text-gray-400 line-through' : 'text-gray-900 group-hover:text-primary-burgundy'}`}>{apt.patient}</p>
                                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">ID: {apt.id.substring(0, 8)}</p>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td className="px-8 py-6">
                                                     <div className="flex flex-col gap-1">
-                                                        <div className={`flex items-center gap-2 text-xs ${apt.status === 'CANCELLED' ? 'text-gray-300 line-through' : 'text-gray-600'}`}>
+                                                        <div className={`flex items-center gap-2 text-xs ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'text-gray-300 line-through' : 'text-gray-600'}`}>
                                                             <Mail size={12} className="text-gray-400" />
                                                             {apt.email}
                                                         </div>
@@ -346,8 +346,8 @@ export default function AppointmentsAdminPage() {
                                                 </td>
                                                 <td className="px-8 py-6">
                                                     <div className="flex flex-col text-black">
-                                                        <div className={`flex items-center gap-2 font-bold text-sm ${apt.status === 'CANCELLED' ? 'text-gray-300' : 'text-gray-800'}`}>
-                                                            <Calendar size={14} className={apt.status === 'CANCELLED' ? 'text-gray-300' : 'text-primary-burgundy'} />
+                                                        <div className={`flex items-center gap-2 font-bold text-sm ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'text-gray-300' : 'text-gray-800'}`}>
+                                                            <Calendar size={14} className={(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'text-gray-300' : 'text-primary-burgundy'} />
                                                             {format(new Date(apt.date + "T12:00:00"), "dd/MM/yyyy")}
                                                         </div>
                                                         <div className="flex items-center gap-2 text-xs font-bold text-gray-400 mt-1 uppercase">
@@ -358,8 +358,8 @@ export default function AppointmentsAdminPage() {
                                                 </td>
                                                 <td className="px-8 py-6 text-black">
                                                     <div className="space-y-1">
-                                                        <div className={`flex items-center gap-2 text-xs font-bold ${apt.status === 'CANCELLED' ? 'text-gray-300' : 'text-gray-700'}`}>
-                                                            <Stethoscope size={12} className={apt.status === 'CANCELLED' ? 'text-gray-200' : 'text-primary-green'} />
+                                                        <div className={`flex items-center gap-2 text-xs font-bold ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                            <Stethoscope size={12} className={(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'text-gray-200' : 'text-primary-green'} />
                                                             Prof: {apt.professional || "No especificado"}
                                                         </div>
                                                         <div className="flex flex-wrap gap-1">
@@ -373,7 +373,7 @@ export default function AppointmentsAdminPage() {
                                                 </td>
                                                 <td className="px-8 py-6 text-black">
                                                     <div className="flex flex-col gap-1">
-                                                        <span className={`font-black text-sm ${apt.status === 'CANCELLED' ? 'text-gray-300' : 'text-gray-900'}`}>
+                                                        <span className={`font-black text-sm ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'text-gray-300' : 'text-gray-900'}`}>
                                                             {apt.protocolo || "-"}
                                                         </span>
                                                     </div>
@@ -381,26 +381,26 @@ export default function AppointmentsAdminPage() {
                                                 <td className="px-8 py-6 text-right">
                                                     <div className="flex flex-col items-end gap-2">
                                                         <div className="flex items-center justify-end gap-2 w-full">
-                                                            {apt.status === 'CANCELLED' && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-red-50 text-red-500 px-4 py-1.5 rounded-full border border-red-100">
+                                                            {(apt.status === 'CANCELLED' || apt.status === 'ANULADO') && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-red-50 text-red-500 px-4 py-1.5 rounded-full border border-red-100 whitespace-nowrap">
                                                                     <X size={10} />
-                                                                    Cancelado
+                                                                    Anulado
                                                                 </span>
                                                             )}
-                                                            {apt.status === 'COMPLETED' && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-500 px-4 py-1.5 rounded-full border border-orange-100 shadow-sm">
+                                                            {(apt.status === 'COMPLETED' || apt.status === 'FINALIZADO') && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-500 px-4 py-1.5 rounded-full border border-orange-100 shadow-sm whitespace-nowrap">
                                                                     <CheckCircle2 size={10} />
-                                                                    Realizado
+                                                                    Finalizado
                                                                 </span>
                                                             )}
-                                                            {apt.status === 'CONFIRMED' && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-500 px-4 py-1.5 rounded-full border border-orange-100">
+                                                            {(apt.status === 'CONFIRMED' || apt.status === 'CONFIRMADO') && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100 whitespace-nowrap">
                                                                     <CheckCircle2 size={10} />
                                                                     Confirmado
                                                                 </span>
                                                             )}
-                                                            {(apt.status === 'SCHEDULED' || apt.status === 'PENDING' || (!['COMPLETED', 'CONFIRMED', 'CANCELLED'].includes(apt.status))) && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-500 px-4 py-1.5 rounded-full border border-blue-100">
+                                                            {(apt.status === 'SCHEDULED' || apt.status === 'PENDING' || apt.status === 'SOLICITADO' || (!['COMPLETED', 'FINALIZADO', 'CONFIRMED', 'CONFIRMADO', 'CANCELLED', 'ANULADO'].includes(apt.status))) && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-500 px-4 py-1.5 rounded-full border border-blue-100 whitespace-nowrap">
                                                                     <CheckCircle2 size={10} />
                                                                     Solicitado
                                                                 </span>
@@ -421,7 +421,7 @@ export default function AppointmentsAdminPage() {
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        {apt.status === 'CANCELLED' && apt.cancelReason && (
+                                                        {(apt.status === 'CANCELLED' || apt.status === 'ANULADO') && apt.cancelReason && (
                                                             <div className="group/reason relative mt-1">
                                                                 <span className="text-[9px] text-gray-400 font-bold uppercase flex items-center gap-1 cursor-help hover:text-gray-600 transition-colors">
                                                                     <Info size={10} /> Ver Motivo
@@ -581,10 +581,10 @@ export default function AppointmentsAdminPage() {
                                             onChange={(e) => setEditStatus(e.target.value)}
                                             className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-burgundy transition-all text-sm font-black text-gray-900 cursor-pointer"
                                         >
-                                            <option value="SCHEDULED">Solicitado</option>
-                                            <option value="CONFIRMED">Confirmado</option>
-                                            <option value="COMPLETED">Realizado</option>
-                                            <option value="CANCELLED">Cancelado</option>
+                                            <option value="SOLICITADO">Solicitado</option>
+                                            <option value="CONFIRMADO">Confirmado</option>
+                                            <option value="FINALIZADO">Finalizado</option>
+                                            <option value="ANULADO">Anulado</option>
                                         </select>
                                     </div>
                                 </div>
@@ -605,7 +605,7 @@ export default function AppointmentsAdminPage() {
                                     </div>
                                 </div>
 
-                                {editStatus === "CANCELLED" && (
+                                {editStatus === "CANCELLED" || editStatus === "ANULADO" ? (
                                     <div className="mt-4 p-4 rounded-2xl border border-red-100 bg-red-50">
                                         <p className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-2 flex items-center gap-2">
                                             <AlertTriangle size={12} />
@@ -618,9 +618,9 @@ export default function AppointmentsAdminPage() {
                                             className="w-full bg-white border border-red-100 rounded-xl py-2 px-3 text-[11px] outline-none focus:ring-2 focus:ring-red-500 min-h-[60px] resize-none"
                                         />
                                     </div>
-                                )}
+                                ) : null}
 
-                                {viewModalData.cancelReason && editStatus !== "CANCELLED" && (
+                                {viewModalData.cancelReason && (editStatus !== "CANCELLED" && editStatus !== "ANULADO") && (
                                     <div className="mt-4 p-4 rounded-2xl border border-gray-200 bg-gray-50">
                                         <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 flex items-center gap-2">
                                             <Info size={12} />

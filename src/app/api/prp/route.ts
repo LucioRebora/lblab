@@ -13,7 +13,7 @@ export async function GET(request: Request) {
         const appointments = await prisma.prpAppointment.findMany({
             where: {
                 date,
-                status: { not: "CANCELLED" }
+                status: { notIn: ["CANCELLED", "ANULADO"] }
             },
             select: { time: true }
         });
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
             where: {
                 date,
                 time,
-                status: { not: "CANCELLED" }
+                status: { notIn: ["CANCELLED", "ANULADO"] }
             }
         });
 

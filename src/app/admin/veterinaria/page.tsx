@@ -268,7 +268,7 @@ export default function VeterinaryAdminPage() {
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
                                                 key={apt.id}
-                                                className={`hover:bg-gray-50/50 transition-colors group ${apt.status === 'CANCELLED' ? 'opacity-60' : ''}`}
+                                                className={`hover:bg-gray-50/50 transition-colors group ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'opacity-60' : ''}`}
                                             >
                                                 <td className="px-8 py-6">
                                                     <div className="flex items-center gap-4">
@@ -295,7 +295,7 @@ export default function VeterinaryAdminPage() {
                                                 </td>
                                                 <td className="px-8 py-6">
                                                     <div className="flex flex-col gap-1">
-                                                        <span className={`font-black text-sm ${apt.status === 'CANCELLED' ? 'text-gray-300' : 'text-gray-900'}`}>
+                                                        <span className={`font-black text-sm ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'text-gray-300' : 'text-gray-900'}`}>
                                                             {apt.protocolo || "-"}
                                                         </span>
                                                     </div>
@@ -329,28 +329,28 @@ export default function VeterinaryAdminPage() {
                                                 <td className="px-8 py-6 text-right">
                                                     <div className="flex flex-col items-end gap-2">
                                                         <div className="flex items-center justify-end gap-2 w-full">
-                                                            {apt.status === 'CANCELLED' && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-red-50 text-red-500 px-4 py-1.5 rounded-full border border-red-100">
+                                                            {(apt.status === 'CANCELLED' || apt.status === 'ANULADO') && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-red-50 text-red-500 px-4 py-1.5 rounded-full border border-red-100 whitespace-nowrap">
                                                                     <X size={10} />
-                                                                    Cancelado
+                                                                    Anulado
                                                                 </span>
                                                             )}
-                                                            {apt.status === 'COMPLETED' && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-500 px-4 py-1.5 rounded-full border border-orange-100">
+                                                            {(apt.status === 'COMPLETED' || apt.status === 'FINALIZADO') && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-500 px-4 py-1.5 rounded-full border border-orange-100 whitespace-nowrap">
                                                                     <CheckCircle2 size={10} />
-                                                                    Completado
+                                                                    Finalizado
                                                                 </span>
                                                             )}
-                                                            {apt.status === 'RECEIVED' && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100">
+                                                            {(apt.status === 'RECEIVED' || apt.status === 'EN_PROCESO') && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-green-50 text-primary-green px-4 py-1.5 rounded-full border border-green-100 whitespace-nowrap">
                                                                     <CheckCircle2 size={10} />
-                                                                    Recibido
+                                                                    En Proceso
                                                                 </span>
                                                             )}
-                                                            {(apt.status === 'PENDING' || (!['COMPLETED', 'RECEIVED', 'CANCELLED'].includes(apt.status))) && (
-                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-500 px-4 py-1.5 rounded-full border border-blue-100">
+                                                            {(apt.status === 'PENDING' || apt.status === 'PENDIENTE' || (!['COMPLETED', 'FINALIZADO', 'RECEIVED', 'EN_PROCESO', 'CANCELLED', 'ANULADO'].includes(apt.status))) && (
+                                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-500 px-4 py-1.5 rounded-full border border-blue-100 whitespace-nowrap">
                                                                     <CheckCircle2 size={10} />
-                                                                    Solicitado
+                                                                    Pendiente
                                                                 </span>
                                                             )}
                                                             <div className="flex items-center gap-1 ml-2">
@@ -367,7 +367,7 @@ export default function VeterinaryAdminPage() {
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        {apt.status === 'CANCELLED' && apt.cancelReason && (
+                                                        {(apt.status === 'CANCELLED' || apt.status === 'ANULADO') && apt.cancelReason && (
                                                             <div className="group/reason relative mt-1">
                                                                 <span className="text-[9px] text-gray-400 font-bold uppercase flex items-center gap-1 cursor-help hover:text-gray-600 transition-colors">
                                                                     <Info size={10} /> Ver Motivo
@@ -438,7 +438,7 @@ export default function VeterinaryAdminPage() {
                                     </button>
                                     <button
                                         disabled={isUpdating || !cancelReason}
-                                        onClick={() => handleUpdateStatus(selectedAptId!, 'CANCELLED', cancelReason)}
+                                        onClick={() => handleUpdateStatus(selectedAptId!, 'ANULADO', cancelReason)}
                                         className="flex-[2] bg-red-500 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-red-500/20 active:scale-95 transition-all"
                                     >
                                         {isUpdating ? "Confirmando..." : "Confirmar Cancelación"}
@@ -528,10 +528,10 @@ export default function VeterinaryAdminPage() {
                                             onChange={(e) => setEditStatus(e.target.value)}
                                             className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-green transition-all text-sm font-black text-gray-900 cursor-pointer"
                                         >
-                                            <option value="PENDING">Solicitado</option>
-                                            <option value="RECEIVED">Recibido</option>
-                                            <option value="COMPLETED">Completado</option>
-                                            <option value="CANCELLED">Cancelado</option>
+                                            <option value="PENDIENTE">Pendiente</option>
+                                            <option value="EN_PROCESO">En Proceso</option>
+                                            <option value="FINALIZADO">Finalizado</option>
+                                            <option value="ANULADO">Anulado</option>
                                         </select>
                                     </div>
                                 </div>
@@ -554,7 +554,7 @@ export default function VeterinaryAdminPage() {
                                     </div>
                                 </div>
 
-                                {viewModalData.cancelReason && editStatus === "CANCELLED" && (
+                                {viewModalData.cancelReason && (editStatus === "CANCELLED" || editStatus === "ANULADO") && (
                                     <div className="mt-4 p-4 rounded-2xl border border-red-100 bg-red-50">
                                         <p className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-2 flex items-center gap-2">
                                             <AlertTriangle size={12} />
