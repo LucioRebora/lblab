@@ -36,7 +36,7 @@ export default function Sidebar() {
     const adminMenuItems = [
         { name: "Dashboard", href: "/admin/dashboard", icon: BarChart3 },
         { name: "Turnos PRP", href: "/admin/appointments", icon: Calendar },
-        { name: "Turnos Veterinarios", href: "/admin/veterinaria", icon: Dog },
+        { name: "Veterinarias", href: "/admin/veterinaria", icon: Dog },
         { name: "Derivaciones", href: "/admin/derivaciones", icon: Upload },
         { name: "Consultas", href: "/admin/consultas", icon: MessageSquare },
         { name: "Usuarios", href: "/admin/users", icon: Users, adminOnly: true },
