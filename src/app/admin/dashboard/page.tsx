@@ -251,7 +251,7 @@ export default function Dashboard() {
 
                                 <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
                                     <div className="flex items-center justify-between mb-6">
-                                        <h3 className="text-xl font-bold">Turnos Veterinarios</h3>
+                                        <h3 className="text-xl font-bold">Veterinarias</h3>
                                         <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Últimos {vetAppointments.length}</p>
                                     </div>
                                     <div className="space-y-4">

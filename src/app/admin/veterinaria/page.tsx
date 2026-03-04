@@ -194,7 +194,7 @@ export default function VeterinaryAdminPage() {
                 <div className="p-8 space-y-8">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                         <div>
-                            <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Turnos Veterinarios</h1>
+                            <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Veterinarias</h1>
                             <p className="text-gray-500 text-sm font-medium">Gestión de solicitudes de análisis para clínicas veterinarias.</p>
                         </div>
 
