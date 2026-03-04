@@ -271,8 +271,8 @@ export default function Dashboard() {
                                                             <Dog size={20} />
                                                         </div>
                                                         <div>
-                                                            <p className="font-bold text-sm">{apt.patient}</p>
-                                                            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-tighter">{apt.veterinary}</p>
+                                                            <p className="font-bold text-sm">{apt.nombreMascota}</p>
+                                                            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-tighter">{apt.especie} | {apt.veterinary}</p>
                                                             <div className="flex flex-wrap gap-1 mt-1">
                                                                 {apt.analysis.slice(0, 2).map((a: string, i: number) => (
                                                                     <span key={i} className="text-[8px] font-black uppercase bg-gray-100 text-gray-400 px-1.5 py-0.5 rounded">

@@ -333,7 +333,9 @@ export default function VeterinariaPage() {
                                                     email: formData.get("email"),
                                                     veterinaria: formData.get("veterinaria"),
                                                     profesional: formData.get("profesional"),
-                                                    paciente: formData.get("paciente"),
+                                                    especie: formData.get("especie"),
+                                                    nombreMascota: formData.get("nombreMascota"),
+                                                    propietario: formData.get("propietario"),
                                                     analysis: formData.getAll("analysis"),
                                                     otro: formData.get("otro") as string,
                                                 };
@@ -395,15 +397,41 @@ export default function VeterinariaPage() {
                                                 </div>
                                             </div>
 
-                                            <div className="space-y-2">
-                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Especie, Nombre, Propietario</label>
-                                                <input
-                                                    name="paciente"
-                                                    required
-                                                    type="text"
-                                                    placeholder="Ej: Canino, 'Paco', Juan Perez"
-                                                    className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
-                                                />
+                                            <div className="grid md:grid-cols-3 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Especie</label>
+                                                    <select
+                                                        name="especie"
+                                                        required
+                                                        className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800 cursor-pointer appearance-none"
+                                                    >
+                                                        <option value="">Seleccione especie</option>
+                                                        <option value="Canino">Canino</option>
+                                                        <option value="Felino">Felino</option>
+                                                        <option value="Equino">Equino</option>
+                                                        <option value="Otros">Otros</option>
+                                                    </select>
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Nombre Mascota</label>
+                                                    <input
+                                                        name="nombreMascota"
+                                                        required
+                                                        type="text"
+                                                        placeholder="Nombre de la mascota"
+                                                        className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Propietario</label>
+                                                    <input
+                                                        name="propietario"
+                                                        required
+                                                        type="text"
+                                                        placeholder="Nombre del propietario"
+                                                        className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                    />
+                                                </div>
                                             </div>
 
                                             <div className="pt-6">

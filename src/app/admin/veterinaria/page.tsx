@@ -136,7 +136,9 @@ export default function VeterinaryAdminPage() {
     const filteredAppointments = appointments.filter(apt => {
         const query = searchQuery.toLowerCase();
         const matchesSearch = (
-            apt.patient?.toLowerCase().includes(query) ||
+            apt.nombreMascota?.toLowerCase().includes(query) ||
+            apt.especie?.toLowerCase().includes(query) ||
+            apt.propietario?.toLowerCase().includes(query) ||
             apt.email?.toLowerCase().includes(query) ||
             apt.veterinary?.toLowerCase().includes(query) ||
             apt.professional?.toLowerCase().includes(query)
@@ -276,8 +278,9 @@ export default function VeterinaryAdminPage() {
                                                             <Dog size={20} />
                                                         </div>
                                                         <div>
-                                                            <p className="font-bold text-gray-900">{apt.patient}</p>
-                                                            <p className="text-xs text-gray-500">{apt.email}</p>
+                                                            <p className="font-bold text-gray-900">{apt.nombreMascota}</p>
+                                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{apt.especie} | {apt.propietario}</p>
+                                                            <p className="text-xs text-gray-500 mt-1">{apt.email}</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -503,7 +506,11 @@ export default function VeterinaryAdminPage() {
                                         <div>
                                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Paciente</p>
                                             <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex flex-col justify-center">
-                                                <p className="font-bold text-gray-800 text-sm italic whitespace-pre-line">{viewModalData.patient}</p>
+                                                <div className="font-bold text-gray-800 text-sm whitespace-pre-line">
+                                                    Mascota: {viewModalData.nombreMascota}
+                                                    Especie: {viewModalData.especie}
+                                                    Propietario: {viewModalData.propietario}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

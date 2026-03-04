@@ -80,7 +80,9 @@ model VeterinaryAppointment {
   email        String
   veterinary   String
   professional String
-  patient      String
+  especie      String   @default("")
+  nombreMascota String   @default("")
+  propietario  String   @default("")
   analysis     String[]
   other        String?
   protocolo    String?

@@ -5,9 +5,9 @@ import { sendMail } from "@/lib/mail";
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { email, veterinaria, profesional, paciente, analysis, otro } = body;
+        const { email, veterinaria, profesional, especie, nombreMascota, propietario, analysis, otro } = body;
 
-        if (!email || !paciente) {
+        if (!email || !especie || !nombreMascota || !propietario) {
             return NextResponse.json(
                 { error: "Faltan campos obligatorios" },
                 { status: 400 }
@@ -20,7 +20,9 @@ export async function POST(request: Request) {
                 email,
                 veterinary: veterinaria,
                 professional: profesional,
-                patient: paciente,
+                especie,
+                nombreMascota,
+                propietario,
                 analysis,
                 other: otro,
             },
@@ -30,11 +32,13 @@ export async function POST(request: Request) {
         try {
             await sendMail({
                 to: email,
-                subject: `LB Lab - Solicitud de Análisis Veterinario: ${paciente}`,
+                subject: `LB Lab - Solicitud de Análisis Veterinario: ${nombreMascota}`,
                 title: "Solicitud de Análisis Recibida",
-                preheader: `Hola, hemos recibido tu solicitud para ${paciente}.`,
+                preheader: `Hola, hemos recibido tu solicitud para ${nombreMascota}.`,
                 data: {
-                    "Paciente": paciente,
+                    "Especie": especie,
+                    "Mascota": nombreMascota,
+                    "Propietario": propietario,
                     "Veterinaria": veterinaria || "No especificada",
                     "Profesional": profesional || "No especificado",
                     "Análisis": analysis && analysis.length > 0 ? analysis.join(", ") : "No especificados",
