@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function GET(request: Request) {
     try {
@@ -38,6 +40,16 @@ export async function PATCH(request: Request) {
             return NextResponse.json({ error: "ID de turno requerido" }, { status: 400 });
         }
 
+        const session = await getServerSession(authOptions);
+
+        const oldAppointment = await prisma.prpAppointment.findUnique({
+            where: { id }
+        });
+
+        if (!oldAppointment) {
+            return NextResponse.json({ error: "Turno no encontrado" }, { status: 404 });
+        }
+
         const appointment = await prisma.prpAppointment.update({
             where: { id },
             data: {
@@ -46,6 +58,20 @@ export async function PATCH(request: Request) {
                 protocolo
             },
         });
+
+        if (oldAppointment.status !== status) {
+            await prisma.auditLog.create({
+                data: {
+                    userEmail: session?.user?.email || "unknown",
+                    userName: session?.user?.name || "Desconocido",
+                    action: "UPDATE_STATUS",
+                    entityType: "PRP",
+                    entityId: id,
+                    oldStatus: oldAppointment.status,
+                    newStatus: status,
+                }
+            });
+        }
 
         return NextResponse.json(appointment);
     } catch (error) {

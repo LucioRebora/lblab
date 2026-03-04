@@ -18,7 +18,8 @@ import {
     ChevronRight,
     FileText,
     Dog,
-    Mail
+    Mail,
+    History
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -40,6 +41,7 @@ export default function Sidebar() {
         { name: "Derivaciones", href: "/admin/derivaciones", icon: Upload },
         { name: "Consultas", href: "/admin/consultas", icon: MessageSquare },
         { name: "Usuarios", href: "/admin/users", icon: Users, adminOnly: true },
+        { name: "Auditoría", href: "/admin/auditoria", icon: History, adminOnly: true },
     ];
 
     const menuItems = isStaff

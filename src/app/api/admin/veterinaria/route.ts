@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function GET(request: Request) {
     try {
@@ -30,11 +32,36 @@ export async function PATCH(request: Request) {
         if (cancelReason !== undefined) dataToUpdate.cancelReason = cancelReason;
         if (protocolo !== undefined) dataToUpdate.protocolo = protocolo;
 
+        const session = await getServerSession(authOptions);
+
+        // @ts-ignore
+        const oldAppointment = await prisma.veterinaryAppointment.findUnique({
+            where: { id }
+        });
+
+        if (!oldAppointment) {
+            return NextResponse.json({ error: "Turno no encontrado" }, { status: 404 });
+        }
+
         // @ts-ignore
         const appointment = await prisma.veterinaryAppointment.update({
             where: { id },
             data: dataToUpdate
         });
+
+        if (status !== undefined && oldAppointment.status !== status) {
+            await prisma.auditLog.create({
+                data: {
+                    userEmail: session?.user?.email || "unknown",
+                    userName: session?.user?.name || "Desconocido",
+                    action: "UPDATE_STATUS",
+                    entityType: "VETERINARIA",
+                    entityId: id,
+                    oldStatus: oldAppointment.status,
+                    newStatus: status,
+                }
+            });
+        }
 
         return NextResponse.json(appointment);
     } catch (error) {
