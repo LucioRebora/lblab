@@ -40,6 +40,16 @@ export async function POST(request: Request) {
             );
         }
 
+        // Verificar si es fin de semana (0 = Domingo, 6 = Sábado)
+        const appointmentDate = new Date(date + "T12:00:00");
+        const dayOfWeek = appointmentDate.getDay();
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            return NextResponse.json(
+                { error: "No se pueden solicitar turnos en fines de semana" },
+                { status: 400 }
+            );
+        }
+
         // Verificar si el turno está disponible
         const existing = await prisma.prpAppointment.findFirst({
             where: {

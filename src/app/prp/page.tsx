@@ -30,7 +30,20 @@ export default function PRPPage() {
 
     useEffect(() => {
         // Establecer la fecha de hoy al montar el componente para gatillar la carga de turnos
-        setFormData(prev => ({ ...prev, date: format(new Date(), "yyyy-MM-dd") }));
+        // Si hoy es sábado o domingo, buscar el próximo lunes
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+        let initialDate = today;
+
+        if (dayOfWeek === 0) { // Domingo
+            initialDate = new Date(today);
+            initialDate.setDate(today.getDate() + 1);
+        } else if (dayOfWeek === 6) { // Sábado
+            initialDate = new Date(today);
+            initialDate.setDate(today.getDate() + 2);
+        }
+
+        setFormData(prev => ({ ...prev, date: format(initialDate, "yyyy-MM-dd") }));
     }, []);
 
     useEffect(() => {
@@ -259,7 +272,19 @@ export default function PRPPage() {
                                                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">1. Seleccionar Día</label>
                                                         <button
                                                             type="button"
-                                                            onClick={() => setFormData({ ...formData, date: format(new Date(), "yyyy-MM-dd") })}
+                                                            onClick={() => {
+                                                                const today = new Date();
+                                                                const dayOfWeek = today.getDay();
+                                                                let targetDate = today;
+                                                                if (dayOfWeek === 0) { // Domingo
+                                                                    targetDate = new Date(today);
+                                                                    targetDate.setDate(today.getDate() + 1);
+                                                                } else if (dayOfWeek === 6) { // Sábado
+                                                                    targetDate = new Date(today);
+                                                                    targetDate.setDate(today.getDate() + 2);
+                                                                }
+                                                                setFormData({ ...formData, date: format(targetDate, "yyyy-MM-dd") });
+                                                            }}
                                                             className="text-[10px] font-black uppercase tracking-widest bg-gray-50 hover:bg-primary-green hover:text-white px-4 py-2 rounded-full transition-all border border-gray-100 shadow-sm"
                                                         >
                                                             📅 Hoy
@@ -274,7 +299,10 @@ export default function PRPPage() {
                                                                 if (day) setFormData({ ...formData, date: format(day, "yyyy-MM-dd") });
                                                             }}
                                                             locale={es}
-                                                            disabled={{ before: new Date(new Date().setHours(0, 0, 0, 0)) }}
+                                                            disabled={[
+                                                                { before: new Date(new Date().setHours(0, 0, 0, 0)) },
+                                                                { dayOfWeek: [0, 6] }
+                                                            ]}
                                                             modifiersClassNames={{
                                                                 selected: "!bg-primary-green !text-white rounded-xl shadow-lg",
                                                                 today: "font-black text-primary-green underline decoration-2 offset-4"
@@ -294,7 +322,12 @@ export default function PRPPage() {
                                                         {["07:00", "07:20", "07:40", "08:00", "08:20", "08:40", "09:00", "09:20", "09:40", "10:00", "10:20", "10:40", "11:00", "11:20", "11:40"].map((t) => {
                                                             const isBooked = bookedSlots.includes(t);
                                                             const isPast = formData.date === format(new Date(), "yyyy-MM-dd") && t < format(new Date(), "HH:mm");
-                                                            const isDisabled = isBooked || isPast;
+                                                            
+                                                            // Verificar si el día seleccionado es fin de semana
+                                                            const selectedDate = formData.date ? new Date(formData.date + "T12:00:00") : null;
+                                                            const isWeekend = selectedDate ? (selectedDate.getDay() === 0 || selectedDate.getDay() === 6) : false;
+                                                            
+                                                            const isDisabled = isBooked || isPast || isWeekend;
 
                                                             return (
                                                                 <button

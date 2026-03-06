@@ -15,7 +15,8 @@ import {
     Stethoscope,
     Building2,
     Eye,
-    Save
+    Save,
+    User
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -505,11 +506,15 @@ export default function VeterinaryAdminPage() {
                                     <div className="space-y-4">
                                         <div>
                                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Paciente</p>
-                                            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex flex-col justify-center">
-                                                <div className="font-bold text-gray-800 text-sm whitespace-pre-line">
-                                                    Mascota: {viewModalData.nombreMascota}
-                                                    Especie: {viewModalData.especie}
-                                                    Propietario: {viewModalData.propietario}
+                                            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                                                <p className="font-black text-gray-900 text-sm uppercase">{viewModalData.nombreMascota}</p>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-gray-500 mt-2 capitalize">
+                                                    <Dog size={12} />
+                                                    {viewModalData.especie}
+                                                </div>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-gray-500 mt-1 capitalize">
+                                                    <User size={12} />
+                                                    {viewModalData.propietario}
                                                 </div>
                                             </div>
                                         </div>

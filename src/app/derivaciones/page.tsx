@@ -563,11 +563,6 @@ export default function DerivacionesPage() {
                                         <div className="space-y-1">
                                             <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter">Nomenclador</h2>
                                             <div className="flex items-center gap-3">
-                                                <div className="px-3 py-1 bg-primary-green/10 rounded-full border border-primary-green/20">
-                                                    <p className="text-[10px] font-black text-primary-green uppercase tracking-[0.2em]">
-                                                        VALOR NBU: $ {nbuValue.toLocaleString("es-AR")}
-                                                    </p>
-                                                </div>
                                                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] italic">Vigencia: {validity}</p>
                                             </div>
                                         </div>
