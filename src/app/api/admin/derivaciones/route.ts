@@ -8,7 +8,13 @@ export async function GET(request: Request) {
         const { searchParams } = new URL(request.url);
         const date = searchParams.get("date");
 
+        const session = await getServerSession(authOptions);
         const where: any = {};
+
+        if (session?.user?.role === 'USER') {
+            where.email = session.user.email;
+        }
+
         if (date) {
             where.date = date;
         }

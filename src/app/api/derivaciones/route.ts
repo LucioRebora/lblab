@@ -31,7 +31,7 @@ import { sendMail } from "@/lib/mail";
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { email, labName, patient, date, time, analysisType, protocoloExterno, observaciones } = body;
+        const { email, labName, patient, date, time, analysisType, protocoloExterno, protocolo, observaciones } = body;
 
         if (!email || !patient) {
             return NextResponse.json(
@@ -71,12 +71,14 @@ export async function POST(request: Request) {
             }
         }
 
+        // @ts-ignore
         const derivacion = await prisma.derivacion.create({
             data: {
                 email,
                 labName,
                 patient,
                 protocoloExterno,
+                protocolo,
                 observaciones,
                 date: submissionDate,
                 time: submissionTime,
@@ -95,7 +97,8 @@ export async function POST(request: Request) {
                 customBody: `Estimado/a colega.<br>Hemos recibido correctamente su solicitud de derivación.<br>Con los detalles registrados:`,
                 data: {
                     "Laboratorio / Profesional Derivante": labName || "No especificado",
-                    "N° de Protocolo": protocoloExterno || "No especificado",
+                    "N° de Protocolo": protocolo || "No especificado",
+                    "N° de Protocolo Externo": protocoloExterno || "No especificado",
                     "Paciente": patient,
                     "Observaciones": observaciones || "Sin observaciones",
                     "Determinaciones solicitadas": analysisType && analysisType.length > 0 ? analysisType.join(", ") : "General",
@@ -115,7 +118,8 @@ export async function POST(request: Request) {
                     data: {
                         "Enviado por": email,
                         "Laboratorio / Profesional Derivante": labName || "No especificado",
-                        "N° de Protocolo": protocoloExterno || "No especificado",
+                        "N° de Protocolo": protocolo || "No especificado",
+                        "N° de Protocolo Externo": protocoloExterno || "No especificado",
                         "Paciente": patient,
                         "Observaciones": observaciones || "Sin observaciones",
                         "Determinaciones solicitadas": analysisType && analysisType.length > 0 ? analysisType.join(", ") : "General",

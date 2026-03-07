@@ -41,10 +41,8 @@ export default function Dashboard() {
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/admin");
-        } else if (status === "authenticated" && session?.user?.role === 'USER') {
-            router.push("/admin/resultados");
         }
-    }, [status, router, session]);
+    }, [status, router]);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -353,48 +351,50 @@ export default function Dashboard() {
                                     </Link>
                                 </div>
 
-                                <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
-                                    <div className="flex items-center justify-between mb-6">
-                                        <h3 className="text-xl font-bold">Consultas Recientes</h3>
-                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Últimas {submissions.length}</p>
-                                    </div>
-                                    <div className="space-y-4">
-                                        {loadingSubmissions ? (
-                                            <div className="py-12 text-center text-gray-400 animate-pulse font-bold uppercase tracking-widest text-xs">
-                                                Cargando consultas...
-                                            </div>
-                                        ) : submissions.length === 0 ? (
-                                            <div className="py-12 text-center text-gray-400 font-bold uppercase tracking-widest text-xs border-2 border-dashed border-gray-100 rounded-3xl">
-                                                No hay consultas nuevas
-                                            </div>
-                                        ) : (
-                                            submissions.map((sub, i) => (
-                                                <div key={sub.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
-                                                    <div className="flex items-center gap-4">
-                                                        <div className="w-10 h-10 bg-primary-burgundy/5 text-primary-burgundy rounded-xl flex items-center justify-center font-bold text-xs uppercase">
-                                                            {sub.name.substring(0, 2)}
-                                                        </div>
-                                                        <div>
-                                                            <p className="font-bold text-sm">{sub.name}</p>
-                                                            <p className="text-gray-400 text-xs italic line-clamp-1">{sub.comment}</p>
-                                                            <p className="text-[10px] text-gray-300 font-bold mt-1 uppercase tracking-tighter">
-                                                                {sub.email} {sub.web && `| ${sub.web}`}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase block mb-1 ${sub.status === 'PENDING' ? 'text-primary-green bg-green-50' : 'text-gray-400 bg-gray-100'}`}>
-                                                            {sub.status === 'PENDING' ? 'Nueva' : 'Respondida'}
-                                                        </span>
-                                                        <span className="text-[9px] text-gray-300 font-bold uppercase">
-                                                            {new Date(sub.createdAt).toLocaleDateString()}
-                                                        </span>
-                                                    </div>
+                                {isStaff && (
+                                    <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h3 className="text-xl font-bold">Consultas Recientes</h3>
+                                            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Últimas {submissions.length}</p>
+                                        </div>
+                                        <div className="space-y-4">
+                                            {loadingSubmissions ? (
+                                                <div className="py-12 text-center text-gray-400 animate-pulse font-bold uppercase tracking-widest text-xs">
+                                                    Cargando consultas...
                                                 </div>
-                                            ))
-                                        )}
+                                            ) : submissions.length === 0 ? (
+                                                <div className="py-12 text-center text-gray-400 font-bold uppercase tracking-widest text-xs border-2 border-dashed border-gray-100 rounded-3xl">
+                                                    No hay consultas nuevas
+                                                </div>
+                                            ) : (
+                                                submissions.map((sub, i) => (
+                                                    <div key={sub.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
+                                                        <div className="flex items-center gap-4">
+                                                            <div className="w-10 h-10 bg-primary-burgundy/5 text-primary-burgundy rounded-xl flex items-center justify-center font-bold text-xs uppercase">
+                                                                {sub.name.substring(0, 2)}
+                                                            </div>
+                                                            <div>
+                                                                <p className="font-bold text-sm">{sub.name}</p>
+                                                                <p className="text-gray-400 text-xs italic line-clamp-1">{sub.comment}</p>
+                                                                <p className="text-[10px] text-gray-300 font-bold mt-1 uppercase tracking-tighter">
+                                                                    {sub.email} {sub.web && `| ${sub.web}`}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="text-right">
+                                                            <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase block mb-1 ${sub.status === 'PENDING' ? 'text-primary-green bg-green-50' : 'text-gray-400 bg-gray-100'}`}>
+                                                                {sub.status === 'PENDING' ? 'Nueva' : 'Respondida'}
+                                                            </span>
+                                                            <span className="text-[9px] text-gray-300 font-bold uppercase">
+                                                                {new Date(sub.createdAt).toLocaleDateString()}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
                         </>
                     )}

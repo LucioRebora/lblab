@@ -41,6 +41,7 @@ export default function DerivacionesPage() {
         email: "",
         labName: "",
         protocoloExterno: "",
+        protocolo: "",
         patient: "",
         observaciones: "",
         date: "",
@@ -177,14 +178,15 @@ export default function DerivacionesPage() {
             if (response.ok) {
                 setSubmitted(true);
                 setFormData({
-                    email: session?.user?.email ?? "",
-                    labName: session?.user?.name ?? "",
+                    email: session?.user?.email || "",
+                    labName: session?.user?.name || "",
+                    protocolo: "",
                     protocoloExterno: "",
                     patient: "",
                     observaciones: "",
                     date: "",
                     time: "",
-                    analysisType: [],
+                    analysisType: [] as string[],
                     otherAnalysis: ""
                 });
             } else {
@@ -430,19 +432,19 @@ export default function DerivacionesPage() {
                                         </div>
 
                                         {/* Field Group 2: Protocolo Externo and Patient */}
-                                        <div className="grid md:grid-cols-3 gap-8">
+                                        <div className="grid md:grid-cols-2 gap-8">
                                             <div className="space-y-3">
                                                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-4 italic">N° Protocolo *</label>
                                                 <input
                                                     required
-                                                    type="number"
+                                                    type="text"
                                                     placeholder="0000"
                                                     className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all"
                                                     value={formData.protocoloExterno}
                                                     onChange={(e) => setFormData({ ...formData, protocoloExterno: e.target.value })}
                                                 />
                                             </div>
-                                            <div className="md:col-span-2 space-y-3">
+                                            <div className="space-y-3">
                                                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-4 italic">Paciente *</label>
                                                 <input
                                                     required
@@ -537,12 +539,13 @@ export default function DerivacionesPage() {
                                                 onClick={() => setFormData({
                                                     email: session?.user?.email ?? "",
                                                     labName: session?.user?.name ?? "",
+                                                    protocolo: "",
                                                     protocoloExterno: "",
                                                     patient: "",
                                                     observaciones: "",
                                                     date: "",
                                                     time: "",
-                                                    analysisType: [],
+                                                    analysisType: [] as string[],
                                                     otherAnalysis: ""
                                                 })}
                                                 className="text-gray-400 font-bold text-[10px] tracking-[0.2em] uppercase hover:text-primary-burgundy transition-colors flex items-center gap-2 italic"

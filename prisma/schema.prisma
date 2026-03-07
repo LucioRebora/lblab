@@ -70,6 +70,7 @@ model Derivacion {
   time         String
   analysisType String[]
   protocoloExterno String?
+  protocolo    String?
   observaciones String?
   status       String   @default("SCHEDULED")
   cancelReason String?

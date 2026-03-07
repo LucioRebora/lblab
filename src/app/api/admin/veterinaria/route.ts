@@ -5,8 +5,15 @@ import { authOptions } from "@/lib/auth";
 
 export async function GET(request: Request) {
     try {
+        const session = await getServerSession(authOptions);
+        const where: any = {};
+        if (session?.user?.role === 'USER') {
+            where.email = session.user.email;
+        }
+
         // @ts-ignore
         const appointments = await prisma.veterinaryAppointment.findMany({
+            where,
             orderBy: {
                 createdAt: "desc"
             }

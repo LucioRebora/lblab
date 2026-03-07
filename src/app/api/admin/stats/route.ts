@@ -14,7 +14,10 @@ export async function GET() {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        const consultasPendientes = await prisma.contactSubmission.count({
+        const isUserRole = session?.user?.role === 'USER';
+        const userEmail = session?.user?.email || "";
+
+        const consultasPendientes = isUserRole ? 0 : await prisma.contactSubmission.count({
             where: {
                 status: "PENDING"
             }
@@ -28,14 +31,16 @@ export async function GET() {
         const prpTomorrow = await prisma.prpAppointment.count({
             where: {
                 date: tomorrowStr,
-                status: { not: "CANCELLED" }
+                status: { not: "CANCELLED" },
+                ...(isUserRole ? { email: userEmail } : {})
             }
         });
 
         const derivTomorrow = await prisma.derivacion.count({
             where: {
                 date: tomorrowStr,
-                status: { not: "CANCELLED" }
+                status: { notIn: ["CANCELLED", "ANULADO"] },
+                ...(isUserRole ? { email: userEmail } : {})
             }
         });
 
@@ -45,21 +50,23 @@ export async function GET() {
         // @ts-ignore
         const veterinaryPending = await prisma.veterinaryAppointment.count({
             where: {
-                status: "PENDING"
+                status: "PENDING",
+                ...(isUserRole ? { email: userEmail } : {})
             }
         });
 
         // Derivaciones Pendientes
         const derivacionesPendientes = await prisma.derivacion.count({
             where: {
-                status: "PENDING"
+                status: "PENDING",
+                ...(isUserRole ? { email: userEmail } : {})
             }
         });
 
-        // Pacientes nuevos (Assuming this refers to count of unique patient names in the last 30 days or similar)
-        // For now, let's just return a placeholder or total unique patients from appointments
+        // Pacientes nuevos
         const uniquePatients = await prisma.prpAppointment.groupBy({
             by: ['patient'],
+            where: isUserRole ? { email: userEmail } : {}
         });
         const totalPacientes = uniquePatients.length;
 

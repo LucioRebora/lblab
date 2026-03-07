@@ -47,6 +47,7 @@ export default function Sidebar() {
     const menuItems = isStaff
         ? adminMenuItems.filter(item => !item.adminOnly || isAdmin)
         : [
+            ...adminMenuItems.filter(item => ['Turnos PRP', 'Veterinarias', 'Derivaciones'].includes(item.name)),
             { name: "Resultados", href: "/admin/resultados", icon: FileText },
         ];
 

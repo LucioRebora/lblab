@@ -26,6 +26,7 @@ import { es } from "date-fns/locale";
 
 export default function VeterinaryAdminPage() {
     const { data: session, status } = useSession();
+    const isAdminOrSecretary = session?.user?.role === 'ADMIN' || session?.user?.role === 'SECRETARY';
     const router = useRouter();
     const [appointments, setAppointments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -530,7 +531,8 @@ export default function VeterinaryAdminPage() {
                                             placeholder="Protocolo"
                                             value={editProtocolo}
                                             onChange={(e) => setEditProtocolo(e.target.value.replace(/[^0-9]/g, ''))}
-                                            className="w-full bg-white border border-gray-200 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-green transition-all text-sm font-black text-gray-900 placeholder:text-gray-300 shadow-inner"
+                                            readOnly={!isAdminOrSecretary}
+                                            className={`w-full bg-white border border-gray-200 rounded-2xl py-3 px-4 outline-none transition-all text-sm font-black text-gray-900 placeholder:text-gray-300 shadow-inner ${!isAdminOrSecretary ? 'opacity-70 cursor-not-allowed' : 'focus:ring-2 focus:ring-primary-green'}`}
                                         />
                                     </div>
                                     <div>
@@ -538,7 +540,8 @@ export default function VeterinaryAdminPage() {
                                         <select
                                             value={editStatus}
                                             onChange={(e) => setEditStatus(e.target.value)}
-                                            className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-green transition-all text-sm font-black text-gray-900 cursor-pointer"
+                                            disabled={!isAdminOrSecretary}
+                                            className={`w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 outline-none transition-all text-sm font-black text-gray-900 cursor-pointer ${!isAdminOrSecretary ? 'opacity-70 cursor-not-allowed' : 'focus:ring-2 focus:ring-primary-green'}`}
                                         >
                                             <option value="PENDIENTE">Pendiente</option>
                                             <option value="EN_PROCESO">En Proceso</option>
@@ -581,16 +584,18 @@ export default function VeterinaryAdminPage() {
                                         onClick={() => setViewModalData(null)}
                                         className="px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-xs text-gray-400 hover:bg-gray-100 transition-all"
                                     >
-                                        Cancelar
+                                        {isAdminOrSecretary ? "Cancelar" : "Cerrar"}
                                     </button>
-                                    <button
-                                        onClick={handleSaveDetails}
-                                        disabled={isUpdating}
-                                        className="bg-primary-green text-white px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-green-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
-                                    >
-                                        <Save size={16} />
-                                        {isUpdating ? "Guardando..." : "Guardar Cambios"}
-                                    </button>
+                                    {isAdminOrSecretary && (
+                                        <button
+                                            onClick={handleSaveDetails}
+                                            disabled={isUpdating}
+                                            className="bg-primary-green text-white px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-green-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
+                                        >
+                                            <Save size={16} />
+                                            {isUpdating ? "Guardando..." : "Guardar Cambios"}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </motion.div>

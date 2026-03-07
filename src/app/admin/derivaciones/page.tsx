@@ -35,6 +35,7 @@ import { es } from "date-fns/locale";
 
 export default function DerivacionesAdminPage() {
     const { data: session, status } = useSession();
+    const isAdminOrSecretary = session?.user?.role === 'ADMIN' || session?.user?.role === 'SECRETARY';
     const router = useRouter();
     const [derivaciones, setDerivaciones] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -50,6 +51,7 @@ export default function DerivacionesAdminPage() {
 
     // View/Edit state
     const [viewModalData, setViewModalData] = useState<any | null>(null);
+    const [editProtocolo, setEditProtocolo] = useState("");
     const [editProtocoloExterno, setEditProtocoloExterno] = useState("");
     const [editStatus, setEditStatus] = useState("");
 
@@ -62,6 +64,7 @@ export default function DerivacionesAdminPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     id: viewModalData.id,
+                    protocolo: editProtocolo,
                     protocoloExterno: editProtocoloExterno,
                     status: editStatus
                 }),
@@ -244,7 +247,8 @@ export default function DerivacionesAdminPage() {
                                 <thead>
                                     <tr className="bg-gray-50/50 border-b border-gray-100">
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Paciente</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Protocolo</th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Protocolo LBLab</th>
+                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Protocolo Externo</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Origen</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Fecha/Hora de Envío</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Análisis</th>
@@ -254,7 +258,7 @@ export default function DerivacionesAdminPage() {
                                 <tbody className="divide-y divide-gray-50">
                                     {loading ? (
                                         <tr>
-                                            <td colSpan={6} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs">
+                                            <td colSpan={7} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs">
                                                 <div className="flex flex-col items-center gap-4">
                                                     <div className="w-8 h-8 border-4 border-primary-burgundy border-t-transparent rounded-full animate-spin" />
                                                     Cargando derivaciones...
@@ -266,7 +270,9 @@ export default function DerivacionesAdminPage() {
                                             const q = searchQuery.toLowerCase();
                                             const matchesSearch = d.patient?.toLowerCase().includes(q) ||
                                                 d.labName?.toLowerCase().includes(q) ||
-                                                d.email?.toLowerCase().includes(q);
+                                                d.email?.toLowerCase().includes(q) ||
+                                                (d.protocolo && d.protocolo.toLowerCase().includes(q)) ||
+                                                (d.protocoloExterno && d.protocoloExterno.toLowerCase().includes(q));
 
                                             const aptDate = new Date(d.date + "T00:00:00");
                                             let matchesDate = true;
@@ -286,7 +292,7 @@ export default function DerivacionesAdminPage() {
                                         if (filtered.length === 0) {
                                             return (
                                                 <tr>
-                                                    <td colSpan={6} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
+                                                    <td colSpan={7} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
                                                         No se encontraron registros que coincidan con la búsqueda.
                                                     </td>
                                                 </tr>
@@ -316,6 +322,13 @@ export default function DerivacionesAdminPage() {
                                                                 )}
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <div className="flex flex-col gap-1">
+                                                        <span className={`font-black text-sm ${(d.status === 'CANCELLED' || d.status === 'ANULADO') ? 'text-gray-300' : 'text-gray-900'}`}>
+                                                            {d.protocolo || "-"}
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td className="px-8 py-6">
@@ -393,6 +406,7 @@ export default function DerivacionesAdminPage() {
                                                                 <button
                                                                     onClick={() => {
                                                                         setViewModalData(d);
+                                                                        setEditProtocolo(d.protocolo || "");
                                                                         setEditProtocoloExterno(d.protocoloExterno || "");
                                                                         setEditStatus(d.status);
                                                                     }}
@@ -525,7 +539,7 @@ export default function DerivacionesAdminPage() {
                                     <div className="space-y-4">
                                         <div>
                                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Origen</p>
-                                            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                                            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 min-h-[70px] flex flex-col justify-center">
                                                 <p className="font-black text-gray-900 text-sm uppercase">{viewModalData.labName}</p>
                                                 <div className="flex items-center gap-2 text-xs font-bold text-gray-500 mt-2 lowercase">
                                                     <Mail size={12} />
@@ -535,49 +549,54 @@ export default function DerivacionesAdminPage() {
                                         </div>
                                     </div>
                                     <div className="space-y-4">
-                                        <div className="md:col-span-2 space-y-4">
-                                            <div className="grid md:grid-cols-2 gap-6">
-                                                <div>
-                                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Paciente</p>
-                                                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 min-h-[60px] flex items-center">
-                                                        <p className="font-bold text-gray-800 text-sm uppercase">{viewModalData.patient}</p>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Observaciones</p>
-                                                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 min-h-[60px] flex items-center">
-                                                        <p className="font-medium text-gray-600 text-xs italic">{viewModalData.observaciones || "Sin observaciones específicas"}</p>
-                                                    </div>
-                                                </div>
+                                        <div>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Paciente</p>
+                                            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 min-h-[70px] flex items-center">
+                                                <p className="font-bold text-gray-800 text-sm uppercase">{viewModalData.patient}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="grid md:grid-cols-2 gap-6 pt-2">
+                                <div className="grid md:grid-cols-3 gap-6 pt-2">
                                     <div>
-                                        <p className="text-[10px] font-black text-primary-burgundy uppercase tracking-widest mb-1 outline-none">Protocolo</p>
+                                        <p className="text-[10px] font-black text-primary-burgundy uppercase tracking-widest mb-1 outline-none">Protocolo LBLab</p>
                                         <input
                                             type="text"
                                             maxLength={12}
                                             placeholder="N° Protocolo"
-                                            value={editProtocoloExterno}
-                                            onChange={(e) => setEditProtocoloExterno(e.target.value.replace(/[^0-9]/g, ''))}
-                                            className="w-full bg-white border border-gray-200 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-burgundy transition-all text-sm font-black text-gray-900 placeholder:text-gray-300 shadow-inner"
+                                            value={editProtocolo}
+                                            onChange={(e) => setEditProtocolo(e.target.value.replace(/[^0-9]/g, ''))}
+                                            readOnly={!isAdminOrSecretary}
+                                            className={`w-full bg-white border border-gray-200 rounded-2xl py-3 px-4 outline-none transition-all text-sm font-black text-gray-900 placeholder:text-gray-300 shadow-inner ${!isAdminOrSecretary ? 'opacity-70 cursor-not-allowed' : 'focus:ring-2 focus:ring-primary-burgundy'}`}
                                         />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Protocolo Externo</p>
+                                        <div className="bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 text-sm font-black text-gray-400 shadow-inner">
+                                            {editProtocoloExterno || "-"}
+                                        </div>
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Estado Solicitud</p>
                                         <select
                                             value={editStatus}
                                             onChange={(e) => setEditStatus(e.target.value)}
-                                            className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-green transition-all text-sm font-black text-gray-900 cursor-pointer"
+                                            disabled={!isAdminOrSecretary}
+                                            className={`w-full bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 outline-none transition-all text-sm font-black text-gray-900 cursor-pointer ${!isAdminOrSecretary ? 'opacity-70 cursor-not-allowed' : 'focus:ring-2 focus:ring-primary-green'}`}
                                         >
                                             <option value="PENDIENTE">Pendiente</option>
                                             <option value="EN_PROCESO">En Proceso</option>
                                             <option value="FINALIZADO">Finalizado</option>
                                             <option value="ANULADO">Anulado</option>
                                         </select>
+                                    </div>
+                                </div>
+
+                                <div className="pt-2">
+                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Observaciones</p>
+                                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 min-h-[60px] flex items-center">
+                                        <p className="font-medium text-gray-600 text-xs italic">{viewModalData.observaciones || "Sin observaciones específicas"}</p>
                                     </div>
                                 </div>
 
@@ -612,16 +631,18 @@ export default function DerivacionesAdminPage() {
                                         onClick={() => setViewModalData(null)}
                                         className="px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-xs text-gray-400 hover:bg-gray-100 transition-all"
                                     >
-                                        Cancelar
+                                        {isAdminOrSecretary ? "Cancelar" : "Cerrar"}
                                     </button>
-                                    <button
-                                        onClick={handleSaveDetails}
-                                        disabled={isUpdating}
-                                        className="bg-primary-green text-white px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-green-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
-                                    >
-                                        <Save size={16} />
-                                        {isUpdating ? "Guardando..." : "Guardar Cambios"}
-                                    </button>
+                                    {isAdminOrSecretary && (
+                                        <button
+                                            onClick={handleSaveDetails}
+                                            disabled={isUpdating}
+                                            className="bg-primary-green text-white px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-green-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
+                                        >
+                                            <Save size={16} />
+                                            {isUpdating ? "Guardando..." : "Guardar Cambios"}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </motion.div>
