@@ -106,16 +106,7 @@ export default function Sidebar() {
                                     exit={{ height: 0, opacity: 0 }}
                                     className="overflow-hidden pl-10"
                                 >
-                                    <Link
-                                        href="/admin/infomail"
-                                        className={`w-full flex items-center gap-3 py-2 text-xs font-bold transition-all ${pathname === "/admin/infomail"
-                                            ? "text-primary-burgundy"
-                                            : "text-gray-400 hover:text-gray-600"
-                                            }`}
-                                    >
-                                        <Mail size={14} />
-                                        InfoMail
-                                    </Link>
+
                                     <Link
                                         href="/admin/config/precios-derivantes"
                                         className={`w-full flex items-center gap-3 py-2 text-xs font-bold transition-all ${pathname === "/admin/config/precios-derivantes"
@@ -154,7 +145,7 @@ export default function Sidebar() {
                 </div>
             </nav>
 
-            <div className="p-4 border-t border-gray-100">
+            <div className="p-4 border-t border-gray-100 flex flex-col gap-4">
                 <button
                     onClick={() => signOut({ callbackUrl: "/admin" })}
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-red-500 hover:bg-red-50 transition-all"
@@ -162,6 +153,14 @@ export default function Sidebar() {
                     <LogOut size={18} />
                     Cerrar Sesión
                 </button>
+                <div className="text-center pt-4 border-t border-gray-100">
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center justify-center gap-1">
+                        Hecho con <span className="text-primary-burgundy">♡</span> en{" "}
+                        <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="text-primary-burgundy hover:underline transition-colors">
+                            itia.ar
+                        </a>
+                    </span>
+                </div>
             </div>
         </aside>
     );

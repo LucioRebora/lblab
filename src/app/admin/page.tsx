@@ -165,21 +165,21 @@ export default function AdminPage() {
                             </motion.button>
                         </form>
 
-                        <div className="mt-8 pt-8 border-t border-gray-100 text-center">
-                            <div className="flex items-center justify-center gap-2">
-                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                                    Powered by
-                                </span>
-                                <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="text-[10px] font-black text-primary-green uppercase tracking-widest hover:underline">
-                                    ITIA.AR
-                                </a>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
 
             </motion.div>
+
+            {/* Footer Text */}
+            <div className="absolute bottom-4 right-6 pointer-events-none">
+                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1">
+                    Hecho con <span className="text-primary-burgundy">♡</span> en{" "}
+                    <a href="https://itia.ar/" target="_blank" rel="noopener noreferrer" className="pointer-events-auto text-primary-burgundy hover:underline">
+                        itia.ar
+                    </a>
+                </span>
+            </div>
         </div>
     );
 }

@@ -12,7 +12,7 @@ import {
     Calendar,
     CheckCircle2,
     ExternalLink,
-    Upload,
+    Activity,
     Dog,
     Mail
 } from "lucide-react";
@@ -153,23 +153,17 @@ export default function Dashboard() {
                         </div>
                     </div>
 
+
                     {!isStaff ? (
-                        <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-12 text-center space-y-6">
-                            <div className="w-20 h-20 bg-gray-50 text-gray-300 rounded-[2rem] flex items-center justify-center mx-auto">
-                                <Upload size={40} />
+                        <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-12 text-center space-y-6 mt-8 flex flex-col items-center justify-center min-h-[50vh]">
+                            <div className="w-20 h-20 bg-primary-green/10 text-primary-green rounded-[2rem] flex items-center justify-center mx-auto">
+                                <Activity size={40} />
                             </div>
                             <div className="max-w-md mx-auto">
-                                <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight mb-2">Acceso Restringido</h3>
+                                <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight mb-4">Bienvenidos</h3>
                                 <p className="text-gray-500 text-sm leading-relaxed mb-8">
-                                    Tu cuenta no tiene permisos para acceder a las herramientas administrativas.
-                                    Puedes utilizar el botón de abajo para volver al sitio principal.
+                                    A través de este portal, podrás ver solicitudes y el estado de tus derivaciones o estudios veterinarios. Utiliza el menú lateral para navegar por las herramientas disponibles.
                                 </p>
-                                <Link
-                                    href="/"
-                                    className="inline-block bg-primary-green text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary-green/20 hover:scale-105 transition-all uppercase tracking-widest"
-                                >
-                                    Volver al Sitio Web
-                                </Link>
                             </div>
                         </div>
                     ) : (

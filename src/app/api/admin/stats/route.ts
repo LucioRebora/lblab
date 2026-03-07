@@ -46,19 +46,19 @@ export async function GET() {
 
         const turnosManana = prpTomorrow + derivTomorrow;
 
-        // Solicitudes Veterinarias Pendientes (Todas)
+        // Solicitudes Veterinarias en proceso (no finalizadas, no anuladas)
         // @ts-ignore
         const veterinaryPending = await prisma.veterinaryAppointment.count({
             where: {
-                status: "PENDING",
+                status: { notIn: ["COMPLETED", "FINALIZADO", "CANCELLED", "ANULADO"] },
                 ...(isUserRole ? { email: userEmail } : {})
             }
         });
 
-        // Derivaciones Pendientes
+        // Derivaciones en proceso (no finalizadas, no anuladas)
         const derivacionesPendientes = await prisma.derivacion.count({
             where: {
-                status: "PENDING",
+                status: { notIn: ["COMPLETED", "FINALIZADO", "CANCELLED", "ANULADO"] },
                 ...(isUserRole ? { email: userEmail } : {})
             }
         });

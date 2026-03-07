@@ -375,8 +375,8 @@ export default function VeterinariaPage() {
                                                     readOnly={!!session?.user?.email}
                                                     placeholder="ejemplo@correo.com"
                                                     className={`scroll-mt-[200px] w-full border border-gray-100 rounded-2xl py-4 px-6 outline-none transition-all font-bold ${session?.user?.email
-                                                            ? "bg-gray-100 text-gray-500 cursor-not-allowed"
-                                                            : "bg-gray-50 text-gray-800 focus:ring-2 focus:ring-primary-green"
+                                                        ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                                                        : "bg-gray-50 text-gray-800 focus:ring-2 focus:ring-primary-green"
                                                         }`}
                                                 />
                                             </div>
@@ -388,6 +388,7 @@ export default function VeterinariaPage() {
                                                         name="veterinaria"
                                                         required
                                                         type="text"
+                                                        defaultValue={session?.user?.name || ""}
                                                         placeholder="Nombre de la veterinaria"
                                                         className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                     />
@@ -398,6 +399,7 @@ export default function VeterinariaPage() {
                                                         name="profesional"
                                                         required
                                                         type="text"
+                                                        defaultValue={session?.user?.name || ""}
                                                         placeholder="Nombre del veterinario"
                                                         className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                     />
