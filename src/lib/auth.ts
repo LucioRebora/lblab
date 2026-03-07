@@ -1,5 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
@@ -39,12 +40,44 @@ export const authOptions: NextAuthOptions = {
                     active: user.active
                 };
             }
+        }),
+        GoogleProvider({
+            clientId: process.env.OAUTH_CLIENT_ID || "",
+            clientSecret: process.env.OAUTH_CLIENT_SECRET || "",
         })
     ],
     callbacks: {
-        async jwt({ token, user }) {
+        async signIn({ user, account, profile }) {
+            if (account?.provider === "google" && user.email) {
+                let dbUser = await prisma.user.findUnique({
+                    where: { email: user.email }
+                });
+
+                if (!dbUser) {
+                    // El usuario no existe en la base de datos, no le dejamos entrar con Google
+                    return "/admin?error=AccessDenied";
+                }
+
+                if (dbUser.active === false) {
+                    return "/admin?error=AccessDenied";
+                }
+
+                return true;
+            }
+            return true;
+        },
+        async jwt({ token, user, account }) {
             if (user) {
-                token.role = (user as any).role;
+                if (account?.provider === "google" && user.email) {
+                    const dbUser = await prisma.user.findUnique({
+                        where: { email: user.email }
+                    });
+                    if (dbUser && dbUser.active) {
+                        token.role = dbUser.role;
+                    }
+                } else {
+                    token.role = (user as any).role;
+                }
             }
             return token;
         },
