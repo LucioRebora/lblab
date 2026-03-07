@@ -10,10 +10,12 @@ import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import "react-day-picker/dist/style.css";
+import { useSession } from "next-auth/react";
 
 type TabType = "TURNOS" | "APLICACIONES" | "PREPARACION" | "CONSENTIMIENTO" | "INFORME";
 
 export default function PRPPage() {
+    const { data: session } = useSession();
     const [activeTab, setActiveTab] = useState<TabType>("TURNOS");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
@@ -45,6 +47,12 @@ export default function PRPPage() {
 
         setFormData(prev => ({ ...prev, date: format(initialDate, "yyyy-MM-dd") }));
     }, []);
+
+    useEffect(() => {
+        if (session?.user?.email) {
+            setFormData(prev => ({ ...prev, email: session.user.email ?? "" }));
+        }
+    }, [session]);
 
     useEffect(() => {
         if (formData.date) {
@@ -228,7 +236,11 @@ export default function PRPPage() {
                                                             required
                                                             type="email"
                                                             placeholder="ejemplo@correo.com"
-                                                            className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
+                                                            readOnly={!!session?.user?.email}
+                                                            className={`scroll-mt-[200px] w-full border border-gray-100 rounded-2xl py-4 pl-14 pr-6 outline-none transition-all font-bold ${session?.user?.email
+                                                                ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                                                                : "bg-gray-50 text-gray-800 focus:ring-2 focus:ring-primary-green"
+                                                                }`}
                                                             value={formData.email}
                                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                         />
@@ -322,11 +334,11 @@ export default function PRPPage() {
                                                         {["07:00", "07:20", "07:40", "08:00", "08:20", "08:40", "09:00", "09:20", "09:40", "10:00", "10:20", "10:40", "11:00", "11:20", "11:40"].map((t) => {
                                                             const isBooked = bookedSlots.includes(t);
                                                             const isPast = formData.date === format(new Date(), "yyyy-MM-dd") && t < format(new Date(), "HH:mm");
-                                                            
+
                                                             // Verificar si el día seleccionado es fin de semana
                                                             const selectedDate = formData.date ? new Date(formData.date + "T12:00:00") : null;
                                                             const isWeekend = selectedDate ? (selectedDate.getDay() === 0 || selectedDate.getDay() === 6) : false;
-                                                            
+
                                                             const isDisabled = isBooked || isPast || isWeekend;
 
                                                             return (

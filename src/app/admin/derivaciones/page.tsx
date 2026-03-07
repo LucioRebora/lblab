@@ -50,7 +50,7 @@ export default function DerivacionesAdminPage() {
 
     // View/Edit state
     const [viewModalData, setViewModalData] = useState<any | null>(null);
-    const [editProtocolo, setEditProtocolo] = useState("");
+    const [editProtocoloExterno, setEditProtocoloExterno] = useState("");
     const [editStatus, setEditStatus] = useState("");
 
     const handleSaveDetails = async () => {
@@ -62,7 +62,7 @@ export default function DerivacionesAdminPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     id: viewModalData.id,
-                    protocolo: editProtocolo,
+                    protocoloExterno: editProtocoloExterno,
                     status: editStatus
                 }),
             });
@@ -307,14 +307,21 @@ export default function DerivacionesAdminPage() {
                                                         </div>
                                                         <div>
                                                             <p className={`font-bold transition-colors ${(d.status === 'CANCELLED' || d.status === 'ANULADO') ? 'text-gray-400 line-through' : 'text-gray-900 group-hover:text-primary-burgundy'}`}>{d.patient}</p>
-                                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">PACIENTE</p>
+                                                            <div className="flex flex-col gap-0.5 mt-0.5">
+                                                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">PACIENTE</p>
+                                                                {d.observaciones && (
+                                                                    <p className="text-[9px] font-bold text-primary-burgundy/60 italic overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]">
+                                                                        Obs: {d.observaciones}
+                                                                    </p>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td className="px-8 py-6">
                                                     <div className="flex flex-col gap-1">
                                                         <span className={`font-black text-sm ${(d.status === 'CANCELLED' || d.status === 'ANULADO') ? 'text-gray-300' : 'text-gray-900'}`}>
-                                                            {d.protocolo || "-"}
+                                                            {d.protocoloExterno || "-"}
                                                         </span>
                                                     </div>
                                                 </td>
@@ -386,7 +393,7 @@ export default function DerivacionesAdminPage() {
                                                                 <button
                                                                     onClick={() => {
                                                                         setViewModalData(d);
-                                                                        setEditProtocolo(d.protocolo || "");
+                                                                        setEditProtocoloExterno(d.protocoloExterno || "");
                                                                         setEditStatus(d.status);
                                                                     }}
                                                                     className="p-2 text-gray-300 hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all"
@@ -528,10 +535,20 @@ export default function DerivacionesAdminPage() {
                                         </div>
                                     </div>
                                     <div className="space-y-4">
-                                        <div>
-                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Paciente / Observaciones</p>
-                                            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex flex-col justify-center">
-                                                <p className="font-bold text-gray-800 text-sm italic whitespace-pre-line">{viewModalData.patient}</p>
+                                        <div className="md:col-span-2 space-y-4">
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div>
+                                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Paciente</p>
+                                                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 min-h-[60px] flex items-center">
+                                                        <p className="font-bold text-gray-800 text-sm uppercase">{viewModalData.patient}</p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Observaciones</p>
+                                                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 min-h-[60px] flex items-center">
+                                                        <p className="font-medium text-gray-600 text-xs italic">{viewModalData.observaciones || "Sin observaciones específicas"}</p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -539,13 +556,13 @@ export default function DerivacionesAdminPage() {
 
                                 <div className="grid md:grid-cols-2 gap-6 pt-2">
                                     <div>
-                                        <p className="text-[10px] font-black text-primary-burgundy uppercase tracking-widest mb-1 outline-none">Nº Protocolo</p>
+                                        <p className="text-[10px] font-black text-primary-burgundy uppercase tracking-widest mb-1 outline-none">Protocolo</p>
                                         <input
                                             type="text"
                                             maxLength={12}
-                                            placeholder="Protocolo"
-                                            value={editProtocolo}
-                                            onChange={(e) => setEditProtocolo(e.target.value.replace(/[^0-9]/g, ''))}
+                                            placeholder="N° Protocolo"
+                                            value={editProtocoloExterno}
+                                            onChange={(e) => setEditProtocoloExterno(e.target.value.replace(/[^0-9]/g, ''))}
                                             className="w-full bg-white border border-gray-200 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-burgundy transition-all text-sm font-black text-gray-900 placeholder:text-gray-300 shadow-inner"
                                         />
                                     </div>

@@ -28,23 +28,37 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import * as XLSX from "xlsx";
 import "react-day-picker/dist/style.css";
+import { useSession } from "next-auth/react";
 
 type TabType = "INSTRUCCIONES" | "SOLICITUD" | "RESULTADOS" | "PRECIOS";
 
 export default function DerivacionesPage() {
+    const { data: session } = useSession();
     const [activeTab, setActiveTab] = useState<TabType>("INSTRUCCIONES");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
         labName: "",
+        protocoloExterno: "",
         patient: "",
+        observaciones: "",
         date: "",
         time: "",
         analysisType: [] as string[],
         otherAnalysis: ""
     });
     const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (session?.user) {
+            setFormData(prev => ({
+                ...prev,
+                email: session.user?.email ?? prev.email,
+                labName: session.user?.name ?? prev.labName
+            }));
+        }
+    }, [session]);
 
     // Prices State
     const [prices, setPrices] = useState<any[]>([]);
@@ -163,9 +177,11 @@ export default function DerivacionesPage() {
             if (response.ok) {
                 setSubmitted(true);
                 setFormData({
-                    email: "",
-                    labName: "",
+                    email: session?.user?.email ?? "",
+                    labName: session?.user?.name ?? "",
+                    protocoloExterno: "",
                     patient: "",
+                    observaciones: "",
                     date: "",
                     time: "",
                     analysisType: [],
@@ -383,6 +399,7 @@ export default function DerivacionesPage() {
                                 ) : (
                                     <form onSubmit={handleSubmit} className="space-y-10">
                                         {/* Field Group */}
+                                        {/* Field Group 1: Lab and Email */}
                                         <div className="grid md:grid-cols-2 gap-8">
                                             <div className="space-y-3">
                                                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-4 italic">Laboratorio Originante *</label>
@@ -401,22 +418,51 @@ export default function DerivacionesPage() {
                                                     required
                                                     type="email"
                                                     placeholder="ejemplo@correo.com"
-                                                    className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all"
+                                                    readOnly={!!session?.user?.email}
+                                                    className={`scroll-mt-[200px] w-full border border-gray-100 rounded-2xl px-6 py-5 outline-none transition-all text-sm font-black placeholder:text-gray-300 ${session?.user?.email
+                                                        ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                                                        : "bg-gray-50 text-gray-900 focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green"
+                                                        }`}
                                                     value={formData.email}
                                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                 />
                                             </div>
                                         </div>
 
+                                        {/* Field Group 2: Protocolo Externo and Patient */}
+                                        <div className="grid md:grid-cols-3 gap-8">
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-4 italic">N° Protocolo *</label>
+                                                <input
+                                                    required
+                                                    type="number"
+                                                    placeholder="0000"
+                                                    className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all"
+                                                    value={formData.protocoloExterno}
+                                                    onChange={(e) => setFormData({ ...formData, protocoloExterno: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="md:col-span-2 space-y-3">
+                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-4 italic">Paciente *</label>
+                                                <input
+                                                    required
+                                                    type="text"
+                                                    placeholder="Nombre completo del paciente"
+                                                    className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all font-black"
+                                                    value={formData.patient}
+                                                    onChange={(e) => setFormData({ ...formData, patient: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
+
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-4 italic">Protocolo / Paciente / Observaciones *</label>
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-4 italic">Observaciones</label>
                                             <textarea
-                                                required
-                                                placeholder="Detalles del paciente y observaciones relevantes"
-                                                rows={3}
+                                                placeholder="Notas adicionales relevantes para el análisis"
+                                                rows={2}
                                                 className="scroll-mt-[300px] w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:ring-4 focus:ring-primary-green/5 focus:border-primary-green text-sm font-black text-gray-900 placeholder:text-gray-300 transition-all resize-none"
-                                                value={formData.patient}
-                                                onChange={(e) => setFormData({ ...formData, patient: e.target.value })}
+                                                value={formData.observaciones}
+                                                onChange={(e) => setFormData({ ...formData, observaciones: e.target.value })}
                                             />
                                         </div>
 
@@ -489,9 +535,11 @@ export default function DerivacionesPage() {
                                             <button
                                                 type="button"
                                                 onClick={() => setFormData({
-                                                    email: "",
-                                                    labName: "",
+                                                    email: session?.user?.email ?? "",
+                                                    labName: session?.user?.name ?? "",
+                                                    protocoloExterno: "",
                                                     patient: "",
+                                                    observaciones: "",
                                                     date: "",
                                                     time: "",
                                                     analysisType: [],

@@ -31,7 +31,7 @@ import { sendMail } from "@/lib/mail";
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { email, labName, patient, date, time, analysisType } = body;
+        const { email, labName, patient, date, time, analysisType, protocoloExterno, observaciones } = body;
 
         if (!email || !patient) {
             return NextResponse.json(
@@ -76,6 +76,8 @@ export async function POST(request: Request) {
                 email,
                 labName,
                 patient,
+                protocoloExterno,
+                observaciones,
                 date: submissionDate,
                 time: submissionTime,
                 analysisType: analysisType || [],
@@ -93,7 +95,9 @@ export async function POST(request: Request) {
                 customBody: `Estimado/a colega.<br>Hemos recibido correctamente su solicitud de derivación.<br>Con los detalles registrados:`,
                 data: {
                     "Laboratorio / Profesional Derivante": labName || "No especificado",
-                    "N° de Protocolo / Paciente / Observaciones": patient,
+                    "N° de Protocolo": protocoloExterno || "No especificado",
+                    "Paciente": patient,
+                    "Observaciones": observaciones || "Sin observaciones",
                     "Determinaciones solicitadas": analysisType && analysisType.length > 0 ? analysisType.join(", ") : "General",
                     "Fecha de solicitud": formattedNow
                 }
@@ -111,7 +115,9 @@ export async function POST(request: Request) {
                     data: {
                         "Enviado por": email,
                         "Laboratorio / Profesional Derivante": labName || "No especificado",
-                        "N° de Protocolo / Paciente / Observaciones": patient,
+                        "N° de Protocolo": protocoloExterno || "No especificado",
+                        "Paciente": patient,
+                        "Observaciones": observaciones || "Sin observaciones",
                         "Determinaciones solicitadas": analysisType && analysisType.length > 0 ? analysisType.join(", ") : "General",
                         "Fecha de solicitud": formattedNow
                     }
