@@ -15,8 +15,13 @@ export const authOptions: NextAuthOptions = {
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) return null;
 
-                const user = await prisma.user.findUnique({
-                    where: { email: credentials.email }
+                const user = await prisma.user.findFirst({
+                    where: {
+                        email: {
+                            equals: credentials.email,
+                            mode: 'insensitive'
+                        }
+                    }
                 });
 
                 if (!user) return null;
@@ -49,8 +54,13 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async signIn({ user, account, profile }) {
             if (account?.provider === "google" && user.email) {
-                let dbUser = await prisma.user.findUnique({
-                    where: { email: user.email }
+                let dbUser = await prisma.user.findFirst({
+                    where: {
+                        email: {
+                            equals: user.email,
+                            mode: 'insensitive'
+                        }
+                    }
                 });
 
                 if (!dbUser) {
@@ -69,8 +79,13 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user, account }) {
             if (user) {
                 if (account?.provider === "google" && user.email) {
-                    const dbUser = await prisma.user.findUnique({
-                        where: { email: user.email }
+                    const dbUser = await prisma.user.findFirst({
+                        where: {
+                            email: {
+                                equals: user.email,
+                                mode: 'insensitive'
+                            }
+                        }
                     });
                     if (dbUser && dbUser.active) {
                         token.role = dbUser.role;
