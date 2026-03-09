@@ -399,7 +399,6 @@ export default function VeterinariaPage() {
                                                         name="profesional"
                                                         required
                                                         type="text"
-                                                        defaultValue={session?.user?.name || ""}
                                                         placeholder="Nombre del veterinario"
                                                         className="scroll-mt-[200px] w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-primary-green transition-all font-bold text-gray-800"
                                                     />
