@@ -36,7 +36,15 @@ export default function UsersPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Form state
-    const [formData, setFormData] = useState({ name: "", email: "", password: "", role: "USER" });
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        role: "USER",
+        canAccessVeterinaria: false,
+        canAccessDerivaciones: false,
+        canAccessPRP: false
+    });
     const [editingUser, setEditingUser] = useState<any | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -97,7 +105,15 @@ export default function UsersPage() {
 
             if (response.ok) {
                 setFormSuccess(true);
-                setFormData({ name: "", email: "", password: "", role: "USER" });
+                setFormData({
+                    name: "",
+                    email: "",
+                    password: "",
+                    role: "USER",
+                    canAccessVeterinaria: false,
+                    canAccessDerivaciones: false,
+                    canAccessPRP: false
+                });
                 setEditingUser(null);
                 fetchUsers();
                 setTimeout(() => {
@@ -186,7 +202,15 @@ export default function UsersPage() {
                             <button
                                 onClick={() => {
                                     setEditingUser(null);
-                                    setFormData({ name: "", email: "", password: "", role: "USER" });
+                                    setFormData({
+                                        name: "",
+                                        email: "",
+                                        password: "",
+                                        role: "USER",
+                                        canAccessVeterinaria: false,
+                                        canAccessDerivaciones: false,
+                                        canAccessPRP: false
+                                    });
                                     setIsModalOpen(true);
                                 }}
                                 className="bg-primary-green text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary-green/20 hover:scale-105 transition-all flex items-center gap-2 whitespace-nowrap"
@@ -274,7 +298,10 @@ export default function UsersPage() {
                                                         name: user.name || "",
                                                         email: user.email || "",
                                                         password: "",
-                                                        role: user.role || "USER"
+                                                        role: user.role || "USER",
+                                                        canAccessVeterinaria: user.canAccessVeterinaria || false,
+                                                        canAccessDerivaciones: user.canAccessDerivaciones || false,
+                                                        canAccessPRP: user.canAccessPRP || false,
                                                     });
                                                     setIsModalOpen(true);
                                                 }}
@@ -402,7 +429,7 @@ export default function UsersPage() {
                                                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                                                     className="w-full bg-gray-50 border-none rounded-2xl py-4 pl-12 pr-10 text-sm font-bold focus:ring-2 focus:ring-primary-green outline-none text-black appearance-none cursor-pointer"
                                                 >
-                                                    <option value="USER">USUARIO (Solo lectura)</option>
+                                                    <option value="USER">USUARIO (Accesos limitados)</option>
                                                     <option value="SECRETARY">SECRETARIA (Gestión operativa)</option>
                                                     <option value="ADMIN">ADMINISTRADOR (Acceso total)</option>
                                                 </select>
@@ -411,6 +438,48 @@ export default function UsersPage() {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        {formData.role === 'USER' && (
+                                            <div className="bg-gray-50 p-6 rounded-3xl space-y-4">
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-primary-burgundy block mb-2">Permisos de Acceso</label>
+
+                                                <div className="flex items-center justify-between group cursor-pointer" onClick={() => setFormData({ ...formData, canAccessVeterinaria: !formData.canAccessVeterinaria })}>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${formData.canAccessVeterinaria ? 'bg-primary-green text-white shadow-lg shadow-primary-green/20' : 'bg-white text-gray-400 border border-gray-100'}`}>
+                                                            <Upload size={18} />
+                                                        </div>
+                                                        <span className="text-sm font-bold text-gray-700">Veterinarias</span>
+                                                    </div>
+                                                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${formData.canAccessVeterinaria ? 'bg-primary-green border-primary-green' : 'border-gray-200'}`}>
+                                                        {formData.canAccessVeterinaria && <CheckCircle2 size={14} className="text-white" />}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex items-center justify-between group cursor-pointer" onClick={() => setFormData({ ...formData, canAccessDerivaciones: !formData.canAccessDerivaciones })}>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${formData.canAccessDerivaciones ? 'bg-primary-green text-white shadow-lg shadow-primary-green/20' : 'bg-white text-gray-400 border border-gray-100'}`}>
+                                                            <Upload size={18} />
+                                                        </div>
+                                                        <span className="text-sm font-bold text-gray-700">Derivaciones</span>
+                                                    </div>
+                                                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${formData.canAccessDerivaciones ? 'bg-primary-green border-primary-green' : 'border-gray-200'}`}>
+                                                        {formData.canAccessDerivaciones && <CheckCircle2 size={14} className="text-white" />}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex items-center justify-between group cursor-pointer" onClick={() => setFormData({ ...formData, canAccessPRP: !formData.canAccessPRP })}>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${formData.canAccessPRP ? 'bg-primary-green text-white shadow-lg shadow-primary-green/20' : 'bg-white text-gray-400 border border-gray-100'}`}>
+                                                            <Calendar size={18} />
+                                                        </div>
+                                                        <span className="text-sm font-bold text-gray-700">Turnos PRP</span>
+                                                    </div>
+                                                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${formData.canAccessPRP ? 'bg-primary-green border-primary-green' : 'border-gray-200'}`}>
+                                                        {formData.canAccessPRP && <CheckCircle2 size={14} className="text-white" />}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
 
                                         {formError && (
                                             <div className="text-red-500 text-[10px] font-black uppercase tracking-widest text-center animate-shake">

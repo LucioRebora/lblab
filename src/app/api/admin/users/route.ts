@@ -16,6 +16,9 @@ export async function GET() {
                 email: true,
                 role: true,
                 active: true,
+                canAccessVeterinaria: true,
+                canAccessDerivaciones: true,
+                canAccessPRP: true,
                 createdAt: true,
             },
             orderBy: {
@@ -35,7 +38,7 @@ export async function POST(req: Request) {
     if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     try {
-        const { name, email, password, role } = await req.json();
+        const { name, email, password, role, canAccessVeterinaria, canAccessDerivaciones, canAccessPRP } = await req.json();
 
         if (!email || !password) {
             return NextResponse.json({ error: "Email y contraseña son requeridos" }, { status: 400 });
@@ -57,6 +60,9 @@ export async function POST(req: Request) {
                 email,
                 password: hashedPassword,
                 role: role || 'USER',
+                canAccessVeterinaria: !!canAccessVeterinaria,
+                canAccessDerivaciones: !!canAccessDerivaciones,
+                canAccessPRP: !!canAccessPRP,
             },
         });
 
@@ -99,7 +105,7 @@ export async function PATCH(req: Request) {
     }
 
     try {
-        const { id, name, email, password, role, active } = await req.json();
+        const { id, name, email, password, role, active, canAccessVeterinaria, canAccessDerivaciones, canAccessPRP } = await req.json();
 
         if (!id) {
             return NextResponse.json({ error: "ID de usuario requerido" }, { status: 400 });
@@ -110,6 +116,9 @@ export async function PATCH(req: Request) {
         if (email !== undefined) updateData.email = email;
         if (role !== undefined) updateData.role = role;
         if (active !== undefined) updateData.active = active;
+        if (canAccessVeterinaria !== undefined) updateData.canAccessVeterinaria = canAccessVeterinaria;
+        if (canAccessDerivaciones !== undefined) updateData.canAccessDerivaciones = canAccessDerivaciones;
+        if (canAccessPRP !== undefined) updateData.canAccessPRP = canAccessPRP;
 
         if (password) {
             updateData.password = await bcrypt.hash(password, 10);
@@ -126,6 +135,9 @@ export async function PATCH(req: Request) {
             email: user.email,
             role: user.role,
             active: user.active,
+            canAccessVeterinaria: user.canAccessVeterinaria,
+            canAccessDerivaciones: user.canAccessDerivaciones,
+            canAccessPRP: user.canAccessPRP,
         });
     } catch (error) {
         console.error("Error updating user:", error);

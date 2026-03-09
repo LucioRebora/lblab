@@ -45,6 +45,9 @@ model User {
   createdAt DateTime @default(now())
   role      Role     @default(USER)
   active    Boolean  @default(true)
+  canAccessVeterinaria   Boolean @default(false)
+  canAccessDerivaciones  Boolean @default(false)
+  canAccessPRP           Boolean @default(false)
 }
 
 model PrpAppointment {

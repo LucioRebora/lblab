@@ -46,10 +46,13 @@ export default function Sidebar() {
 
     const menuItems = isStaff
         ? adminMenuItems.filter(item => !item.adminOnly || isAdmin)
-        : [
-            ...adminMenuItems.filter(item => ['Turnos PRP', 'Veterinarias', 'Derivaciones'].includes(item.name)),
-            { name: "Resultados", href: "/admin/resultados", icon: FileText },
-        ];
+        : adminMenuItems.filter(item => {
+            const u = session?.user as any;
+            if (item.name === 'Turnos PRP') return u?.canAccessPRP;
+            if (item.name === 'Veterinarias') return u?.canAccessVeterinaria;
+            if (item.name === 'Derivaciones') return u?.canAccessDerivaciones;
+            return false;
+        });
 
     return (
         <aside className="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col h-screen sticky top-0">

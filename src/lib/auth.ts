@@ -42,7 +42,10 @@ export const authOptions: NextAuthOptions = {
                     name: user.name,
                     email: user.email,
                     role: user.role,
-                    active: user.active
+                    active: user.active,
+                    canAccessVeterinaria: user.canAccessVeterinaria,
+                    canAccessDerivaciones: user.canAccessDerivaciones,
+                    canAccessPRP: user.canAccessPRP,
                 };
             }
         }),
@@ -89,9 +92,15 @@ export const authOptions: NextAuthOptions = {
                     });
                     if (dbUser && dbUser.active) {
                         token.role = dbUser.role;
+                        token.canAccessVeterinaria = dbUser.canAccessVeterinaria;
+                        token.canAccessDerivaciones = dbUser.canAccessDerivaciones;
+                        token.canAccessPRP = dbUser.canAccessPRP;
                     }
                 } else {
                     token.role = (user as any).role;
+                    token.canAccessVeterinaria = (user as any).canAccessVeterinaria;
+                    token.canAccessDerivaciones = (user as any).canAccessDerivaciones;
+                    token.canAccessPRP = (user as any).canAccessPRP;
                 }
             }
             return token;
@@ -99,6 +108,9 @@ export const authOptions: NextAuthOptions = {
         async session({ session, token }) {
             if (session.user) {
                 (session.user as any).role = token.role;
+                (session.user as any).canAccessVeterinaria = token.canAccessVeterinaria;
+                (session.user as any).canAccessDerivaciones = token.canAccessDerivaciones;
+                (session.user as any).canAccessPRP = token.canAccessPRP;
             }
             return session;
         },
