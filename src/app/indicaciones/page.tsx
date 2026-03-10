@@ -1044,6 +1044,105 @@ export default function IndicacionesPage() {
                                 </div>
                             </AccordionItem>
 
+                            <AccordionItem title="MICOLOGICOS">
+                                <div className="space-y-10 text-gray-700">
+                                    <div className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧪</span> Recolección de muestras de piel, uñas y cuero cabelludo
+                                        </h4>
+                                        <p className="text-sm text-gray-600 leading-relaxed font-medium border-l-4 border-primary-green pl-4">
+                                            📍 Estimado paciente: Para obtener resultados confiables en su estudio micológico, siga cuidadosamente estas indicaciones según la zona a estudiar.
+                                        </p>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-primary-burgundy uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-burgundy text-sm">🛑</span> Antes de la toma de muestra
+                                        </h4>
+                                        <ul className="space-y-4 pl-4 text-sm text-gray-600 font-medium">
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                Suspender todo medicamento antifúngico, tanto local como sistémico, 5 días antes de la toma.
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-burgundy mt-2 shrink-0" />
+                                                No aplicar cremas, lociones, talcos ni esmaltes durante ese período.
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧴</span> Lesiones o manchas de la piel
+                                        </h4>
+                                        <div className="pl-4 space-y-4">
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Preparación previa (el día anterior):</p>
+                                            <ul className="space-y-2 text-sm text-gray-600 font-medium">
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />Lavar la zona con agua y jabón blanco.</li>
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />Realizar 3 baños de la zona afectada con agua tibia y sal.</li>
+                                            </ul>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">El día de la toma:</p>
+                                            <ul className="space-y-2 text-sm text-gray-600 font-medium">
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />No aplicar cremas, maquillaje ni productos tópicos.</li>
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />Mantener la zona limpia y seca.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">💅</span> Uñas (Manos y Pies)
+                                        </h4>
+                                        <div className="pl-4 space-y-4">
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Preparación previa:</p>
+                                            <ul className="space-y-2 text-sm text-gray-600 font-medium">
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />No cortar las uñas durante la semana previa.</li>
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />Cepillar las uñas 3 veces al día durante 3 días con agua y jabón blanco.</li>
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />No usar esmalte de uñas durante los 3 días previos.</li>
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />El día anterior, realizar un baño de agua con sal en las uñas.</li>
+                                            </ul>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Específico para Uñas de los pies:</p>
+                                            <ul className="space-y-2 text-sm text-gray-600 font-medium">
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />Concurrir con calzado cerrado y medias de algodón limpias.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧑‍🦱</span> Cuero cabelludo
+                                        </h4>
+                                        <div className="pl-4 space-y-4">
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Preparación previa:</p>
+                                            <ul className="space-y-2 text-sm text-gray-600 font-medium">
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />No utilizar shampoo con antimicótico durante los 5 días previos.</li>
+                                                <li className="flex gap-3"><div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />Evitar lociones, aceites o productos capilares el día de la toma.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🏷️</span> Recomendaciones generales
+                                        </h4>
+                                        <ul className="space-y-4 pl-4 text-sm text-gray-600 font-medium">
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                No lavar la zona inmediatamente antes de concurrir al laboratorio.
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                Informar si hubo tratamientos recientes o dificultades para cumplir las indicaciones.
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                Mantener las zonas afectadas sin cremas ni medicamentos el día de la toma.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </AccordionItem>
+
 
                         </div>
 

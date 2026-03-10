@@ -16,7 +16,7 @@ export default function Indications() {
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
                     {/* Main Indications Card */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -108,6 +108,51 @@ export default function Indications() {
                             <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest text-center italic">
                                 Creemos un espacio pediátrico cálido para que los niños se sientan seguros.
                             </p>
+                        </div>
+                    </motion.div>
+
+                    {/* Mycological Indications Card */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                        className="bg-white rounded-[2.5rem] shadow-xl overflow-hidden border border-gray-100 flex flex-col"
+                    >
+                        <div className="bg-primary-green p-10 text-center">
+                            <div className="inline-flex items-center justify-center p-4 bg-white/20 rounded-2xl mb-4 shadow-inner">
+                                <div className="text-white text-2xl font-bold">🍄</div>
+                            </div>
+                            <h3 className="text-2xl font-black text-white uppercase tracking-tight">
+                                Estudios <br /> Micológicos
+                            </h3>
+                        </div>
+
+                        <div className="p-10 lg:p-12 space-y-6 flex-1">
+                            <ul className="space-y-4">
+                                {[
+                                    "Suspender antifúngicos 5 días antes",
+                                    "No aplicar cremas o polvos en la zona",
+                                    "Lavar con agua y sal el día previo",
+                                    "Concurrir con la zona limpia y seca",
+                                ].map((item, i) => (
+                                    <li key={i} className="flex gap-4 items-center group">
+                                        <div className="bg-sage-bg p-2 rounded-full text-primary-green group-hover:bg-primary-green group-hover:text-white transition-all shadow-sm">
+                                            <Check size={16} strokeWidth={3} />
+                                        </div>
+                                        <span className="text-gray-700 font-bold uppercase text-[10px] tracking-widest">{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className="h-px bg-gray-100 w-full" />
+
+                            <div className="bg-sage-bg/30 p-4 rounded-2xl border border-gray-50">
+                                <p className="text-[9px] font-black text-primary-green uppercase tracking-[0.2em] mb-2">Importante para uñas:</p>
+                                <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest leading-relaxed">
+                                    No cortarlas la semana previa. Dejar crecer para la muestra.
+                                </p>
+                            </div>
                         </div>
                     </motion.div>
                 </div>
