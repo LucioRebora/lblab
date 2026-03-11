@@ -88,9 +88,13 @@ export default function Sidebar() {
                         <Link
                             key={item.href}
                             href={item.href}
+                            target={item.href.startsWith("http") ? "_blank" : undefined}
+                            rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${isActive
                                 ? "bg-primary-burgundy text-white shadow-lg shadow-primary-burgundy/20"
-                                : "text-gray-500 hover:bg-gray-100"
+                                : item.name === 'Resultados'
+                                    ? "text-primary-burgundy hover:bg-red-50"
+                                    : "text-gray-500 hover:bg-gray-100"
                                 }`}
                         >
                             <Icon size={18} />
@@ -148,6 +152,16 @@ export default function Sidebar() {
                         </AnimatePresence>
                     </div>
                 )}
+
+                <Link
+                    href="https://redlab.com.ar/lblab"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-primary-burgundy hover:bg-red-50 transition-all group"
+                >
+                    <FileText size={18} className="group-hover:scale-110 transition-transform" />
+                    Resultados
+                </Link>
 
                 <div className="pt-4 mt-4 border-t border-gray-100">
                     <Link
