@@ -36,6 +36,8 @@ export default function Sidebar() {
 
     const adminMenuItems = [
         { name: "Dashboard", href: "/admin/dashboard", icon: BarChart3 },
+        { name: "Solicitud de Análisis", href: "/admin/solicitud-analisis", icon: Upload, permission: 'canAccessDerivaciones' },
+        { name: "Solicitar Estudios", href: "/admin/solicitar-estudios", icon: Dog, permission: 'canAccessVeterinaria' },
         { name: "Turnos PRP", href: "/admin/appointments", icon: Calendar },
         { name: "Veterinarias", href: "/admin/veterinaria", icon: Dog },
         { name: "Derivaciones", href: "/admin/derivaciones", icon: Upload },
@@ -45,9 +47,20 @@ export default function Sidebar() {
     ];
 
     const menuItems = isStaff
-        ? adminMenuItems.filter(item => !item.adminOnly || isAdmin)
+        ? adminMenuItems.filter(item => {
+            if (item.adminOnly && !isAdmin) return false;
+            if (item.permission) {
+                if (isAdmin) return true;
+                const u = session?.user as any;
+                return u?.[item.permission];
+            }
+            return true;
+        })
         : adminMenuItems.filter(item => {
             const u = session?.user as any;
+            if (item.name === 'Dashboard') return false;
+            if (item.name === 'Solicitud de Análisis') return u?.canAccessDerivaciones;
+            if (item.name === 'Solicitar Estudios') return u?.canAccessVeterinaria;
             if (item.name === 'Turnos PRP') return u?.canAccessPRP;
             if (item.name === 'Veterinarias') return u?.canAccessVeterinaria;
             if (item.name === 'Derivaciones') return u?.canAccessDerivaciones;

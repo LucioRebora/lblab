@@ -41,53 +41,72 @@ export default function Dashboard() {
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/admin");
+            return;
         }
-    }, [status, router]);
+
+        if (session?.user && status === "authenticated") {
+            const user = session.user as any;
+            const isAdmin = user.role?.toUpperCase() === 'ADMIN';
+            const isSecretary = user.role?.toUpperCase() === 'SECRETARY';
+            const isStaff = isAdmin || isSecretary;
+
+            if (!isStaff) {
+                // Redirect external users to their first permitted page
+                if (user.canAccessVeterinaria) {
+                    router.push("/admin/solicitar-estudios");
+                } else if (user.canAccessDerivaciones) {
+                    router.push("/admin/solicitud-analisis");
+                } else if (user.canAccessPRP) {
+                    router.push("/admin/appointments");
+                }
+            }
+        }
+    }, [status, router, session]);
+
+    const fetchDashboardData = async () => {
+        try {
+            // Fetch Submissions
+            const subRes = await fetch("/api/admin/submissions");
+            if (subRes.ok) {
+                const data = await subRes.json();
+                setSubmissions(data.submissions);
+            }
+
+            // Fetch Stats
+            const statsRes = await fetch("/api/admin/stats");
+            if (statsRes.ok) {
+                const data = await statsRes.json();
+                setStatsData(data);
+            }
+
+            // Fetch Veterinary
+            const vetRes = await fetch("/api/admin/veterinaria");
+            if (vetRes.ok) {
+                const data = await vetRes.json();
+                setVetAppointments(data.slice(0, 5)); // Only show last 5
+            }
+
+            // Fetch PRP
+            const prpRes = await fetch("/api/admin/appointments");
+            if (prpRes.ok) {
+                const data = await prpRes.json();
+                setPrpAppointments(data.slice(0, 5)); // Only show last 5
+            }
+
+            // Fetch Derivaciones
+            const derivRes = await fetch("/api/admin/derivaciones");
+            if (derivRes.ok) {
+                const data = await derivRes.json();
+                setDerivaciones(data.slice(0, 5)); // Only show last 5
+            }
+        } catch (error) {
+            console.error("Error fetching dashboard data:", error);
+        } finally {
+            setLoadingSubmissions(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchDashboardData = async () => {
-            try {
-                // Fetch Submissions
-                const subRes = await fetch("/api/admin/submissions");
-                if (subRes.ok) {
-                    const data = await subRes.json();
-                    setSubmissions(data.submissions);
-                }
-
-                // Fetch Stats
-                const statsRes = await fetch("/api/admin/stats");
-                if (statsRes.ok) {
-                    const data = await statsRes.json();
-                    setStatsData(data);
-                }
-
-                // Fetch Veterinary
-                const vetRes = await fetch("/api/admin/veterinaria");
-                if (vetRes.ok) {
-                    const data = await vetRes.json();
-                    setVetAppointments(data.slice(0, 5)); // Only show last 5
-                }
-
-                // Fetch PRP
-                const prpRes = await fetch("/api/admin/appointments");
-                if (prpRes.ok) {
-                    const data = await prpRes.json();
-                    setPrpAppointments(data.slice(0, 5)); // Only show last 5
-                }
-
-                // Fetch Derivaciones
-                const derivRes = await fetch("/api/admin/derivaciones");
-                if (derivRes.ok) {
-                    const data = await derivRes.json();
-                    setDerivaciones(data.slice(0, 5)); // Only show last 5
-                }
-            } catch (error) {
-                console.error("Error fetching dashboard data:", error);
-            } finally {
-                setLoadingSubmissions(false);
-            }
-        };
-
         if (session) {
             fetchDashboardData();
         }
@@ -108,9 +127,13 @@ export default function Dashboard() {
         { label: "Turnos mañana", value: statsData.turnosManana.toString(), icon: Calendar, color: "text-orange-600", bg: "bg-orange-50" },
     ];
 
-    const isAdmin = session?.user?.role === 'ADMIN';
-    const isSecretary = session?.user?.role === 'SECRETARY';
+    const userRole = (session?.user as any)?.role?.toUpperCase();
+    const isAdmin = userRole === 'ADMIN';
+    const isSecretary = userRole === 'SECRETARY';
     const isStaff = isAdmin || isSecretary;
+
+    const canShowDerivaciones = isAdmin || (session?.user as any)?.canAccessDerivaciones;
+    const canShowVeterinaria = isAdmin || (session?.user as any)?.canAccessVeterinaria;
 
     if (!session) return null;
 
@@ -154,18 +177,21 @@ export default function Dashboard() {
                     </div>
 
 
+                    {/* Main content area */}
                     {!isStaff ? (
-                        <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-12 text-center space-y-6 mt-8 flex flex-col items-center justify-center min-h-[50vh]">
-                            <div className="w-20 h-20 bg-primary-green/10 text-primary-green rounded-[2rem] flex items-center justify-center mx-auto">
-                                <Activity size={40} />
+                        (!canShowDerivaciones && !canShowVeterinaria) && (
+                            <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-12 text-center space-y-6 flex flex-col items-center justify-center min-h-[50vh]">
+                                <div className="w-20 h-20 bg-primary-green/10 text-primary-green rounded-[2rem] flex items-center justify-center mx-auto">
+                                    <Activity size={40} />
+                                </div>
+                                <div className="max-w-md mx-auto">
+                                    <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight mb-4">Bienvenidos</h3>
+                                    <p className="text-gray-500 text-sm leading-relaxed mb-8">
+                                        A través de este portal, podrás ver solicitudes y el estado de tus derivaciones o estudios veterinarios. Utiliza el menú lateral para navegar por las herramientas disponibles.
+                                    </p>
+                                </div>
                             </div>
-                            <div className="max-w-md mx-auto">
-                                <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight mb-4">Bienvenidos</h3>
-                                <p className="text-gray-500 text-sm leading-relaxed mb-8">
-                                    A través de este portal, podrás ver solicitudes y el estado de tus derivaciones o estudios veterinarios. Utiliza el menú lateral para navegar por las herramientas disponibles.
-                                </p>
-                            </div>
-                        </div>
+                        )
                     ) : (
                         <>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
