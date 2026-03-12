@@ -37,35 +37,39 @@ export default function Sidebar() {
     const adminMenuItems = [
         { name: "Dashboard", href: "/admin/dashboard", icon: BarChart3 },
         { name: "Solicitud de Análisis", href: "/admin/solicitud-analisis", icon: Upload, permission: 'canAccessDerivaciones' },
+        { name: "Lista de Precios", href: "/admin/config/precios-derivantes", icon: FileText, permission: 'canAccessDerivaciones' },
         { name: "Solicitar Estudios", href: "/admin/solicitar-estudios", icon: Dog, permission: 'canAccessVeterinaria' },
-        { name: "Turnos PRP", href: "/admin/appointments", icon: Calendar },
-        { name: "Veterinarias", href: "/admin/veterinaria", icon: Dog },
-        { name: "Derivaciones", href: "/admin/derivaciones", icon: Upload },
+        { name: "Lista de Precios", href: "/admin/config/precios-veterinarias", icon: FileText, permission: 'canAccessVeterinaria' },
+        { name: "Turnos PRP", href: "/admin/appointments", icon: Calendar, permission: 'canAccessPRP' },
+        { name: "Veterinarias", href: "/admin/veterinaria", icon: Dog, permission: 'canAccessVeterinaria' },
+        { name: "Derivaciones", href: "/admin/derivaciones", icon: Upload, permission: 'canAccessDerivaciones' },
         { name: "Consultas", href: "/admin/consultas", icon: MessageSquare },
         { name: "Usuarios", href: "/admin/users", icon: Users, adminOnly: true },
         { name: "Auditoría", href: "/admin/auditoria", icon: History, adminOnly: true },
     ];
 
-    const menuItems = isStaff
-        ? adminMenuItems.filter(item => {
-            if (item.adminOnly && !isAdmin) return false;
+    const menuItems = adminMenuItems.filter(item => {
+        if (item.adminOnly && !isAdmin) return false;
+
+        const u = session?.user as any;
+
+        if (isStaff) {
             if (item.permission) {
                 if (isAdmin) return true;
-                const u = session?.user as any;
                 return u?.[item.permission];
             }
             return true;
-        })
-        : adminMenuItems.filter(item => {
-            const u = session?.user as any;
+        } else {
+            // Logic for external users (Veterinarias, Derivantes)
             if (item.name === 'Dashboard') return false;
-            if (item.name === 'Solicitud de Análisis') return u?.canAccessDerivaciones;
-            if (item.name === 'Solicitar Estudios') return u?.canAccessVeterinaria;
-            if (item.name === 'Turnos PRP') return u?.canAccessPRP;
-            if (item.name === 'Veterinarias') return u?.canAccessVeterinaria;
-            if (item.name === 'Derivaciones') return u?.canAccessDerivaciones;
+            
+            if (item.permission) {
+                return u?.[item.permission];
+            }
+            
             return false;
-        });
+        }
+    });
 
     return (
         <aside className="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col h-screen sticky top-0">

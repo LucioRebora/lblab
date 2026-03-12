@@ -49,8 +49,16 @@ export default function PreciosVeterinariasPage() {
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/admin");
-        } else if (status === "authenticated" && session?.user?.role !== 'ADMIN') {
-            router.push("/admin/dashboard");
+        } else if (status === "authenticated") {
+            const u = session?.user as any;
+            const isAdmin = u?.role === 'ADMIN';
+            const isSecretary = u?.role === 'SECRETARY';
+            const isStaff = isAdmin || isSecretary;
+            const canAccess = isStaff || u?.canAccessVeterinaria;
+
+            if (!canAccess) {
+                router.push("/admin/dashboard");
+            }
         }
     }, [status, router, session]);
 
@@ -150,6 +158,12 @@ export default function PreciosVeterinariasPage() {
         }
     };
 
+    const user = session?.user as any;
+    const userRole = user?.role?.toUpperCase();
+    const isAdmin = userRole === 'ADMIN';
+    const isSecretary = userRole === 'SECRETARY';
+    const isStaff = isAdmin || isSecretary;
+
     if (status === "loading") {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center font-black uppercase tracking-widest text-primary-burgundy animate-pulse">
@@ -181,7 +195,9 @@ export default function PreciosVeterinariasPage() {
                         <div className="flex items-center gap-3">
                             <div className="text-right hidden sm:block">
                                 <p className="text-sm font-bold text-gray-900">{session.user?.name}</p>
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none text-black">Admin</p>
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none text-black">
+                                    {isStaff ? (isAdmin ? "Admin" : "Secretaría") : "Veterinaria"}
+                                </p>
                             </div>
                             <div className="w-10 h-10 bg-primary-green rounded-full flex items-center justify-center text-white font-bold text-sm shadow-inner uppercase">
                                 {session.user?.name?.substring(0, 2)}
@@ -199,75 +215,79 @@ export default function PreciosVeterinariasPage() {
                             </div>
                             <p className="text-gray-500 text-sm font-medium">Gestión de valores para estudios veterinarios.</p>
                         </div>
-                        <button
-                            onClick={() => {
-                                setEditingItem(null);
-                                setFormData({ name: "", nbuUnits: "" });
-                                setIsModalOpen(true);
-                            }}
-                            className="bg-primary-green text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-green-200 hover:scale-105 transition-all flex items-center gap-2"
-                        >
-                            <Plus size={18} />
-                            Nuevo Análisis Vet
-                        </button>
+                        {isStaff && (
+                            <button
+                                onClick={() => {
+                                    setEditingItem(null);
+                                    setFormData({ name: "", nbuUnits: "" });
+                                    setIsModalOpen(true);
+                                }}
+                                className="bg-primary-green text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-green-200 hover:scale-105 transition-all flex items-center gap-2"
+                            >
+                                <Plus size={18} />
+                                Nuevo Análisis Vet
+                            </button>
+                        )}
                     </div>
 
                     {/* Global Config Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm space-y-4">
-                            <div className="flex items-center gap-3 text-primary-green">
-                                <Activity size={20} />
-                                <h3 className="font-black text-xs uppercase tracking-widest">Valor NBU Veterinario</h3>
-                            </div>
-                            <div className="flex gap-4">
-                                <div className="relative flex-grow">
-                                    <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-                                    <input
-                                        type="number"
-                                        value={nbuValue}
-                                        onChange={(e) => setNbuValue(parseFloat(e.target.value))}
-                                        className="w-full bg-gray-50 border-none rounded-2xl py-3 pl-10 pr-4 text-lg font-black text-gray-800 focus:ring-2 focus:ring-primary-green outline-none"
-                                    />
+                    {isStaff && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm space-y-4">
+                                <div className="flex items-center gap-3 text-primary-green">
+                                    <Activity size={20} />
+                                    <h3 className="font-black text-xs uppercase tracking-widest">Valor NBU Veterinario</h3>
                                 </div>
-                                <button
-                                    onClick={() => handleSaveGlobal("NBU_VALUE_VET", nbuValue.toString())}
-                                    disabled={isSavingNbu}
-                                    className="bg-primary-green text-white px-6 rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-green-600 transition-all disabled:opacity-50"
-                                >
-                                    {isSavingNbu ? "..." : "Actualizar"}
-                                </button>
+                                <div className="flex gap-4">
+                                    <div className="relative flex-grow">
+                                        <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                                        <input
+                                            type="number"
+                                            value={nbuValue}
+                                            onChange={(e) => setNbuValue(parseFloat(e.target.value))}
+                                            className="w-full bg-gray-50 border-none rounded-2xl py-3 pl-10 pr-4 text-lg font-black text-gray-800 focus:ring-2 focus:ring-primary-green outline-none"
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={() => handleSaveGlobal("NBU_VALUE_VET", nbuValue.toString())}
+                                        disabled={isSavingNbu}
+                                        className="bg-primary-green text-white px-6 rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-green-600 transition-all disabled:opacity-50"
+                                    >
+                                        {isSavingNbu ? "..." : "Actualizar"}
+                                    </button>
+                                </div>
+                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest pl-2">
+                                    Este valor se utiliza para calcular el precio final ($) de los análisis veterinarios.
+                                </p>
                             </div>
-                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest pl-2">
-                                Este valor se utiliza para calcular el precio final ($) de los análisis veterinarios.
-                            </p>
-                        </div>
 
-                        <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm space-y-4">
-                            <div className="flex items-center gap-3 text-blue-500">
-                                <CalendarIcon size={20} />
-                                <h3 className="font-black text-xs uppercase tracking-widest">Vigencia Vet</h3>
+                            <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm space-y-4">
+                                <div className="flex items-center gap-3 text-blue-500">
+                                    <CalendarIcon size={20} />
+                                    <h3 className="font-black text-xs uppercase tracking-widest">Vigencia Vet</h3>
+                                </div>
+                                <div className="flex gap-4">
+                                    <input
+                                        type="text"
+                                        value={validity}
+                                        onChange={(e) => setValidity(e.target.value)}
+                                        placeholder="Ej: Marzo 2026"
+                                        className="flex-grow bg-gray-50 border-none rounded-2xl py-3 px-6 text-lg font-black text-gray-800 focus:ring-2 focus:ring-blue-400 outline-none"
+                                    />
+                                    <button
+                                        onClick={() => handleSaveGlobal("VIGENCIA_VET", validity)}
+                                        disabled={isSavingValidity}
+                                        className="bg-blue-500 text-white px-6 rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-blue-600 transition-all disabled:opacity-50"
+                                    >
+                                        {isSavingValidity ? "..." : "Actualizar"}
+                                    </button>
+                                </div>
+                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest pl-2">
+                                    Fecha informativa para la lista de precios veterinaria.
+                                </p>
                             </div>
-                            <div className="flex gap-4">
-                                <input
-                                    type="text"
-                                    value={validity}
-                                    onChange={(e) => setValidity(e.target.value)}
-                                    placeholder="Ej: Marzo 2026"
-                                    className="flex-grow bg-gray-50 border-none rounded-2xl py-3 px-6 text-lg font-black text-gray-800 focus:ring-2 focus:ring-blue-400 outline-none"
-                                />
-                                <button
-                                    onClick={() => handleSaveGlobal("VIGENCIA_VET", validity)}
-                                    disabled={isSavingValidity}
-                                    className="bg-blue-500 text-white px-6 rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-blue-600 transition-all disabled:opacity-50"
-                                >
-                                    {isSavingValidity ? "..." : "Actualizar"}
-                                </button>
-                            </div>
-                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest pl-2">
-                                Fecha informativa para la lista de precios veterinaria.
-                            </p>
                         </div>
-                    </div>
+                    )}
 
                     {/* Prices Table */}
                     <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden text-black">
@@ -279,7 +299,7 @@ export default function PreciosVeterinariasPage() {
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center">Cant. NBU</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center bg-green-50 text-primary-green">Precio ($)</th>
                                         <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center">Vigencia</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">Acciones</th>
+                                        {isStaff && <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">Acciones</th>}
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-50">
@@ -306,26 +326,28 @@ export default function PreciosVeterinariasPage() {
                                                     <td className="px-8 py-4 text-center text-[10px] font-bold text-gray-400 uppercase">
                                                         {validity}
                                                     </td>
-                                                    <td className="px-8 py-4 text-right">
-                                                        <div className="flex justify-end gap-2">
-                                                            <button
-                                                                onClick={() => {
-                                                                    setEditingItem(item);
-                                                                    setFormData({ name: item.name, nbuUnits: item.nbuUnits.toString() });
-                                                                    setIsModalOpen(true);
-                                                                }}
-                                                                className="p-2 text-gray-300 hover:text-blue-500 rounded-lg transition-all"
-                                                            >
-                                                                <Edit2 size={16} />
-                                                            </button>
-                                                            <button
-                                                                onClick={() => handleDelete(item.id, item.name)}
-                                                                className="p-2 text-gray-300 hover:text-red-500 rounded-lg transition-all"
-                                                            >
-                                                                <Trash2 size={16} />
-                                                            </button>
-                                                        </div>
-                                                    </td>
+                                                    {isStaff && (
+                                                        <td className="px-8 py-4 text-right">
+                                                            <div className="flex justify-end gap-2">
+                                                                <button
+                                                                    onClick={() => {
+                                                                        setEditingItem(item);
+                                                                        setFormData({ name: item.name, nbuUnits: item.nbuUnits.toString() });
+                                                                        setIsModalOpen(true);
+                                                                    }}
+                                                                    className="p-2 text-gray-300 hover:text-blue-500 rounded-lg transition-all"
+                                                                >
+                                                                    <Edit2 size={16} />
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => handleDelete(item.id, item.name)}
+                                                                    className="p-2 text-gray-300 hover:text-red-500 rounded-lg transition-all"
+                                                                >
+                                                                    <Trash2 size={16} />
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    )}
                                                 </tr>
                                             ))
                                     )}
