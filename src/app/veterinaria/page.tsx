@@ -25,7 +25,7 @@ import { es } from "date-fns/locale";
 import * as XLSX from "xlsx";
 import { useSession } from "next-auth/react";
 
-type TabType = "INSTRUCCIONES" | "SOLICITUD" | "PRECIOS";
+type TabType = "INSTRUCCIONES" | "SOLICITUD";
 
 function AccordionItem({ title }: { title: string }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -95,41 +95,11 @@ export default function VeterinariaPage() {
         XLSX.writeFile(workbook, `Lista_Precios_Veterinaria_${validity.replace(/\s+/g, '_')}.xlsx`);
     };
 
-    useEffect(() => {
-        const fetchPrices = async () => {
-            setLoadingPrices(true);
-            try {
-                const res = await fetch("/api/admin/config/prices?category=VETERINARIA");
-                if (res.ok) {
-                    const data = await res.json();
-                    const sortedData = data.sort((a: any, b: any) => a.name.localeCompare(b.name));
-                    setPrices(sortedData);
-                }
 
-                const configRes = await fetch("/api/admin/config/global");
-                if (configRes.ok) {
-                    const configs = await configRes.json();
-                    const nbuConfig = configs.find((c: any) => c.key === "NBU_VALUE_VET");
-                    const validityConfig = configs.find((c: any) => c.key === "VIGENCIA_VET");
-                    if (nbuConfig) setNbuValue(parseFloat(nbuConfig.value));
-                    if (validityConfig) setValidity(validityConfig.value);
-                }
-            } catch (error) {
-                console.error("Error fetching prices:", error);
-            } finally {
-                setLoadingPrices(false);
-            }
-        };
-
-        if (activeTab === "PRECIOS") {
-            fetchPrices();
-        }
-    }, [activeTab]);
 
     const tabs: { id: TabType; label: string; icon: any }[] = [
         { id: "INSTRUCCIONES", label: "TOMA DE MUESTRAS", icon: Info },
         { id: "SOLICITUD", label: "SOLICITAR ESTUDIOS", icon: ClipboardList },
-        { id: "PRECIOS", label: "LISTA DE PRECIOS", icon: DollarSign },
     ];
 
     return (
@@ -498,89 +468,6 @@ export default function VeterinariaPage() {
                             </motion.div>
                         )}
 
-                        {activeTab === "PRECIOS" && (
-                            <motion.div
-                                key="precios"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="space-y-6"
-                            >
-                                <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-gray-100 pb-6">
-                                    <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight">Lista de Precios Veterinaria</h2>
-                                    <div className="max-w-xs w-full relative">
-                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-                                        <input
-                                            type="text"
-                                            placeholder="Buscar estudio..."
-                                            value={priceSearch}
-                                            onChange={(e) => setPriceSearch(e.target.value)}
-                                            className="w-full bg-gray-50 border border-gray-100 rounded-xl py-2 pl-10 pr-4 outline-none focus:ring-2 focus:ring-primary-green transition-all text-xs font-bold text-gray-800"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden">
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full border-collapse">
-                                            <thead>
-                                                <tr className="bg-gray-50/50 border-b border-gray-100">
-                                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-left">Análisis</th>
-                                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center">Cant. NBU</th>
-                                                    <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center bg-green-50 text-primary-green">Precio ($)</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-50">
-                                                {loadingPrices ? (
-                                                    <tr>
-                                                        <td colSpan={3} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs animate-pulse">
-                                                            Cargando precios...
-                                                        </td>
-                                                    </tr>
-                                                ) : prices.filter(p => p.name.toLowerCase().includes(priceSearch.toLowerCase())).length === 0 ? (
-                                                    <tr>
-                                                        <td colSpan={3} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
-                                                            {priceSearch ? "No se encontraron resultados para tu búsqueda." : "Lista no disponible momentáneamente."}
-                                                        </td>
-                                                    </tr>
-                                                ) : (
-                                                    prices
-                                                        .filter(p => p.name.toLowerCase().includes(priceSearch.toLowerCase()))
-                                                        .map((item) => (
-                                                            <tr key={item.id} className="hover:bg-gray-50/50 transition-colors group">
-                                                                <td className="px-8 py-4 font-black text-gray-800 tracking-tight uppercase text-xs">
-                                                                    {item.name}
-                                                                </td>
-                                                                <td className="px-8 py-4 text-center font-bold text-gray-500 text-xs">
-                                                                    {item.nbuUnits}
-                                                                </td>
-                                                                <td className="px-8 py-4 text-center font-black text-gray-900 bg-green-50/30 text-xs">
-                                                                    $ {(item.nbuUnits * nbuValue).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                                                </td>
-                                                            </tr>
-                                                        ))
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    {validity && (
-                                        <div className="bg-gray-50 px-8 py-3 flex justify-between items-center">
-                                            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Vigencia: {validity}</span>
-                                            <span className="text-[10px] font-black text-primary-green uppercase tracking-widest">Valores actualizados</span>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="text-center pt-8">
-                                    <button
-                                        onClick={handleDownloadExcel}
-                                        className="bg-white text-gray-900 border border-gray-100 px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-lg hover:border-primary-green transition-all flex items-center gap-4 mx-auto group">
-                                        <FileText size={18} strokeWidth={2.5} className="text-primary-green group-hover:scale-110 transition-transform" />
-                                        Descargar LISTA COMPLETA
-                                    </button>
-                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-6 italic">Documento Excel con detalle de valores NBU</p>
-                                </div>
-                            </motion.div>
-                        )}
                     </AnimatePresence>
                 </div >
             </main >

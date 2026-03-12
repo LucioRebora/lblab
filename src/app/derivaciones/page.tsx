@@ -30,7 +30,7 @@ import * as XLSX from "xlsx";
 import "react-day-picker/dist/style.css";
 import { useSession } from "next-auth/react";
 
-type TabType = "INSTRUCCIONES" | "SOLICITUD" | "RESULTADOS" | "PRECIOS";
+type TabType = "INSTRUCCIONES" | "SOLICITUD" | "RESULTADOS";
 
 export default function DerivacionesPage() {
     const { data: session } = useSession();
@@ -61,68 +61,7 @@ export default function DerivacionesPage() {
         }
     }, [session]);
 
-    // Prices State
-    const [prices, setPrices] = useState<any[]>([]);
-    const [nbuValue, setNbuValue] = useState<number>(0);
-    const [validity, setValidity] = useState<string>("");
-    const [loadingPrices, setLoadingPrices] = useState(true);
-    const [priceSearch, setPriceSearch] = useState("");
 
-    const handleDownloadExcel = () => {
-        if (!prices || prices.length === 0) return;
-
-        // Formatear datos para el Excel
-        const data = prices.map((item) => ({
-            "Determinación": item.name,
-            "Precio Final ($)": (item.nbuUnits * nbuValue).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-            "Observaciones": `VIGENTE AL ${validity}`
-        }));
-
-        const worksheet = XLSX.utils.json_to_sheet(data);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Lista de Precios");
-
-        // Ajustar el ancho de las columnas
-        worksheet["!cols"] = [
-            { wpx: 350 }, // Determinación
-            { wpx: 120 }, // Precio Final
-            { wpx: 150 }  // Observaciones
-        ];
-
-        XLSX.writeFile(workbook, `Lista_Precios_Derivantes_${validity.replace(/\s+/g, '_')}.xlsx`);
-    };
-
-    useEffect(() => {
-        const fetchPricesData = async () => {
-            setLoadingPrices(true);
-            try {
-                const [pricesRes, configRes] = await Promise.all([
-                    fetch("/api/admin/config/prices?category=DERIVANTE"),
-                    fetch("/api/admin/config/global")
-                ]);
-
-                if (pricesRes.ok) {
-                    const data = await pricesRes.json();
-                    const sortedData = data.sort((a: any, b: any) => a.name.localeCompare(b.name));
-                    setPrices(sortedData);
-                }
-
-                if (configRes.ok) {
-                    const configs = await configRes.json();
-                    const nbuConfig = configs.find((c: any) => c.key === "NBU_VALUE");
-                    const validityConfig = configs.find((c: any) => c.key === "VIGENCIA");
-                    if (nbuConfig) setNbuValue(parseFloat(nbuConfig.value));
-                    if (validityConfig) setValidity(validityConfig.value);
-                }
-            } catch (error) {
-                console.error("Error fetching prices:", error);
-            } finally {
-                setLoadingPrices(false);
-            }
-        };
-
-        fetchPricesData();
-    }, []);
 
     useEffect(() => {
         if (formData.date) {
@@ -147,7 +86,6 @@ export default function DerivacionesPage() {
         { id: "INSTRUCCIONES", label: "INSTRUCCIONES", icon: Info },
         { id: "SOLICITUD", label: "SOLICITUD DE ANALISIS", icon: ClipboardList },
         { id: "RESULTADOS", label: "RESULTADOS", icon: Microscope },
-        { id: "PRECIOS", label: "LISTA DE PRECIOS", icon: DollarSign },
     ];
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -598,101 +536,6 @@ export default function DerivacionesPage() {
                             </motion.div>
                         )}
 
-                        {activeTab === "PRECIOS" && (
-                            <motion.div
-                                key="precios"
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                className="space-y-10"
-                            >
-                                <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-gray-100 shadow-xl shadow-gray-100/50 flex flex-col md:flex-row items-center justify-between gap-8">
-                                    <div className="flex items-center gap-6">
-                                        <div className="w-16 h-16 bg-gray-50 text-primary-green rounded-2xl flex items-center justify-center shadow-sm border border-gray-100 shrink-0">
-                                            <DollarSign size={32} strokeWidth={2.5} />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter">Nomenclador</h2>
-                                            <div className="flex items-center gap-3">
-                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] italic">Vigencia: {validity}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="w-full md:max-w-xs relative group">
-                                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary-green transition-colors" size={18} strokeWidth={3} />
-                                        <input
-                                            type="text"
-                                            placeholder="BUSCAR ANÁLISIS..."
-                                            value={priceSearch}
-                                            onChange={(e) => setPriceSearch(e.target.value)}
-                                            className="w-full bg-gray-50 border border-gray-100 rounded-full py-5 pl-14 pr-6 outline-none focus:ring-4 focus:ring-primary-green/10 focus:border-primary-green text-[10px] font-black text-gray-800 placeholder:text-gray-300 transition-all uppercase tracking-widest"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-2xl overflow-hidden">
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full border-collapse">
-                                            <thead>
-                                                <tr className="bg-gray-50/50">
-                                                    <th className="px-10 py-8 text-[11px] font-black text-gray-400 uppercase tracking-[0.3em] text-left">Determinación</th>
-                                                    <th className="px-10 py-8 text-[11px] font-black text-primary-green uppercase tracking-[0.3em] text-center bg-primary-green/5">Precio Final ($)</th>
-                                                    <th className="px-10 py-8 text-[11px] font-black text-gray-400 uppercase tracking-[0.3em] text-right">Observaciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-50">
-                                                {loadingPrices ? (
-                                                    <tr>
-                                                        <td colSpan={3} className="px-10 py-32 text-center">
-                                                            <div className="flex flex-col items-center gap-6">
-                                                                <div className="w-12 h-12 border-4 border-primary-green border-t-transparent rounded-full animate-spin shadow-lg shadow-primary-green/20" />
-                                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em] animate-pulse">Sincronizando valores...</p>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ) : prices.filter(p => p.name.toLowerCase().includes(priceSearch.toLowerCase())).length === 0 ? (
-                                                    <tr>
-                                                        <td colSpan={3} className="px-10 py-32 text-center text-gray-300 font-black uppercase tracking-[0.3em] text-[10px] italic">
-                                                            No se encontraron resultados para "{priceSearch}"
-                                                        </td>
-                                                    </tr>
-                                                ) : (
-                                                    prices
-                                                        .filter(p => p.name.toLowerCase().includes(priceSearch.toLowerCase()))
-                                                        .map((item) => (
-                                                            <tr key={item.id} className="hover:bg-gray-50 transition-colors group">
-                                                                <td className="px-10 py-6">
-                                                                    <p className="font-black text-gray-800 tracking-tight uppercase text-sm group-hover:text-primary-green transition-colors">{item.name}</p>
-                                                                </td>
-                                                                <td className="px-10 py-6 text-center font-black text-gray-900 bg-primary-green/5 text-lg tracking-tighter">
-                                                                    $ {(item.nbuUnits * nbuValue).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                                                </td>
-                                                                <td className="px-10 py-6 text-right">
-                                                                    <div className="flex flex-col items-end gap-1">
-                                                                        <span className="text-[9px] font-black text-gray-300 uppercase tracking-widest leading-none">VIGENTE AL</span>
-                                                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-tight">{validity}</span>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        ))
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div className="text-center pt-8">
-                                    <button
-                                        onClick={handleDownloadExcel}
-                                        className="bg-white text-gray-900 border border-gray-100 px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-lg hover:border-primary-green transition-all flex items-center gap-4 mx-auto group">
-                                        <FileText size={18} strokeWidth={2.5} className="text-primary-green group-hover:scale-110 transition-transform" />
-                                        Descargar LISTA COMPLETA
-                                    </button>
-                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-6 italic">Documento Excel con detalle de valores NBU</p>
-                                </div>
-                            </motion.div>
-                        )}
                     </AnimatePresence>
                 </div>
             </main>
