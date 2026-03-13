@@ -5,7 +5,7 @@ import { sendMail } from "@/lib/mail";
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { email, veterinaria, profesional, especie, nombreMascota, propietario, analysis, otro } = body;
+        const { email, veterinaria, profesional, especie, nombreMascota, propietario, analysis, otro, precio } = body;
 
         if (!email || !especie || !nombreMascota || !propietario) {
             return NextResponse.json(
@@ -25,6 +25,7 @@ export async function POST(request: Request) {
                 propietario,
                 analysis,
                 other: otro,
+                precio: precio ? parseFloat(precio.toString()) : null,
             },
         });
 

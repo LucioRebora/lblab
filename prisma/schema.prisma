@@ -77,6 +77,7 @@ model Derivacion {
   observaciones String?
   status       String   @default("SCHEDULED")
   cancelReason String?
+  precio       Float?
   createdAt    DateTime @default(now())
 }
 
@@ -93,6 +94,7 @@ model VeterinaryAppointment {
   protocolo    String?
   status       String   @default("PENDING")
   cancelReason String?
+  precio       Float?
   createdAt    DateTime @default(now())
 }
 

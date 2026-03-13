@@ -44,6 +44,7 @@ export default function VeterinaryAdminPage() {
     const [viewModalData, setViewModalData] = useState<any | null>(null);
     const [editProtocolo, setEditProtocolo] = useState("");
     const [editStatus, setEditStatus] = useState("");
+    const [editPrecio, setEditPrecio] = useState<string | number>("");
 
     const handleSaveDetails = async () => {
         if (!viewModalData) return;
@@ -55,7 +56,8 @@ export default function VeterinaryAdminPage() {
                 body: JSON.stringify({
                     id: viewModalData.id,
                     protocolo: editProtocolo,
-                    status: editStatus
+                    status: editStatus,
+                    precio: editPrecio ? parseFloat(editPrecio.toString()) : null
                 }),
             });
 
@@ -242,18 +244,19 @@ export default function VeterinaryAdminPage() {
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="bg-gray-50/50 border-b border-gray-100">
-                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Paciente / Especie</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Veterinaria / Prof.</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Protocolo</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Análisis Solicitados</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Fecha Solicitud</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">Estado</th>
+                                        <th className="px-4 py-3 text-[9px] font-black text-gray-400 uppercase tracking-wider">Paciente / Especie</th>
+                                        <th className="px-4 py-3 text-[9px] font-black text-gray-400 uppercase tracking-wider">Veterinaria / Prof.</th>
+                                        <th className="px-4 py-3 text-[9px] font-black text-gray-400 uppercase tracking-wider">Protocolo</th>
+                                        <th className="px-4 py-3 text-[9px] font-black text-gray-400 uppercase tracking-wider">Precio</th>
+                                        <th className="px-4 py-3 text-[9px] font-black text-gray-400 uppercase tracking-wider">Análisis Solicitados</th>
+                                        <th className="px-4 py-3 text-[9px] font-black text-gray-400 uppercase tracking-wider">Fecha Solicitud</th>
+                                        <th className="px-4 py-3 text-[9px] font-black text-gray-400 uppercase tracking-wider text-right">Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-50">
                                     {loading ? (
                                         <tr>
-                                            <td colSpan={6} className="px-8 py-20 text-center">
+                                            <td colSpan={7} className="px-8 py-20 text-center">
                                                 <div className="flex flex-col items-center gap-4">
                                                     <div className="w-8 h-8 border-4 border-primary-green border-t-transparent rounded-full animate-spin" />
                                                     <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Cargando solicitudes...</p>
@@ -262,7 +265,7 @@ export default function VeterinaryAdminPage() {
                                         </tr>
                                     ) : filteredAppointments.length === 0 ? (
                                         <tr>
-                                            <td colSpan={6} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
+                                            <td colSpan={7} className="px-8 py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs italic">
                                                 No se encontraron solicitudes.
                                             </td>
                                         </tr>
@@ -274,8 +277,8 @@ export default function VeterinaryAdminPage() {
                                                 key={apt.id}
                                                 className={`hover:bg-gray-50/50 transition-colors group ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'opacity-60' : ''}`}
                                             >
-                                                <td className="px-8 py-6">
-                                                    <div className="flex items-center gap-4">
+                                                <td className="px-4 py-4">
+                                                    <div className="flex items-center gap-2">
                                                         <div className="w-10 h-10 bg-primary-green/5 text-primary-green rounded-full flex items-center justify-center">
                                                             <Dog size={20} />
                                                         </div>
@@ -286,7 +289,7 @@ export default function VeterinaryAdminPage() {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="px-8 py-6">
+                                                <td className="px-4 py-4">
                                                     <div className="space-y-1">
                                                         <div className="flex items-center gap-2 text-xs font-bold text-gray-700">
                                                             <Building2 size={12} className="text-primary-green" />
@@ -298,14 +301,21 @@ export default function VeterinaryAdminPage() {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="px-8 py-6">
+                                                <td className="px-4 py-4">
                                                     <div className="flex flex-col gap-1">
                                                         <span className={`font-black text-sm ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'text-gray-300' : 'text-gray-900'}`}>
                                                             {apt.protocolo || "-"}
                                                         </span>
                                                     </div>
                                                 </td>
-                                                <td className="px-8 py-6">
+                                                <td className="px-4 py-4">
+                                                    <div className="flex flex-col gap-1">
+                                                        <span className={`font-black text-sm ${(apt.status === 'CANCELLED' || apt.status === 'ANULADO') ? 'text-gray-300' : 'text-primary-green'}`}>
+                                                            {apt.precio ? `$${apt.precio.toLocaleString()}` : "-"}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-4">
                                                     <div className="flex flex-wrap gap-1">
                                                         {apt.analysis.map((a: string, i: number) => (
                                                             <span key={i} className="text-[9px] font-black uppercase tracking-tighter bg-gray-100 text-gray-600 px-2 py-0.5 rounded border border-gray-200">
@@ -319,7 +329,7 @@ export default function VeterinaryAdminPage() {
                                                         )}
                                                     </div>
                                                 </td>
-                                                <td className="px-8 py-6">
+                                                <td className="px-4 py-4">
                                                     <div className="flex flex-col text-gray-600">
                                                         <div className="flex items-center gap-2 font-bold text-sm">
                                                             <Calendar size={14} className="text-primary-green" />
@@ -331,7 +341,7 @@ export default function VeterinaryAdminPage() {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="px-8 py-6 text-right">
+                                                <td className="px-4 py-4 text-right">
                                                     <div className="flex flex-col items-end gap-2">
                                                         <div className="flex items-center justify-end gap-2 w-full">
                                                             {(apt.status === 'CANCELLED' || apt.status === 'ANULADO') && (
@@ -364,6 +374,7 @@ export default function VeterinaryAdminPage() {
                                                                         setViewModalData(apt);
                                                                         setEditProtocolo(apt.protocolo || "");
                                                                         setEditStatus(apt.status);
+                                                                        setEditPrecio(apt.precio || "");
                                                                     }}
                                                                     className="p-2 text-gray-300 hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all"
                                                                     title="Ver/Editar Detalles"
@@ -522,7 +533,7 @@ export default function VeterinaryAdminPage() {
                                     </div>
                                 </div>
 
-                                <div className="grid md:grid-cols-2 gap-6 pt-2">
+                                <div className="grid md:grid-cols-3 gap-6 pt-2">
                                     <div>
                                         <p className="text-[10px] font-black text-primary-green uppercase tracking-widest mb-1 outline-none">Nº Protocolo</p>
                                         <input
@@ -534,6 +545,20 @@ export default function VeterinaryAdminPage() {
                                             readOnly={!isAdminOrSecretary}
                                             className={`w-full bg-white border border-gray-200 rounded-2xl py-3 px-4 outline-none transition-all text-sm font-black text-gray-900 placeholder:text-gray-300 shadow-inner ${!isAdminOrSecretary ? 'opacity-70 cursor-not-allowed' : 'focus:ring-2 focus:ring-primary-green'}`}
                                         />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Precio</p>
+                                        <div className="relative">
+                                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
+                                            <input
+                                                type="number"
+                                                placeholder="0.00"
+                                                value={editPrecio}
+                                                onChange={(e) => setEditPrecio(e.target.value)}
+                                                readOnly={!isAdminOrSecretary}
+                                                className={`w-full bg-white border border-gray-200 rounded-2xl py-3 pl-8 pr-4 outline-none transition-all text-sm font-black text-gray-900 placeholder:text-gray-300 shadow-inner ${!isAdminOrSecretary ? 'opacity-70 cursor-not-allowed' : 'focus:ring-2 focus:ring-primary-green'}`}
+                                            />
+                                        </div>
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Estado Solicitud</p>

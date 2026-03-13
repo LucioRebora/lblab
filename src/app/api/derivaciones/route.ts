@@ -31,7 +31,7 @@ import { sendMail } from "@/lib/mail";
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { email, labName, patient, date, time, analysisType, protocoloExterno, protocolo, observaciones } = body;
+        const { email, labName, patient, date, time, analysisType, protocoloExterno, protocolo, observaciones, precio } = body;
 
         if (!email || !patient) {
             return NextResponse.json(
@@ -83,6 +83,7 @@ export async function POST(request: Request) {
                 date: submissionDate,
                 time: submissionTime,
                 analysisType: analysisType || [],
+                precio: precio ? parseFloat(precio.toString()) : null,
             },
         });
 

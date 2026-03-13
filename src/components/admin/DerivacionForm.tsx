@@ -22,7 +22,8 @@ export default function DerivacionForm({ onSuccess }: DerivacionFormProps) {
         date: "",
         time: "",
         analysisType: [] as string[],
-        otherAnalysis: ""
+        otherAnalysis: "",
+        precio: ""
     });
 
     useEffect(() => {
@@ -73,7 +74,8 @@ export default function DerivacionForm({ onSuccess }: DerivacionFormProps) {
                     date: "",
                     time: "",
                     analysisType: [] as string[],
-                    otherAnalysis: ""
+                    otherAnalysis: "",
+                    precio: ""
                 });
             } else {
                 alert("Error al guardar la solicitud. Por favor intenta de nuevo.");
@@ -137,7 +139,7 @@ export default function DerivacionForm({ onSuccess }: DerivacionFormProps) {
                 </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">N° Protocolo</label>
                     <input
@@ -148,6 +150,19 @@ export default function DerivacionForm({ onSuccess }: DerivacionFormProps) {
                         value={formData.protocoloExterno}
                         onChange={(e) => setFormData({ ...formData, protocoloExterno: e.target.value })}
                     />
+                </div>
+                <div className="space-y-1.5">
+                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Precio</label>
+                    <div className="relative">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">$</span>
+                        <input
+                            type="number"
+                            placeholder="0.00"
+                            className="w-full bg-gray-50 border border-gray-100 rounded-xl pl-8 pr-4 py-3 outline-none focus:ring-2 focus:ring-primary-green/20 focus:border-primary-green text-sm font-bold text-gray-900 placeholder:text-gray-300 transition-all"
+                            value={formData.precio}
+                            onChange={(e) => setFormData({ ...formData, precio: e.target.value })}
+                        />
+                    </div>
                 </div>
                 <div className="space-y-1.5">
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Paciente</label>
@@ -235,7 +250,8 @@ export default function DerivacionForm({ onSuccess }: DerivacionFormProps) {
                         date: "",
                         time: "",
                         analysisType: [] as string[],
-                        otherAnalysis: ""
+                        otherAnalysis: "",
+                        precio: ""
                     })}
                     className="p-4 text-gray-400 hover:text-red-500 transition-colors"
                     title="Limpiar"

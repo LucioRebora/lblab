@@ -27,6 +27,7 @@ export default function VeterinariaForm({ onSuccess }: VeterinariaFormProps) {
             propietario: formData.get("propietario"),
             analysis: formData.getAll("analysis"),
             otro: formData.get("otro") as string,
+            precio: formData.get("precio") ? parseFloat(formData.get("precio") as string) : null,
         };
 
         if (data.analysis.length === 0 && (!data.otro || !data.otro.trim())) {
@@ -121,7 +122,7 @@ export default function VeterinariaForm({ onSuccess }: VeterinariaFormProps) {
                 </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-4 gap-4">
                 <div className="space-y-1.5">
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Especie</label>
                     <select
@@ -155,6 +156,18 @@ export default function VeterinariaForm({ onSuccess }: VeterinariaFormProps) {
                         placeholder="Nombre"
                         className="w-full bg-gray-50 border border-gray-100 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary-green/20 focus:border-primary-green transition-all font-bold text-gray-800 text-sm"
                     />
+                </div>
+                <div className="space-y-1.5">
+                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Precio</label>
+                    <div className="relative">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">$</span>
+                        <input
+                            name="precio"
+                            type="number"
+                            placeholder="0.00"
+                            className="w-full bg-gray-50 border border-gray-100 rounded-xl pl-8 pr-4 py-3 outline-none focus:ring-2 focus:ring-primary-green/20 focus:border-primary-green transition-all font-bold text-gray-800 text-sm"
+                        />
+                    </div>
                 </div>
             </div>
 
