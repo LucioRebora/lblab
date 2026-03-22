@@ -24,7 +24,8 @@ import {
     Send,
     Eye,
     Save, // Add Save
-    Edit2 // Add Edit2
+    Edit2, // Add Edit2
+    ClipboardList // Add ClipboardList
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -56,6 +57,37 @@ export default function DerivacionesAdminPage() {
     const [editProtocoloExterno, setEditProtocoloExterno] = useState("");
     const [editStatus, setEditStatus] = useState("");
     const [editPrecio, setEditPrecio] = useState<string | number>("");
+
+    const handleOpenReport = async (protocoloExterno: string) => {
+        if (!protocoloExterno) {
+            alert("No hay protocolo externo asignado.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/admin/derivaciones/report-link?numeroSecuencial=${protocoloExterno}`);
+            if (response.ok) {
+                const data = await response.json();
+                // Follow the new specification: use the "url" field containing the JWT token
+                const link = data.url;
+                
+                if (typeof link === 'string') {
+                    window.open(link, '_blank');
+                } else if (data.success && data.url) {
+                    window.open(data.url, '_blank');
+                } else {
+                    console.error("Unknown response format:", data);
+                    alert("Error en el formato de respuesta de la API.");
+                }
+            } else {
+                const errorData = await response.json();
+                alert(`Error al obtener el informe: ${errorData.error || response.statusText}`);
+            }
+        } catch (error) {
+            console.error("Error calling report-link API:", error);
+            alert("Error al conectar con la API de informes.");
+        }
+    };
 
     const handleSaveDetails = async () => {
         if (!viewModalData) return;
@@ -443,6 +475,15 @@ export default function DerivacionesAdminPage() {
                                                                 </span>
                                                             )}
                                                             <div className="flex items-center gap-1 ml-2">
+                                                                {(d.status === 'COMPLETED' || d.status === 'FINALIZADO') && session?.user?.role === 'ADMIN' && (
+                                                                    <button
+                                                                        onClick={() => handleOpenReport(d.protocolo)}
+                                                                        className="p-2 text-gray-300 hover:text-green-500 hover:bg-green-50 rounded-xl transition-all"
+                                                                        title="Ver Informe"
+                                                                    >
+                                                                        <ClipboardList size={18} />
+                                                                    </button>
+                                                                )}
                                                                 <button
                                                                     onClick={() => {
                                                                         setViewModalData(d);
@@ -614,9 +655,14 @@ export default function DerivacionesAdminPage() {
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Protocolo Externo</p>
-                                        <div className="bg-gray-50 border border-gray-100 rounded-2xl py-3 px-4 text-sm font-black text-gray-400 shadow-inner">
-                                            {editProtocoloExterno || "-"}
-                                        </div>
+                                        <input
+                                            type="text"
+                                            placeholder="N° Externo"
+                                            value={editProtocoloExterno}
+                                            onChange={(e) => setEditProtocoloExterno(e.target.value)}
+                                            readOnly={!isAdminOrSecretary}
+                                            className={`w-full bg-white border border-gray-200 rounded-2xl py-3 px-4 outline-none transition-all text-sm font-black text-gray-900 placeholder:text-gray-300 shadow-inner ${!isAdminOrSecretary ? 'opacity-70 cursor-not-allowed' : 'focus:ring-2 focus:ring-primary-burgundy'}`}
+                                        />
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 outline-none">Precio</p>

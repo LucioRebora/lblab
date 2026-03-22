@@ -40,7 +40,7 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
     try {
         const body = await request.json();
-        const { id, status, cancelReason, protocolo, precio } = body;
+        const { id, status, cancelReason, protocolo, protocoloExterno, precio } = body;
 
         if (!id) {
             return NextResponse.json({ error: "ID de derivación requerido" }, { status: 400 });
@@ -50,6 +50,7 @@ export async function PATCH(request: Request) {
         if (status !== undefined) dataToUpdate.status = status;
         if (cancelReason !== undefined) dataToUpdate.cancelReason = cancelReason;
         if (protocolo !== undefined) dataToUpdate.protocolo = protocolo;
+        if (protocoloExterno !== undefined) dataToUpdate.protocoloExterno = protocoloExterno;
         if (precio !== undefined) dataToUpdate.precio = precio;
         const session = await getServerSession(authOptions);
 
