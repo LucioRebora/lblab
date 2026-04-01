@@ -33,6 +33,7 @@ export default function VeterinaryAdminPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [statusFilter, setStatusFilter] = useState("");
 
     // Cancellation state
     const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -165,7 +166,20 @@ export default function VeterinaryAdminPage() {
             if (aptDate > end) matchesDate = false;
         }
 
-        return matchesSearch && matchesDate;
+        let matchesStatus = true;
+        if (statusFilter) {
+            if (statusFilter === 'PENDIENTE') {
+                matchesStatus = ['SCHEDULED', 'PENDING', 'PENDIENTE'].includes(apt.status) || (!['COMPLETED', 'FINALIZADO', 'RECEIVED', 'EN_PROCESO', 'CANCELLED', 'ANULADO'].includes(apt.status));
+            } else if (statusFilter === 'EN_PROCESO') {
+                matchesStatus = ['RECEIVED', 'EN_PROCESO'].includes(apt.status);
+            } else if (statusFilter === 'FINALIZADO') {
+                matchesStatus = ['COMPLETED', 'FINALIZADO'].includes(apt.status);
+            } else if (statusFilter === 'ANULADO') {
+                matchesStatus = ['CANCELLED', 'ANULADO'].includes(apt.status);
+            }
+        }
+
+        return matchesSearch && matchesDate && matchesStatus;
     });
 
     return (
@@ -224,11 +238,27 @@ export default function VeterinaryAdminPage() {
                                     className="text-xs font-bold text-gray-900 outline-none bg-transparent"
                                 />
                             </div>
-                            {(startDate || endDate) && (
+                            <div className="h-8 w-px bg-gray-100" />
+                            <div className="flex flex-col px-3">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Estado</label>
+                                <select
+                                    value={statusFilter}
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    className="text-xs font-bold text-gray-900 outline-none bg-transparent cursor-pointer"
+                                >
+                                    <option value="">Todos</option>
+                                    <option value="PENDIENTE">Pendiente</option>
+                                    <option value="EN_PROCESO">En Proceso</option>
+                                    <option value="FINALIZADO">Finalizado</option>
+                                    <option value="ANULADO">Anulado</option>
+                                </select>
+                            </div>
+                            {(startDate || endDate || statusFilter) && (
                                 <button
                                     onClick={() => {
                                         setStartDate("");
                                         setEndDate("");
+                                        setStatusFilter("");
                                     }}
                                     className="p-2 text-gray-300 hover:text-red-500 transition-colors"
                                     title="Limpiar filtros"
