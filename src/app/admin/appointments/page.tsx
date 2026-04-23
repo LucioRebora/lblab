@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     Calendar,
@@ -29,10 +29,20 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Sidebar from "@/components/admin/Sidebar";
+import PRPForm from "@/components/admin/PRPForm";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { useSearchParams } from "next/navigation";
 
 export default function AppointmentsAdminPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center font-black uppercase tracking-widest text-primary-burgundy animate-pulse">Cargando...</div>}>
+            <AppointmentsAdminContent />
+        </Suspense>
+    );
+}
+
+function AppointmentsAdminContent() {
     const { data: session, status } = useSession();
     const isAdminOrSecretary = session?.user?.role === 'ADMIN' || session?.user?.role === 'SECRETARY';
     const router = useRouter();
@@ -41,6 +51,16 @@ export default function AppointmentsAdminPage() {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
+    const searchParams = useSearchParams();
+
+    // PRP Modal state
+    const [isPRPModalOpen, setIsPRPModalOpen] = useState(false);
+
+    useEffect(() => {
+        if (searchParams.get("new") === "prp") {
+            setIsPRPModalOpen(true);
+        }
+    }, [searchParams]);
 
     // Cancellation state
     const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -227,7 +247,16 @@ export default function AppointmentsAdminPage() {
                             <p className="text-gray-500 text-sm font-medium">Gestiona las solicitudes de Plasma Rico en Plaquetas.</p>
                         </div>
 
-                        <div className="flex items-center gap-4 bg-white p-2 rounded-2xl border border-gray-100 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary-burgundy/20">
+                        <div className="flex flex-col md:flex-row items-center gap-4">
+                            <button
+                                onClick={() => setIsPRPModalOpen(true)}
+                                className="bg-primary-burgundy text-white px-6 py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-xl shadow-red-900/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3 w-full md:w-auto justify-center"
+                            >
+                                <Calendar size={14} strokeWidth={3} />
+                                Solicitar Turno PRP
+                            </button>
+
+                            <div className="flex items-center gap-4 bg-white p-2 rounded-2xl border border-gray-100 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary-burgundy/20 w-full md:w-auto">
                             <div className="flex flex-col px-3">
                                 <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Desde</label>
                                 <input
@@ -260,6 +289,7 @@ export default function AppointmentsAdminPage() {
                                 </button>
                             )}
                         </div>
+                    </div>
                     </div>
 
                     <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden">
@@ -651,6 +681,48 @@ export default function AppointmentsAdminPage() {
                                         </button>
                                     )}
                                 </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* PRP Request Modal */}
+            <AnimatePresence>
+                {isPRPModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsPRPModalOpen(false)}
+                            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="bg-white w-full max-w-4xl rounded-[2.5rem] shadow-2xl relative z-10 overflow-hidden flex flex-col max-h-[95vh]"
+                        >
+                            <div className="bg-primary-green p-8 text-center relative flex-shrink-0">
+                                <button
+                                    onClick={() => setIsPRPModalOpen(false)}
+                                    className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors p-2"
+                                >
+                                    <X size={20} />
+                                </button>
+                                <div className="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center text-white mx-auto mb-4 backdrop-blur-md">
+                                    <Calendar size={32} />
+                                </div>
+                                <h3 className="text-xl font-black text-white uppercase tracking-tight">Nueva Solicitud Turno PRP</h3>
+                                <p className="text-white/60 text-xs font-bold uppercase tracking-widest mt-1">Completa los datos para agendar un nuevo turno</p>
+                            </div>
+
+                            <div className="p-8 overflow-y-auto">
+                                <PRPForm onSuccess={() => {
+                                    setIsPRPModalOpen(false);
+                                    fetchAppointments();
+                                }} />
                             </div>
                         </motion.div>
                     </div>

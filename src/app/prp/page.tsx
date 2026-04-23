@@ -31,6 +31,14 @@ export default function PRPPage() {
     const [bookedSlots, setBookedSlots] = useState<string[]>([]);
 
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const tag = params.get("tag");
+        if (tag === "turnos") {
+            setActiveTab("TURNOS");
+        }
+    }, []);
+
+    useEffect(() => {
         // Establecer la fecha de hoy al montar el componente para gatillar la carga de turnos
         // Si hoy es sábado o domingo, buscar el próximo lunes
         const today = new Date();

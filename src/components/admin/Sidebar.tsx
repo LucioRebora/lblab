@@ -41,6 +41,8 @@ export default function Sidebar() {
         { name: "Solicitar Estudios", href: "/admin/solicitar-estudios", icon: Dog, permission: 'canAccessVeterinaria' },
         { name: "Lista de Precios", href: "/admin/config/precios-veterinarias", icon: FileText, permission: 'canAccessVeterinaria' },
         { name: "Turnos PRP", href: "/admin/appointments", icon: Calendar, permission: 'canAccessPRP' },
+        { name: "Solicitar Turno PRP", href: "/admin/appointments?new=prp", icon: Calendar, permission: 'canAccessPRP' },
+        { name: "Consentimiento PRP", href: "/docs/Consentimiento informado PRP.pdf", icon: FileText, permission: 'canAccessPRP' },
         { name: "Veterinarias", href: "/admin/veterinaria", icon: Dog, permission: 'canAccessVeterinaria' },
         { name: "Derivaciones", href: "/admin/derivaciones", icon: Upload, permission: 'canAccessDerivaciones' },
         { name: "Consultas", href: "/admin/consultas", icon: MessageSquare },
@@ -92,8 +94,8 @@ export default function Sidebar() {
                         <Link
                             key={item.href}
                             href={item.href}
-                            target={item.href.startsWith("http") ? "_blank" : undefined}
-                            rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                            target={item.href.startsWith("http") || item.href.endsWith(".pdf") ? "_blank" : undefined}
+                            rel={item.href.startsWith("http") || item.href.endsWith(".pdf") ? "noopener noreferrer" : undefined}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${isActive
                                 ? "bg-primary-burgundy text-white shadow-lg shadow-primary-burgundy/20"
                                 : item.name === 'Resultados'
