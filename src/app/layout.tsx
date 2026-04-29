@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   icons: {
     icon: "/img/favicon.ico",
   },
+  verification: {
+    other: {
+      "facebook-domain-verification": "ow8p66ihu7kb76mr4qx2up4dhmil9z",
+    },
+  },
 };
 
 import { Providers } from "@/components/Providers";
