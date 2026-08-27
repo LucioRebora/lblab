@@ -28,14 +28,18 @@ export const metadata: Metadata = {
 
 import { Providers } from "@/components/Providers";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID || "GTM-PKTH2X2B";
+
   return (
     <html lang="es" className={`${outfit.variable} ${inter.variable}`}>
+      <GoogleTagManager gtmId={gtmId} />
       <body className="antialiased font-body">
         <Providers>
           {children}
