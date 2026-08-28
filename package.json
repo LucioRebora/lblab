@@ -7,9 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "ingest:lia": "node scripts/ingest-knowledge.mjs",
+    "db:bootstrap": "node scripts/db-bootstrap.mjs"
   },
   "dependencies": {
+    "@google/genai": "^2.19.0",
     "@next/third-parties": "^16.3.3",
     "@prisma/client": "^5.22.0",
     "bcryptjs": "^3.0.3",

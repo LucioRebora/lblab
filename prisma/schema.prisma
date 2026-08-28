@@ -131,3 +131,29 @@ model AuditLog {
   details    String?
   createdAt  DateTime @default(now())
 }
+
+/// Fragmento tokenizado del contenido del sitio. Es la base de conocimiento
+/// que consulta el asistente LAB. Se llena con `npm run ingest:lab`.
+model SiteChunk {
+  id        String   @id @default(cuid())
+  url       String
+  page      String
+  pageTitle String
+  heading   String?
+  content   String
+  tokens    Int      @default(0)
+  chars     Int      @default(0)
+  position  Int
+  checksum  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  /// Tokens lexicales en espanol (sin acentos). Se escribe por SQL en la ingesta.
+  searchVector Unsupported("tsvector")?
+
+  /// Embedding semantico de 768 dimensiones (gemini-embedding-001).
+  embedding Unsupported("vector(768)")?
+
+  @@unique([url, position])
+  @@index([page])
+}

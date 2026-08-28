@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 import { Providers } from "@/components/Providers";
-import WhatsAppButton from "@/components/WhatsAppButton";
+import LiaAssistant from "@/components/LiaAssistant";
 import { GoogleTagManager } from "@next/third-parties/google";
 
 export default function RootLayout({
@@ -43,7 +43,7 @@ export default function RootLayout({
       <body className="antialiased font-body">
         <Providers>
           {children}
-          <WhatsAppButton />
+          <LiaAssistant />
         </Providers>
       </body>
     </html>
