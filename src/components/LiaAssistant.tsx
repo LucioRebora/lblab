@@ -223,13 +223,17 @@ export default function LiaAssistant() {
                             transition={{ duration: 0.15 }}
                             className="relative"
                         >
-                            <Image
-                                src="/img/lia.jpg"
-                                alt="LIA – Asistente de LB Lab"
-                                width={68}
-                                height={68}
-                                className="rounded-full shadow-2xl shadow-primary-green/30 ring-2 ring-white"
-                            />
+                            {/* Mismo recorte circular que en el encabezado: el JPG no es
+                                cuadrado y trae fondo blanco en las esquinas. */}
+                            <span className="block h-[68px] w-[68px] overflow-hidden rounded-full shadow-2xl shadow-primary-green/30 ring-2 ring-white">
+                                <Image
+                                    src="/img/lia.jpg"
+                                    alt="LIA – Asistente de LB Lab"
+                                    width={136}
+                                    height={136}
+                                    className="h-full w-full scale-[1.18] object-cover"
+                                />
+                            </span>
                             <span className="absolute -right-1 -top-1 rounded-full bg-primary-burgundy px-2 py-0.5 text-[10px] font-black tracking-widest text-white">
                                 LIA
                             </span>
@@ -250,13 +254,17 @@ export default function LiaAssistant() {
                         className="fixed bottom-28 left-4 right-4 z-50 flex max-h-[70vh] flex-col overflow-hidden rounded-[2rem] border border-gray-100 bg-white shadow-2xl sm:left-auto sm:right-8 sm:w-[26rem]"
                     >
                         <header className="flex items-center gap-3 bg-primary-green px-6 py-5 text-white">
-                            <div className="overflow-hidden rounded-2xl bg-white/15">
+                            {/* El JPG es un retrato circular sobre fondo blanco y no es
+                                cuadrado (784x898). Lo recortamos en círculo y lo
+                                agrandamos un poco para que las esquinas blancas del
+                                archivo queden fuera del recorte y no se vean como un aro. */}
+                            <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full">
                                 <Image
                                     src="/img/lia.jpg"
                                     alt="LIA"
-                                    width={36}
-                                    height={36}
-                                    className="rounded-2xl"
+                                    width={72}
+                                    height={72}
+                                    className="h-full w-full scale-[1.18] object-cover"
                                 />
                             </div>
                             <div className="leading-tight">
