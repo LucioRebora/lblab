@@ -793,7 +793,7 @@ export default function PRPPage() {
                                         </div>
                                     </div>
                                     <a
-                                        href="https://redlab.com.ar/lblab"
+                                        href="https://portal.itia.ar/lblab"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="bg-primary-burgundy text-white px-12 py-5 rounded-full font-black text-[10px] tracking-[0.4em] uppercase shadow-xl hover:shadow-primary-burgundy/30 hover:scale-105 transition-all flex items-center gap-4 group w-fit mx-auto"

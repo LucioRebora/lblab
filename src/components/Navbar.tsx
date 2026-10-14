@@ -94,7 +94,7 @@ export default function Navbar() {
                             UBICACIÓN
                         </Link>
                         <a
-                            href="https://redlab.com.ar/lblab"
+                            href="https://portal.itia.ar/lblab"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="bg-primary-burgundy text-white px-6 py-2.5 rounded-full text-[13px] font-black tracking-widest hover:bg-opacity-90 transition-all shadow-lg hover:shadow-primary-burgundy/20"
@@ -197,7 +197,7 @@ export default function Navbar() {
                         UBICACIÓN
                     </Link>
                     <a
-                        href="https://redlab.com.ar/lblab"
+                        href="https://portal.itia.ar/lblab"
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => setIsOpen(false)}

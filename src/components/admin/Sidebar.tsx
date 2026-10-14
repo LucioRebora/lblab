@@ -162,13 +162,13 @@ export default function Sidebar() {
                 )}
 
                 <Link
-                    href="https://redlab.com.ar/lblab"
+                    href="https://portal.itia.ar/lblab"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-primary-burgundy hover:bg-red-50 transition-all group"
                 >
                     <FileText size={18} className="group-hover:scale-110 transition-transform" />
-                    Resultados
+                    PORTAL BiO
                 </Link>
 
                 <div className="pt-4 mt-4 border-t border-gray-100">
