@@ -2,7 +2,7 @@
 
 import Sidebar from "@/components/admin/Sidebar";
 import DerivacionForm from "@/components/admin/DerivacionForm";
-import { PlusCircle, Search } from "lucide-react";
+import { PlusCircle, ExternalLink, Search } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -54,6 +54,22 @@ export default function SolicitudAnalisisPage() {
                     <div className="mb-8">
                         <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Solicitud de Análisis</h1>
                         <p className="text-gray-500 text-sm font-medium tracking-wide">Complete los datos para enviar una nueva solicitud de derivación.</p>
+                    </div>
+
+                    <div className="mb-8 bg-primary-burgundy/5 border border-primary-burgundy/10 rounded-3xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <p className="text-sm font-black text-gray-900 uppercase tracking-tight">¿Sos laboratorio con sede BIO?</p>
+                            <p className="text-xs text-gray-500 font-medium">Cargá tus derivaciones a LB Lab desde el sistema de BIO.</p>
+                        </div>
+                        <a
+                            href="https://lab.itia.ar/login"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-primary-burgundy text-white px-6 py-3 rounded-xl font-black text-xs tracking-widest uppercase shadow-lg hover:shadow-primary-burgundy/30 hover:scale-105 transition-all flex items-center gap-2 w-fit"
+                        >
+                            Ingresar a BIO
+                            <ExternalLink size={14} />
+                        </a>
                     </div>
 
                     <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-xl p-10">
