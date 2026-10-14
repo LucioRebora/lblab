@@ -91,6 +91,7 @@ export async function PATCH(request: Request) {
             preparation: appointment.preparation,
             status: appointment.status,
             cancelReason: appointment.cancelReason,
+            protocolo: appointment.protocolo,
         });
 
         return NextResponse.json(appointment);

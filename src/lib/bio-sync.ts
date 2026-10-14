@@ -10,6 +10,8 @@ export interface TurnoPrpParaBio {
     preparation: string[];
     status: string;
     cancelReason?: string | null;
+    /** Número de protocolo que la web anotó al atender el turno: Bio lo usa para vincular la orden. */
+    protocolo?: string | null;
 }
 
 /**

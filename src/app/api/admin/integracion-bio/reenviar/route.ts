@@ -4,14 +4,14 @@ import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { enviarTurnoPrpABio } from "@/lib/bio-sync";
 
-/** Reenvía a Bio los turnos PRP desde hoy en adelante. Idempotente: Bio actualiza lo que ya tenía. */
+/** Reenvía a Bio los turnos PRP de los últimos 30 días en adelante. Idempotente: Bio actualiza lo que ya tenía. */
 export async function POST() {
     const session = (await getServerSession(authOptions)) as any;
     if (!session) return NextResponse.json({ error: "No hay sesión activa" }, { status: 401 });
     if (session.user?.role !== "ADMIN") return NextResponse.json({ error: "Solo el administrador" }, { status: 403 });
 
-    const hoy = new Date().toISOString().slice(0, 10);
-    const turnos = await prisma.prpAppointment.findMany({ where: { date: { gte: hoy } }, orderBy: [{ date: "asc" }, { time: "asc" }] });
+    const desde = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+    const turnos = await prisma.prpAppointment.findMany({ where: { date: { gte: desde } }, orderBy: [{ date: "asc" }, { time: "asc" }] });
 
     let enviados = 0;
     let fallidos = 0;
@@ -27,6 +27,7 @@ export async function POST() {
             preparation: t.preparation,
             status: t.status,
             cancelReason: t.cancelReason,
+            protocolo: t.protocolo,
         });
         if (r.ok) enviados++;
         else {
