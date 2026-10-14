@@ -994,7 +994,9 @@ export default function IndicacionesPage() {
                                                 <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
                                                 <div>
                                                     <p className="text-xs font-black text-gray-400 mb-1">Volúmenes Estándar:</p>
-                                                    <p>• 3 ml PRP / 4 ml PPP</p>
+                                                    <p>• 3 ml PRP / 6 ml PPP</p>
+                                                    <p>• 6 ml PRP / 12 ml PPP</p>
+                                                    <p>• 12 ml PRP / 20 ml PPP</p>
                                                 </div>
                                             </li>
                                             <li className="flex gap-3">

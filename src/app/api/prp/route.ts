@@ -27,6 +27,7 @@ export async function GET(request: Request) {
 }
 
 import { sendMail } from "@/lib/mail";
+import { enviarTurnoPrpABio } from "@/lib/bio-sync";
 
 export async function POST(request: Request) {
     try {
@@ -95,6 +96,19 @@ export async function POST(request: Request) {
         } catch (mailError) {
             console.error("Error al enviar mail de notificación:", mailError);
         }
+
+        // Avisar al LIS de Bio. Si falla, el turno ya está guardado y se reenvía desde Vinculación con Bio.
+        await enviarTurnoPrpABio({
+            id: appointment.id,
+            email: appointment.email,
+            professional: appointment.professional,
+            patient: appointment.patient,
+            date: appointment.date,
+            time: appointment.time,
+            preparation: appointment.preparation,
+            status: appointment.status,
+            cancelReason: appointment.cancelReason,
+        });
 
         return NextResponse.json(appointment, { status: 201 });
     } catch (error) {

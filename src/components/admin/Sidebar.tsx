@@ -19,7 +19,8 @@ import {
     FileText,
     Dog,
     Mail,
-    History
+    History,
+    Link2
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -48,6 +49,7 @@ export default function Sidebar() {
         { name: "Consultas", href: "/admin/consultas", icon: MessageSquare },
         { name: "Usuarios", href: "/admin/users", icon: Users, adminOnly: true },
         { name: "Auditoría", href: "/admin/auditoria", icon: History, adminOnly: true },
+        { name: "Vinculación con Bio", href: "/admin/integracion-bio", icon: Link2, adminOnly: true },
     ];
 
     const menuItems = adminMenuItems.filter(item => {

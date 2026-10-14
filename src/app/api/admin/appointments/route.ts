@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { enviarTurnoPrpABio } from "@/lib/bio-sync";
 
 export async function GET(request: Request) {
     try {
@@ -78,6 +79,19 @@ export async function PATCH(request: Request) {
                 }
             });
         }
+
+        // Mantener el LIS de Bio al día (cancelaciones, cambios de estado).
+        await enviarTurnoPrpABio({
+            id: appointment.id,
+            email: appointment.email,
+            professional: appointment.professional,
+            patient: appointment.patient,
+            date: appointment.date,
+            time: appointment.time,
+            preparation: appointment.preparation,
+            status: appointment.status,
+            cancelReason: appointment.cancelReason,
+        });
 
         return NextResponse.json(appointment);
     } catch (error) {

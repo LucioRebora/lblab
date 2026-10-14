@@ -390,7 +390,7 @@ export default function PRPPage() {
                                             <div className="space-y-6">
                                                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Preparación:</label>
                                                 <div className="grid sm:grid-cols-2 gap-4 bg-gray-50/50 p-6 rounded-[2rem] border border-gray-100">
-                                                    {["PRP 3 ML + PPP 4 ML", "PRP 6 ML + PPP 8 ML"].map(opt => (
+                                                    {["PRP 3 ML + PPP 6 ML", "PRP 6 ML + PPP 12 ML", "PRP 12 ML + PPP 20 ML"].map(opt => (
                                                         <label key={opt} className={`flex items-center gap-4 cursor-pointer p-4 rounded-2xl border transition-all ${formData.preparation.includes(opt)
                                                             ? "bg-white border-primary-green/30 text-primary-green shadow-sm"
                                                             : "bg-white/50 border-gray-100 text-gray-400 hover:bg-white"
@@ -654,7 +654,7 @@ export default function PRPPage() {
                                                     Opciones de Obtención
                                                     <Droplets className="text-primary-green" size={20} />
                                                 </h4>
-                                                <div className="grid grid-cols-2 gap-4">
+                                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                                     <div className="p-6 rounded-2xl bg-gray-50 border border-gray-100 space-y-3">
                                                         <p className="text-[10px] font-black uppercase tracking-widest text-primary-green">Estándar</p>
                                                         <div className="space-y-1">
@@ -662,7 +662,7 @@ export default function PRPPage() {
                                                             <p className="text-xs font-bold text-gray-400">Jeringa 5 ml</p>
                                                         </div>
                                                         <div className="h-0.5 w-8 bg-primary-green/30" />
-                                                        <p className="text-lg font-black text-gray-900">4 ml PPP</p>
+                                                        <p className="text-lg font-black text-gray-900">6 ml PPP</p>
                                                     </div>
                                                     <div className="p-6 rounded-2xl bg-primary-green text-white space-y-3 shadow-lg shadow-green-100">
                                                         <p className="text-[10px] font-black uppercase tracking-widest text-green-200">Ampliada</p>
@@ -671,7 +671,16 @@ export default function PRPPage() {
                                                             <p className="text-xs font-medium opacity-80">Concentrado+</p>
                                                         </div>
                                                         <div className="h-0.5 w-8 bg-white/30" />
-                                                        <p className="text-lg font-black">8 ml PPP</p>
+                                                        <p className="text-lg font-black">12 ml PPP</p>
+                                                    </div>
+                                                    <div className="p-6 rounded-2xl bg-gray-50 border border-gray-100 space-y-3">
+                                                        <p className="text-[10px] font-black uppercase tracking-widest text-primary-green">Máxima</p>
+                                                        <div className="space-y-1">
+                                                            <p className="text-lg font-black text-gray-900">12 ml PRP</p>
+                                                            <p className="text-xs font-bold text-gray-400">Concentrado++</p>
+                                                        </div>
+                                                        <div className="h-0.5 w-8 bg-primary-green/30" />
+                                                        <p className="text-lg font-black text-gray-900">20 ml PPP</p>
                                                     </div>
                                                 </div>
                                             </div>

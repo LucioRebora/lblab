@@ -247,7 +247,7 @@ export default function PRPForm({ onSuccess }: PRPFormProps) {
             <div className="space-y-6">
                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Preparación:</label>
                 <div className="grid sm:grid-cols-2 gap-4">
-                    {["PRP 3 ML + PPP 4 ML", "PRP 6 ML + PPP 8 ML"].map(opt => (
+                    {["PRP 3 ML + PPP 6 ML", "PRP 6 ML + PPP 12 ML", "PRP 12 ML + PPP 20 ML"].map(opt => (
                         <label key={opt} className={`flex items-center gap-4 cursor-pointer p-4 rounded-2xl border transition-all ${formData.preparation.includes(opt)
                             ? "bg-white border-primary-green/30 text-primary-green shadow-sm"
                             : "bg-gray-50/50 border-gray-100 text-gray-400 hover:bg-white"
