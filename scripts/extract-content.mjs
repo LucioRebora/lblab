@@ -22,6 +22,7 @@ export const PAGES = [
         title: "Inicio – LB Lab",
         files: [
             "src/components/Hero.tsx",
+            "src/components/NuevoSistemaBio.tsx",
             "src/components/Services.tsx",
             "src/components/Process.tsx",
             "src/components/Technology.tsx",

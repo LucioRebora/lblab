@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import NuevoSistemaBio from "@/components/NuevoSistemaBio";
 import Process from "@/components/Process";
 import Indications from "@/components/Indications";
 import Technology from "@/components/Technology";
@@ -14,6 +15,7 @@ export default function Home() {
     <main className="min-h-screen">
       <Navbar />
       <Hero />
+      <NuevoSistemaBio />
       <Indications />
       <Process />
       <Results />
