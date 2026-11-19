@@ -567,6 +567,106 @@ export default function IndicacionesPage() {
                                 </div>
                             </AccordionItem>
 
+                            <AccordionItem title="PRUEBA DE CONCENTRACIÓN URINARIA">
+                                <div className="space-y-10 text-gray-700">
+                                    <div className="space-y-4">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧪</span> Prueba de concentración urinaria con restricción hídrica (3 muestras)
+                                        </h4>
+                                        <p className="text-sm text-gray-600 leading-relaxed font-medium border-l-4 border-primary-green pl-4">
+                                            Para obtener resultados confiables en su estudio, le solicitamos seguir cuidadosamente estas indicaciones.
+                                        </p>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">📋</span> Preparación del paciente
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
+                                            {[
+                                                "Ayuno hídrico: suspender la ingesta de líquidos (agua, infusiones, jugos, etc.) durante al menos 12 horas antes de la primera muestra.",
+                                                "Dieta: puede ingerir alimentos sólidos sin contenido líquido evidente, salvo contraindicación médica.",
+                                                "Supervisión médica: especialmente en niños, ancianos o pacientes con otras enfermedades, debe realizarse bajo control clínico."
+                                            ].map((text, i) => (
+                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    {text}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🧾</span> Recolección de muestras de orina
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
+                                            {[
+                                                "Se recolectan tres muestras secuenciales durante el período de restricción hídrica. Cada una debe ser:",
+                                                "Orina espontánea, sin necesidad de volumen mínimo.",
+                                                "Recolectada en frasco estéril, correctamente cerrado y rotulado."
+                                            ].map((text, i) => (
+                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    {text}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🕒</span> Horarios sugeridos de recolección
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
+                                            {[
+                                                "Muestra 1 – 08:00 h: primera orina de la mañana, tras al menos 8–12 h sin líquidos.",
+                                                "Muestra 2 – 12:00 h: 4 horas después, sin ingesta de líquidos.",
+                                                "Muestra 3 – 16:00 h: 8 horas después de la primera, aún sin líquidos."
+                                            ].map((text, i) => (
+                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    {text}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">🏷️</span> Identificación de los frascos
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
+                                            {[
+                                                "Rotular cada frasco con etiqueta legible y resistente, incluyendo: nombre completo del paciente, fecha y hora exacta de recolección.",
+                                                "Número de muestra: Muestra 1 (orina basal), Muestra 2 (orina intermedia), Muestra 3 (orina final)."
+                                            ].map((text, i) => (
+                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    {text}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                                            <span className="text-primary-green text-sm">⚠️</span> Recomendaciones generales
+                                        </h4>
+                                        <ul className="space-y-4 pl-4">
+                                            {[
+                                                "Si presenta signos de deshidratación severa, presión baja o mareos, suspenda la prueba y consulte de inmediato."
+                                            ].map((text, i) => (
+                                                <li key={i} className="flex gap-3 text-sm text-gray-600 font-medium">
+                                                    <div className="w-1 h-1 rounded-full bg-primary-green mt-2 shrink-0" />
+                                                    {text}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </AccordionItem>
+
                             <AccordionItem title="UROCULTIVO">
                                 <div className="space-y-10 text-gray-700">
                                     <div className="space-y-4">
